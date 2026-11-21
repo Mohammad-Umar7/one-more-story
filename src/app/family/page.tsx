@@ -86,10 +86,7 @@ export default function FamilyHome() {
   const recipient = bundle?.caregivers.find((c) => c.id === bundle.player.alertCaregiverId);
 
   return (
-    <FamilyShell
-      title={`How ${familyName} is doing`}
-      intro="Alerts, saved stories and tours, and the simple rule behind the alerts. Everything here stays on this app."
-    >
+    <FamilyShell title={`How ${familyName} is doing`}>
       <Section
         title="Alerts"
         id="alerts"
@@ -131,27 +128,25 @@ export default function FamilyHome() {
           {history ? (
             <>
               <HintChart sessions={history.sessions} baseline={p?.baseline ?? null} threshold={p?.threshold ?? null} familyName={familyName} />
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
-                <div className="rounded-2xl bg-ivory-100 p-4">
-                  <p className="text-sm font-bold text-navy-600">Usual level</p>
-                  <p className="font-display text-2xl font-semibold">
-                    {p?.baseline !== null && p?.baseline !== undefined ? `${p.baseline} hint${p.baseline === 1 ? "" : "s"}` : "Not yet"}
-                  </p>
-                  <p className="text-sm text-navy-600">
-                    {p?.state === "building" ? `${p.needed} more round${p.needed === 1 ? "" : "s"} needed` : "Median of the first 5 valid rounds"}
-                  </p>
+              <dl className="mt-4 grid grid-cols-3 gap-2 text-center">
+                <div className="rounded-2xl bg-ivory-100 px-2 py-3">
+                  <dt className="text-xs font-bold uppercase tracking-wider text-navy-600">Usual</dt>
+                  <dd className="font-display text-2xl font-semibold">{p?.baseline ?? "–"}</dd>
+                  <dd className="text-xs text-navy-600">
+                    {p?.state === "building" ? `${p.needed} more rounds` : `${p?.baseline === 1 ? "hint" : "hints"} / round`}
+                  </dd>
                 </div>
-                <div className="rounded-2xl bg-ivory-100 p-4">
-                  <p className="text-sm font-bold text-navy-600">Alert level</p>
-                  <p className="font-display text-2xl font-semibold">{p?.threshold !== null && p?.threshold !== undefined ? `${p.threshold}+ hints` : "—"}</p>
-                  <p className="text-sm text-navy-600">Usual level + 2</p>
+                <div className="rounded-2xl bg-ivory-100 px-2 py-3">
+                  <dt className="text-xs font-bold uppercase tracking-wider text-navy-600">Alert at</dt>
+                  <dd className="font-display text-2xl font-semibold">{p?.threshold !== null && p?.threshold !== undefined ? `${p.threshold}+` : "–"}</dd>
+                  <dd className="text-xs text-navy-600">usual + 2</dd>
                 </div>
-                <div className="rounded-2xl bg-ivory-100 p-4">
-                  <p className="text-sm font-bold text-navy-600">Rounds in a row at the alert level</p>
-                  <p className="font-display text-2xl font-semibold">{p?.streak ?? 0} of 3</p>
-                  <p className="text-sm text-navy-600">{p?.state === "alert" ? "Alert sent for this pattern" : "3 in a row sends one alert"}</p>
+                <div className="rounded-2xl bg-ivory-100 px-2 py-3">
+                  <dt className="text-xs font-bold uppercase tracking-wider text-navy-600">In a row</dt>
+                  <dd className="font-display text-2xl font-semibold">{Math.min(p?.streak ?? 0, 3)}/3</dd>
+                  <dd className="text-xs text-navy-600">{p?.state === "alert" ? "alert sent" : "3 sends one alert"}</dd>
                 </div>
-              </div>
+              </dl>
               <details className="mt-4 rounded-2xl border border-ivory-300 p-4">
                 <summary className="cursor-pointer text-base font-bold text-navy-700">How the rule works, and every round</summary>
                 <ul className="mt-3 list-disc space-y-1 pl-5 text-base text-navy-700">
