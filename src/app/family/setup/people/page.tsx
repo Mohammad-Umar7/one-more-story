@@ -115,59 +115,6 @@ export default function PeopleSetup() {
 
   return (
     <FamilyShell title="People & alerts">
-      <Section title={`About ${player.name}`}>
-        <Card className="grid gap-4 p-5 md:grid-cols-2">
-          <label className="text-base font-bold">
-            Name the games use
-            <input className={field} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-          </label>
-          <label className="text-base font-bold">
-            What the family calls them (used in alerts)
-            <input className={field} value={form.familyName} onChange={(e) => setForm({ ...form, familyName: e.target.value })} placeholder="Dad, Mum, Nana…" />
-          </label>
-          <label className="text-base font-bold">
-            Pronoun (used in alerts)
-            <select className={field} value={form.pronoun} onChange={(e) => setForm({ ...form, pronoun: e.target.value as Pronoun })}>
-              <option value="he">he / his</option>
-              <option value="she">she / her</option>
-              <option value="they">they / their</option>
-            </select>
-          </label>
-          <label className="text-base font-bold">
-            Language for listening
-            <select className={field} value={form.speechLang} onChange={(e) => setForm({ ...form, speechLang: e.target.value })}>
-              {LANGS.map((l) => (
-                <option key={l.id} value={l.id}>
-                  {l.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex items-start gap-3 text-base">
-            <input
-              type="checkbox"
-              className="mt-1 size-6 accent-gold-500"
-              checked={form.patience === "extra"}
-              onChange={(e) => setForm({ ...form, patience: e.target.checked ? "extra" : "normal" })}
-            />
-            <span>
-              <b>Give extra time to answer.</b> Waits longer through pauses before replying.
-            </span>
-          </label>
-          <label className="flex items-start gap-3 text-base">
-            <input type="checkbox" className="mt-1 size-6 accent-gold-500" checked={form.saveTourSpeech} onChange={(e) => setForm({ ...form, saveTourSpeech: e.target.checked })} />
-            <span>
-              <b>Save {form.name}&apos;s words on street tours</b> so the family can replay the walk. Voice notes are always saved.
-            </span>
-          </label>
-          <div className="md:col-span-2">
-            <Button variant="navy" size="md" icon={busy ? <Spinner /> : saved ? <CheckIcon size={20} /> : undefined} onClick={() => void saveProfile()} disabled={busy}>
-              {saved ? "Saved" : "Save profile"}
-            </Button>
-          </div>
-        </Card>
-      </Section>
-
       <Section title="Who should we tell?">
         <p className="mb-3 text-lg text-navy-700">
           Ask {player.name} to choose one trusted person: a relative, a friend or a professional caregiver.
@@ -200,7 +147,9 @@ export default function PeopleSetup() {
             );
           })}
         </div>
-        <Card className="mt-3 grid gap-3 p-4 md:grid-cols-[1fr_1fr_1fr_auto] md:items-end">
+        <details className="mt-3 rounded-3xl bg-white shadow-card">
+          <summary className="flex min-h-14 cursor-pointer items-center gap-2 px-4 text-lg font-bold text-navy-700">+ Add someone</summary>
+          <div className="grid gap-3 px-4 pb-4 md:grid-cols-[1fr_1fr_1fr_auto] md:items-end">
           <label className="text-sm font-bold">
             Name
             <input className={field} value={newPerson.name} onChange={(e) => setNewPerson({ ...newPerson, name: e.target.value })} placeholder="e.g. Aisha" />
@@ -220,7 +169,8 @@ export default function PeopleSetup() {
           <Button variant="ivory" size="md" icon={<PlusIcon size={20} />} onClick={() => void add()} disabled={!newPerson.name.trim()}>
             Add
           </Button>
-        </Card>
+          </div>
+        </details>
       </Section>
 
       {chosen && (
@@ -281,6 +231,59 @@ export default function PeopleSetup() {
           </p>
         </Section>
       )}
+
+      <Section title={`About ${player.name}`}>
+        <Card className="grid gap-4 p-5 md:grid-cols-2">
+          <label className="text-base font-bold">
+            Name the games use
+            <input className={field} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          </label>
+          <label className="text-base font-bold">
+            What the family calls them (used in alerts)
+            <input className={field} value={form.familyName} onChange={(e) => setForm({ ...form, familyName: e.target.value })} placeholder="Dad, Mum, Nana…" />
+          </label>
+          <label className="text-base font-bold">
+            Pronoun (used in alerts)
+            <select className={field} value={form.pronoun} onChange={(e) => setForm({ ...form, pronoun: e.target.value as Pronoun })}>
+              <option value="he">he / his</option>
+              <option value="she">she / her</option>
+              <option value="they">they / their</option>
+            </select>
+          </label>
+          <label className="text-base font-bold">
+            Language for listening
+            <select className={field} value={form.speechLang} onChange={(e) => setForm({ ...form, speechLang: e.target.value })}>
+              {LANGS.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-start gap-3 text-base">
+            <input
+              type="checkbox"
+              className="mt-1 size-6 accent-gold-500"
+              checked={form.patience === "extra"}
+              onChange={(e) => setForm({ ...form, patience: e.target.checked ? "extra" : "normal" })}
+            />
+            <span>
+              <b>Give extra time to answer.</b> Waits longer through pauses before replying.
+            </span>
+          </label>
+          <label className="flex items-start gap-3 text-base">
+            <input type="checkbox" className="mt-1 size-6 accent-gold-500" checked={form.saveTourSpeech} onChange={(e) => setForm({ ...form, saveTourSpeech: e.target.checked })} />
+            <span>
+              <b>Save {form.name}&apos;s words on street tours</b> so the family can replay the walk. Voice notes are always saved.
+            </span>
+          </label>
+          <div className="md:col-span-2">
+            <Button variant="navy" size="md" icon={busy ? <Spinner /> : saved ? <CheckIcon size={20} /> : undefined} onClick={() => void saveProfile()} disabled={busy}>
+              {saved ? "Saved" : "Save profile"}
+            </Button>
+          </div>
+        </Card>
+      </Section>
     </FamilyShell>
   );
 }
