@@ -99,6 +99,39 @@ describe("local interpreter (used when Claude is unavailable)", () => {
   });
 });
 
+describe("small talk", () => {
+  const home: ScreenContext = {
+    game: "home",
+    screen: "choose",
+    version: "home",
+    scene: "start",
+    question: "Which game would you like to play?",
+    actions: [
+      {
+        name: "open_game",
+        description: "open",
+        targets: [
+          { id: "memory", label: "My Memory Room" },
+          { id: "story", label: "Tell the Story" },
+          { id: "street", label: "Show Me Your Street" },
+        ],
+      },
+    ],
+  };
+  it("answers a greeting warmly instead of asking for a clarification", () => {
+    const d = interpretLocally(req(home, "hello how are you"));
+    expect(d.action).toBe("none");
+    expect(d.needsClarification).toBe(false);
+    expect(d.say).toMatch(/^I'm very well/);
+    expect(d.say).toContain("Which game would you like to play?");
+  });
+  it("names games without an extra 'the'", () => {
+    const d = interpretLocally(req(home, "the purple thing"));
+    expect(d.say).toContain("My Memory Room, Tell the Story or Show Me Your Street");
+    expect(d.say).not.toContain("the My Memory Room");
+  });
+});
+
 describe("fast-path commands", () => {
   it("I'm done always ends the session", () => {
     expect(matchGlobalCommand("I'm done", memory)?.action).toBe("end_session");
