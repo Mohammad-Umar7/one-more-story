@@ -181,16 +181,43 @@ function phraseScore(utterance: string, phrases: string[] = []): number {
 }
 
 function offerChoices(targets: ActionTarget[]): string {
-  const labels = targets.slice(0, 3).map((t) => `the ${t.label.replace(/^the /i, "")}`);
+  // Names ("My Memory Room") stay as they are; places get "the" ("the blue bowl").
+  const labels = targets
+    .slice(0, 3)
+    .map((t) => (/^[A-Z]/.test(t.label) ? t.label : `the ${t.label.replace(/^the /i, "")}`));
   if (labels.length === 0) return "";
   if (labels.length === 1) return labels[0];
   return `${labels.slice(0, -1).join(", ")} or ${labels[labels.length - 1]}`;
+}
+
+const GREETING_RE = /^(hi|hello|hey|salaam|salam|assalamu alaikum|as salaam alaikum|good (morning|afternoon|evening)|how are you|how're you|how are things|thank you|thanks)\b/;
+
+/** Small talk gets a warm reply, then the question again. Never a "sorry, I didn't catch that". */
+function smallTalk(utterance: string, context: ScreenContext): AgentDecision | null {
+  const text = normalize(utterance);
+  if (!GREETING_RE.test(text) || words(text).length > 8) return null;
+  const reply = /how are|how're/.test(text)
+    ? "I'm very well, thank you for asking."
+    : /thank/.test(text)
+      ? "You're very welcome."
+      : /salaam|salam|alaikum/.test(text)
+        ? "Wa alaikum assalam. It's lovely to hear from you."
+        : "Hello! It's lovely to hear from you.";
+  return {
+    action: "none",
+    target: null,
+    say: context.question ? `${reply} ${context.question}` : reply,
+    needsClarification: false,
+    source: "local",
+  };
 }
 
 export function interpretLocally(req: AgentRequest): AgentDecision {
   const { context, utterance } = req;
   const fast = matchGlobalCommand(utterance, context);
   if (fast) return { ...fast, source: "local" };
+  const chat = smallTalk(utterance, context);
+  if (chat) return chat;
 
   type Candidate = { action: string; target: string | null; score: number; label?: string };
   const candidates: Candidate[] = [];
