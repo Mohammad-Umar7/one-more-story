@@ -141,9 +141,16 @@ img {
 /* Printed-photo frame */
 .photo-frame {
   background: #fff;
-  padding: 0.5rem;
-  border-radius: 1.25rem;
+  padding: 0.3rem;
+  border-radius: 1.15rem;
   box-shadow: var(--shadow-photo);
+}
+
+@media (min-width: 768px) {
+  .photo-frame {
+    padding: 0.5rem;
+    border-radius: 1.25rem;
+  }
 }
 
 .speaking-bars span {
