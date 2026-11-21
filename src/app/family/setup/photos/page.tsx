@@ -70,7 +70,7 @@ export default function PhotosSetup() {
   return (
     <FamilyShell
       title="Story photos"
-      intro="Photos for Tell the Story. The game never reads your notes aloud: the player supplies the facts, in their own words."
+      intro="The player tells each story in their own words; your notes are never read aloud."
     >
       <Section
         title="Photos"
