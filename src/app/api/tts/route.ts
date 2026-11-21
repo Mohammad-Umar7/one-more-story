@@ -1,0 +1,27 @@
+import { synthesize, TtsError } from "@/lib/server/tts";
+import { readJson } from "@/lib/server/http";
+
+// Returns audio for one spoken reply. Any non-200 tells the browser to use its
+// own speech synthesis instead.
+export async function POST(req: Request) {
+  try {
+    const { text } = await readJson<{ text?: string }>(req);
+    if (typeof text !== "string") return Response.json({ error: "Missing text" }, { status: 400 });
+    const { audio, mime, cached } = await synthesize(text);
+    return new Response(new Uint8Array(audio), {
+      headers: {
+        "Content-Type": mime,
+        "Content-Length": String(audio.byteLength),
+        "Cache-Control": "private, max-age=86400",
+        "X-TTS-Cache": cached ? "hit" : "miss",
+      },
+    });
+  } catch (err) {
+    if (err instanceof TtsError) {
+      if (err.status !== 503) console.warn(`[tts] ${err.status} ${err.message}`);
+      return Response.json({ error: err.message }, { status: err.status === 503 ? 503 : 502 });
+    }
+    console.warn("[tts] failed:", (err as Error)?.message ?? err);
+    return Response.json({ error: "Speech failed" }, { status: 502 });
+  }
+}
