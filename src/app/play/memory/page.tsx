@@ -5,8 +5,8 @@ import { useApp, useScreen } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RoomPhoto } from "@/components/memory/RoomPhoto";
 import { ObjectIcon } from "@/components/ObjectIcon";
-import { Button, Card, Eyebrow, Spinner } from "@/components/ui";
-import { CheckIcon, HomeIcon, PlayIcon, RefreshIcon, SparkleIcon, SpeakerIcon } from "@/components/icons";
+import { Button, Card, Spinner } from "@/components/ui";
+import { HomeIcon, PlayIcon, RefreshIcon, SparkleIcon, SpeakerIcon } from "@/components/icons";
 import { clientKey, sendReliably } from "@/lib/client/api";
 import { spotAliases } from "@/lib/shared/aliases";
 import { isPluralNoun } from "@/lib/shared/text";
@@ -384,150 +384,105 @@ export default function MemoryRoomPage() {
   const asking = s.phase === "asking" || s.phase === "celebrating";
 
   return (
-    <GameShell title="My Memory Room" hint={s.phase === "intro" ? "Tap Start, or start voice and say “yes”." : undefined}>
+    <GameShell title="My Memory Room" screenText={asking && current ? current.question : null}>
       {s.phase === "intro" && (
-        <div className="grid gap-5 md:grid-cols-[1.5fr_1fr] md:items-center">
+        <div className="grid gap-4 md:grid-cols-[1.5fr_1fr] md:items-center md:gap-8">
           <div className="animate-fade-up">
-            <RoomPhoto photoUrl={room.photo.url} spots={spots} found={[]} wrongSpotId={null} revealSpotId={null} showLabels={false} interactive={false} onChoose={() => undefined} />
+            <RoomPhoto photoUrl={room.photo.url} spots={spots} found={[]} wrongSpotId={null} revealSpotId={null} labels="never" interactive={false} onChoose={() => undefined} />
           </div>
-          <div className="animate-fade-up [animation-delay:120ms]">
-            <Eyebrow>Today&apos;s round</Eyebrow>
-            <h2 className="mt-1 font-display text-[1.7rem] font-semibold leading-tight md:mt-2 md:text-4xl">
+          <div className="animate-fade-up [animation-delay:100ms]">
+            <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">
               Let&apos;s find four things in your {room.name.toLowerCase()}.
             </h2>
-            <div className="mt-3 grid grid-cols-2 gap-2 md:mt-4">
+            <ul className="mt-4 grid grid-cols-4 gap-2" aria-label="Things to find">
               {objects.map((o) => (
-                <span key={o.id} className="flex items-center gap-2 rounded-2xl bg-white px-3 py-1.5 text-base font-bold shadow-card md:text-lg">
-                  <ObjectIcon icon={o.icon} size={28} />
+                <li key={o.id} className="flex flex-col items-center gap-1 text-center text-sm font-bold leading-tight">
+                  <span className="flex size-14 items-center justify-center rounded-2xl bg-white shadow-card">
+                    <ObjectIcon icon={o.icon} size={36} />
+                  </span>
                   <span className="first-letter:uppercase">{o.name}</span>
-                </span>
+                </li>
               ))}
-            </div>
-            <Button variant="gold" size="xl" className="mt-4 w-full md:mt-6" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} onClick={() => tap("start_round")} disabled={s.starting}>
-              Start
+            </ul>
+            <Button variant="gold" size="xl" className="mt-5 w-full" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} onClick={() => tap("start_round")} disabled={s.starting}>
+              Begin
             </Button>
           </div>
         </div>
       )}
 
       {asking && current && (
-        <div className="grid gap-4 md:grid-cols-[1.45fr_1fr] md:items-start md:gap-6">
-          <section className="flex flex-col gap-3 md:col-start-2 md:row-start-1" aria-label="Question">
-            <ol className="flex items-center gap-2" aria-label={`Thing ${s.index + 1} of ${objects.length}`}>
-              {objects.map((o, i) => {
-                const done = s.found.some((f) => f.objectId === o.id);
-                const isCur = i === s.index;
-                return (
-                  <li
-                    key={o.id}
-                    className={`relative flex size-12 items-center justify-center rounded-2xl border-2 bg-white transition-all ${
-                      done ? "border-sage-500" : isCur ? "border-gold-400 shadow-gold" : "border-ivory-300 opacity-50"
-                    }`}
-                  >
-                    <ObjectIcon icon={o.icon} size={30} />
-                    {done && (
-                      <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-sage-500 text-white">
-                        <CheckIcon size={13} strokeWidth={3.5} />
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-              <li className="ml-auto text-base font-bold text-navy-600">
-                {s.index + 1} of {objects.length}
-              </li>
-            </ol>
-            <Card className="flex items-center gap-4 p-4 md:p-5" key={current.id}>
-              <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-gold-100 animate-pop md:size-20">
-                <ObjectIcon icon={current.icon} size={52} />
+        <div className="grid gap-3 md:grid-cols-[1.45fr_1fr] md:items-start md:gap-x-8 md:gap-y-4">
+          <section className="flex flex-col gap-3 md:col-start-2" aria-label="Question">
+            <div className="flex items-center gap-3" key={current.id}>
+              <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-card animate-pop md:size-16">
+                <ObjectIcon icon={current.icon} size={40} />
               </span>
-              <h2 className="font-display text-2xl font-semibold leading-snug md:text-3xl animate-fade-up">
+              <h2 className="font-display text-[1.55rem] font-semibold leading-tight animate-fade-up md:text-3xl">
                 {s.phase === "celebrating" ? (
                   <span className="text-sage-700">{isPluralNoun(current.name) ? "Found them!" : "Found it!"}</span>
                 ) : (
                   current.question
                 )}
               </h2>
-            </Card>
+            </div>
+            <ol className="flex gap-1.5" aria-label={`Thing ${s.index + 1} of ${objects.length}`}>
+              {objects.map((o, i) => (
+                <li
+                  key={o.id}
+                  className={`h-1.5 flex-1 rounded-full transition-colors ${
+                    s.found.some((f) => f.objectId === o.id) ? "bg-sage-500" : i === s.index ? "bg-gold-400" : "bg-ivory-300"
+                  }`}
+                />
+              ))}
+            </ol>
           </section>
 
-          <section className="md:col-start-1 md:row-span-3 md:row-start-1" aria-label="Your room">
+          <section className="md:col-start-1 md:row-span-2 md:row-start-1" aria-label="Your room">
             <RoomPhoto
               photoUrl={room.photo.url}
               spots={spots}
               found={found}
               wrongSpotId={s.wrongSpotId}
               revealSpotId={s.revealed ? current.spotId : null}
-              showLabels={room.difficulty === "gentle"}
+              labels={room.difficulty === "gentle" ? "always" : "tablet"}
               interactive={s.phase === "asking"}
               onChoose={(id) => tap("choose_spot", id)}
             />
           </section>
 
-          <section className="flex flex-col gap-3 md:col-start-2" aria-label="Help">
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-1">
-              <Button
-                variant="gold"
-                size="lg"
-                icon={s.clueBusy ? <Spinner /> : <SpeakerIcon size={26} />}
-                onClick={() => tap("play_clue")}
-                disabled={s.phase !== "asking" || s.clueBusy || !current.clue}
-              >
-                {current.clue ? "Hear my clue" : "No clue recorded"}
+          <section className="flex gap-2 md:col-start-2" aria-label="Help">
+            <Button
+              variant="ivory"
+              size="lg"
+              className="flex-1"
+              icon={s.clueBusy ? <Spinner /> : <SpeakerIcon size={24} className="text-gold-600" />}
+              onClick={() => tap("play_clue")}
+              disabled={s.phase !== "asking" || s.clueBusy || !current.clue}
+            >
+              {current.clue ? "Hear my clue" : "No clue yet"}
+            </Button>
+            {canShowMe && (
+              <Button variant="navy" size="lg" icon={<SparkleIcon size={22} />} onClick={() => tap("show_me")}>
+                Show me
               </Button>
-              {canShowMe && (
-                <Button variant="navy" size="lg" icon={<SparkleIcon size={24} />} onClick={() => tap("show_me")}>
-                  Show me
-                </Button>
-              )}
-            </div>
-          </section>
-
-          <section className="md:col-start-2" aria-label="Places in your room">
-            <p className="mb-2 text-base font-bold text-navy-600">Or tap a place:</p>
-            <div className="grid grid-cols-2 gap-2">
-              {spots.map((p) => {
-                const here = found.find((f) => f.spotId === p.id);
-                const reveal = s.revealed && p.id === current.spotId;
-                return (
-                  <button
-                    key={p.id}
-                    type="button"
-                    disabled={s.phase !== "asking"}
-                    onClick={() => tap("choose_spot", p.id)}
-                    className={`flex min-h-14 items-center gap-2 rounded-2xl border-2 px-3 text-left text-lg font-bold leading-tight shadow-card transition-all active:scale-[0.98] ${
-                      reveal
-                        ? "border-gold-400 bg-gold-100 animate-glow"
-                        : s.wrongSpotId === p.id
-                          ? "border-navy-300 bg-navy-100"
-                          : "border-transparent bg-white"
-                    }`}
-                  >
-                    {here ? <ObjectIcon icon={here.object.icon} size={26} /> : <span className="size-3 shrink-0 rounded-full bg-gold-400" aria-hidden="true" />}
-                    <span className="first-letter:uppercase">{p.label}</span>
-                  </button>
-                );
-              })}
-            </div>
+            )}
           </section>
         </div>
       )}
 
       {s.phase === "done" && (
-        <div className="grid gap-5 md:grid-cols-[1.45fr_1fr] md:items-center">
-          <RoomPhoto photoUrl={room.photo.url} spots={spots} found={found} wrongSpotId={null} revealSpotId={null} showLabels={false} interactive={false} onChoose={() => undefined} />
+        <div className="grid gap-4 md:grid-cols-[1.45fr_1fr] md:items-center md:gap-8">
+          <RoomPhoto photoUrl={room.photo.url} spots={spots} found={found} wrongSpotId={null} revealSpotId={null} labels="never" interactive={false} onChoose={() => undefined} />
           <div className="animate-fade-up">
-            <span className="mb-3 inline-flex size-16 items-center justify-center rounded-full bg-sage-100 text-sage-700 animate-pop">
-              <CheckIcon size={36} strokeWidth={3} />
-            </span>
-            <h2 className="font-display text-3xl font-semibold leading-tight md:text-4xl">All four, back where they belong.</h2>
-            <p className="mt-2 text-xl text-navy-700">Thank you, {name}. Your round is saved.</p>
-            <div className="mt-6 flex flex-col gap-3">
+            <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">All four, back where they belong.</h2>
+            <p className="mt-1 text-lg text-navy-700">Thank you, {name}.</p>
+            <div className="mt-5 grid gap-2">
               <Button variant="gold" size="xl" icon={<RefreshIcon size={26} />} onClick={() => tap("play_again")}>
                 Play again
               </Button>
-              <Button variant="ivory" size="xl" icon={<HomeIcon size={26} />} onClick={() => router.push("/")}>
-                Choose another game
+              <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/")}>
+                Another game
               </Button>
             </div>
             {debug.current && s.result && (
