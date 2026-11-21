@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useApp, useScreen } from "@/components/AppProvider";
 import { VoiceDock } from "@/components/VoiceDock";
-import { ChevronRightIcon } from "@/components/icons";
+import { ChevronRightIcon, UsersIcon } from "@/components/icons";
 import type { ScreenController } from "@/lib/client/voice-engine";
 
 const GAMES = [
@@ -87,52 +87,58 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-4 pt-5 safe-top md:px-8 md:pt-10">
-        <header className="mb-5 animate-fade-up md:mb-8">
-          <h1 className="font-display text-[2.2rem] font-semibold leading-[1.1] text-navy-900 md:text-6xl">
-            {now ? greetingWord(now.getHours()) : "Hello"}
-            {name ? `, ${name}` : ""}
-          </h1>
-          <p className="mt-1.5 text-xl text-navy-700 md:text-2xl">
-            {now
-              ? new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long" }).format(now)
-              : " "}
-          </p>
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-3 pt-5 safe-top md:px-8 md:pt-10">
+        <header className="flex items-start justify-between gap-3 animate-fade-up">
+          <div>
+            <h1 className="font-display text-[2.1rem] font-semibold leading-[1.1] text-navy-900 md:text-6xl">
+              {now ? greetingWord(now.getHours()) : "Hello"}
+              {name ? `, ${name}` : ""}
+            </h1>
+            <p className="mt-1 text-xl text-navy-700 md:text-2xl">
+              {now ? new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long" }).format(now) : " "}
+            </p>
+          </div>
+          <Link
+            href="/family"
+            className="mt-1 flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-white px-3.5 text-sm font-bold text-navy-700 shadow-card"
+          >
+            <UsersIcon size={18} /> Family
+          </Link>
         </header>
 
         {loadError && (
-          <p className="mb-4 rounded-2xl bg-white p-4 text-lg text-clay-500 shadow-card">
+          <p className="mt-4 rounded-2xl bg-white p-4 text-lg text-clay-500 shadow-card">
             Couldn&apos;t load the games. Please check the connection and reload.
           </p>
         )}
 
         <h2 className="sr-only">Choose a game</h2>
-        <ul className="grid gap-3 md:grid-cols-3 md:gap-6">
+        {/* Three big photo cards that share the screen, so there is no empty space on a phone. */}
+        <ul className="mt-5 flex flex-1 flex-col gap-3 md:grid md:flex-none md:grid-cols-3 md:gap-6">
           {GAMES.map((g, i) => (
-            <li key={g.id} className="animate-fade-up" style={{ animationDelay: `${60 + i * 80}ms` }}>
+            <li key={g.id} className="flex min-h-36 flex-1 animate-fade-up md:aspect-[4/5] md:min-h-0" style={{ animationDelay: `${60 + i * 80}ms` }}>
               <Link
                 href={g.href}
-                className="group flex items-center gap-4 rounded-3xl bg-white p-2.5 pr-4 shadow-card transition-transform active:scale-[0.99] md:flex-col md:items-stretch md:gap-0 md:overflow-hidden md:p-0"
+                className="group relative flex w-full overflow-hidden rounded-3xl bg-navy-800 shadow-card transition-transform active:scale-[0.99]"
               >
-                <span className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-ivory-200 md:aspect-[4/3] md:h-auto md:w-full md:rounded-none">
-                  {photos[g.id] ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={photos[g.id]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
-                  ) : null}
+                {photos[g.id] ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={photos[g.id]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                ) : null}
+                <span className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/35 to-transparent" aria-hidden="true" />
+                <span className="relative mt-auto flex w-full items-end gap-3 p-4 md:p-5">
+                  <span className="min-w-0 flex-1 text-ivory-50">
+                    <span className="block font-display text-[1.65rem] font-semibold leading-tight md:text-3xl">{g.title}</span>
+                    <span className="block text-base text-ivory-100/90 md:text-lg">{g.blurb}</span>
+                  </span>
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gold-400 text-navy-950">
+                    <ChevronRightIcon size={24} />
+                  </span>
                 </span>
-                <span className="min-w-0 flex-1 md:p-5">
-                  <span className="block font-display text-2xl font-semibold leading-tight md:text-3xl">{g.title}</span>
-                  <span className="mt-0.5 block text-base text-navy-700 md:text-lg">{g.blurb}</span>
-                </span>
-                <ChevronRightIcon size={26} className="shrink-0 text-gold-500 md:hidden" />
               </Link>
             </li>
           ))}
         </ul>
-
-        <Link href="/family" className="mt-6 inline-flex min-h-12 items-center px-1 text-base font-bold text-navy-600 underline-offset-4 hover:underline">
-          For family
-        </Link>
       </main>
       <VoiceDock />
     </div>
