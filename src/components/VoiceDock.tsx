@@ -67,7 +67,7 @@ export function VoiceDock({ screenText }: { screenText?: string | null }) {
     <div className="sticky bottom-0 z-20 mt-auto">
       <div className="mx-auto w-full max-w-3xl rounded-t-3xl bg-navy-900 px-3 pt-3 text-ivory-50 shadow-[0_-10px_30px_-18px_rgb(7_16_41/0.55)] safe-bottom md:mb-4 md:rounded-3xl md:px-4 md:pb-4">
         {caption && (
-          <p className="mb-2 line-clamp-2 px-1 font-display text-lg leading-snug md:text-xl" aria-live="polite">
+          <p className="mb-2 line-clamp-4 px-1 font-display text-lg leading-snug md:text-xl" aria-live="polite">
             {caption}
           </p>
         )}
