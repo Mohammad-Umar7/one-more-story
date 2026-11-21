@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useApp, useScreen, useVoice } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RecordButton } from "@/components/RecordButton";
-import { Button, Card, Eyebrow, Spinner } from "@/components/ui";
+import { Button, Card, Spinner } from "@/components/ui";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon, CheckIcon, HomeIcon, MicIcon, PlayIcon, UndoIcon, CloseIcon } from "@/components/icons";
 import { clientKey, sendReliably, uploadMedia } from "@/lib/client/api";
 import { MicCapture } from "@/lib/client/recorder";
@@ -368,17 +368,16 @@ export default function StreetPage() {
   const pathNames = s.visits.map((v) => stopById(v.stopId)?.name ?? "");
 
   return (
-    <GameShell title="Show Me Your Street">
+    <GameShell title="Show Me Your Street" screenText={s.phase === "tour" ? s.prompt : null}>
       {s.phase === "intro" && (
-        <div className="grid gap-5 md:grid-cols-[1.4fr_1fr] md:items-center">
+        <div className="grid gap-4 md:grid-cols-[1.4fr_1fr] md:items-center md:gap-8">
           <div className="photo-frame animate-fade-up">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={stop.photo.url} alt={stop.name} className="aspect-[4/3] w-full rounded-[0.9rem] object-cover" />
           </div>
-          <div className="animate-fade-up [animation-delay:120ms]">
-            <Eyebrow>You&apos;re the guide</Eyebrow>
-            <h2 className="mt-1 font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">Will you show me around your street?</h2>
-            <p className="mt-2 text-lg text-navy-700">We&apos;ll start at {stop.name}. You choose the way.</p>
+          <div className="animate-fade-up [animation-delay:100ms]">
+            <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">Will you show me around your street?</h2>
+            <p className="mt-1 text-lg text-navy-700">We&apos;ll start at {stop.name}. You choose the way.</p>
             <Button variant="gold" size="xl" className="mt-5 w-full" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} disabled={s.starting} onClick={() => tap("start_tour")}>
               Start the tour
             </Button>
@@ -387,129 +386,109 @@ export default function StreetPage() {
       )}
 
       {s.phase === "tour" && (
-        <div className="grid gap-4 md:grid-cols-[1.5fr_1fr] md:items-start md:gap-6">
-          <section aria-label="Where we are" className="flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-2">
-              <h2 className="font-display text-2xl font-semibold md:text-3xl">{stop.name}</h2>
-              <span className="shrink-0 rounded-full bg-white px-3 py-1 text-base font-bold text-navy-600 shadow-card">Stop {s.visits.length}</span>
-            </div>
-            <div className="photo-frame">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[0.9rem] bg-navy-900">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img key={`${stop.id}-${s.moves}`} src={stop.photo.url} alt={stop.name} className={`absolute inset-0 h-full w-full object-cover ${ANIM[s.via]}`} />
-                {forward.map((o) => (
-                  <button
-                    key={o.direction}
-                    type="button"
-                    onClick={() => tap("go", o.direction)}
-                    aria-label={`Go ${o.direction}: ${o.label}`}
-                    className={`absolute flex size-16 items-center justify-center rounded-full border-4 border-white bg-gold-400 text-navy-950 shadow-photo animate-glow active:scale-95 ${
-                      o.direction === "left"
-                        ? "left-3 top-1/2 -translate-y-1/2"
-                        : o.direction === "right"
-                          ? "right-3 top-1/2 -translate-y-1/2"
-                          : "bottom-3 left-1/2 -translate-x-1/2"
-                    }`}
-                  >
-                    {arrowFor(o.direction, 32)}
-                  </button>
-                ))}
+        <div className="grid gap-3 md:grid-cols-[1.5fr_1fr] md:items-start md:gap-8">
+          <section aria-label="Where we are" className="photo-frame">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[0.9rem] bg-navy-900">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img key={`${stop.id}-${s.moves}`} src={stop.photo.url} alt={stop.name} className={`absolute inset-0 h-full w-full object-cover ${ANIM[s.via]}`} />
+              <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-navy-950/75 to-transparent px-4 pb-8 pt-3">
+                <h2 className="font-display text-2xl font-semibold text-ivory-50 md:text-3xl">{stop.name}</h2>
               </div>
+              {forward.map((o) => (
+                <button
+                  key={o.direction}
+                  type="button"
+                  onClick={() => tap("go", o.direction)}
+                  aria-label={`Go ${o.direction}: ${o.label}`}
+                  className={`absolute flex size-14 items-center justify-center rounded-full border-[3px] border-white bg-gold-400 text-navy-950 shadow-photo active:scale-95 md:size-16 ${
+                    o.direction === "left"
+                      ? "left-3 top-[55%] -translate-y-1/2"
+                      : o.direction === "right"
+                        ? "right-3 top-[55%] -translate-y-1/2"
+                        : "bottom-3 left-1/2 -translate-x-1/2"
+                  }`}
+                >
+                  {arrowFor(o.direction, 30)}
+                </button>
+              ))}
             </div>
-            {pathNames.length > 1 && (
-              <ol className="flex flex-wrap items-center gap-1.5 text-sm font-bold text-navy-600" aria-label="The way so far">
-                {pathNames.map((n, i) => (
-                  <li key={`${n}-${i}`} className="flex items-center gap-1.5">
-                    {i > 0 && <span aria-hidden="true">→</span>}
-                    <span className={`rounded-full px-2.5 py-1 ${i === pathNames.length - 1 ? "bg-navy-800 text-ivory-50" : "bg-white shadow-card"}`}>{n}</span>
-                  </li>
-                ))}
-              </ol>
-            )}
           </section>
 
           <section aria-label="Which way" className="flex flex-col gap-2">
-            <p className="text-base font-bold text-navy-600">{forward.length ? "Which way shall we go?" : "This is as far as the path goes."}</p>
             {options.map((o) => (
               <Button
                 key={o.direction}
                 variant={o.direction === "back" ? "ivory" : "navy"}
                 size="lg"
                 className="w-full justify-start text-left"
-                icon={arrowFor(o.direction, 26)}
+                icon={arrowFor(o.direction, 24)}
                 onClick={() => tap("go", o.direction)}
               >
-                <span className="first-letter:uppercase">{o.label}</span>
+                {o.label.charAt(0).toUpperCase() + o.label.slice(1)}
               </Button>
             ))}
 
-            <div className="mt-2 rounded-3xl bg-white/80 p-3 shadow-card">
-              {s.noteBusy && voiceOn ? (
-                <div className="flex flex-col gap-2">
-                  <p className="flex items-center gap-2 px-1 text-lg font-bold text-clay-500">
-                    <span className="size-2.5 animate-pulse rounded-full bg-clay-500" />
-                    {s.noteSaving ? "Saving your note…" : "Recording your note. Just talk."}
-                  </p>
-                  {!s.noteSaving && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button variant="gold" size="md" icon={<CheckIcon size={20} />} onClick={() => engine.finishTurnNow()}>
-                        I&apos;m finished
-                      </Button>
-                      <Button variant="ivory" size="md" icon={<CloseIcon size={20} />} onClick={() => engine.cancelNote()}>
-                        Cancel
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              ) : tapRecording ? (
-                <RecordButton
-                  mic={tapMic}
-                  size="lg"
-                  label="Start my note"
-                  stopLabel="Save my note"
-                  onRecorded={async (rec) => {
-                    setTapRecording(false);
-                    update({ noteSaving: true });
-                    const ok = await saveNote(rec, "", "note");
-                    update({ noteSaving: false, notesHere: st.current.notesHere + (ok ? 1 : 0) });
-                    void engine.say(ok ? "Saved your note for the family." : "Sorry, I couldn't save that note.");
-                  }}
-                  onError={(m) => {
-                    setTapRecording(false);
-                    setError(m);
-                  }}
-                />
-              ) : (
-                <Button variant="gold" size="lg" className="w-full" icon={s.noteSaving ? <Spinner /> : <MicIcon size={24} />} disabled={s.noteSaving} onClick={() => tap("leave_note")}>
-                  Leave a voice note here
-                </Button>
-              )}
-              {s.notesHere > 0 && (
-                <p className="mt-2 flex items-center gap-1.5 px-1 text-base font-bold text-sage-700">
-                  <CheckIcon size={18} /> {s.notesHere} note{s.notesHere === 1 ? "" : "s"} saved at this stop
+            {s.noteBusy && voiceOn ? (
+              <div className="rounded-2xl bg-white p-3 shadow-card">
+                <p className="flex items-center gap-2 text-base font-bold text-clay-500">
+                  <span className="size-2.5 animate-pulse rounded-full bg-clay-500" />
+                  {s.noteSaving ? "Saving your note…" : "Recording your note. Just talk."}
                 </p>
-              )}
-              {voiceOn && saveSpeech && snap.capturing && !s.noteBusy && (
-                <p className="mt-2 px-1 text-sm text-navy-600">Your words on this tour are saved for your family to replay.</p>
-              )}
-            </div>
+                {!s.noteSaving && (
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    <Button variant="gold" size="md" icon={<CheckIcon size={20} />} onClick={() => engine.finishTurnNow()}>
+                      I&apos;m finished
+                    </Button>
+                    <Button variant="ivory" size="md" icon={<CloseIcon size={20} />} onClick={() => engine.cancelNote()}>
+                      Cancel
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : tapRecording ? (
+              <RecordButton
+                mic={tapMic}
+                size="lg"
+                label="Start my note"
+                stopLabel="Save my note"
+                onRecorded={async (rec) => {
+                  setTapRecording(false);
+                  update({ noteSaving: true });
+                  const ok = await saveNote(rec, "", "note");
+                  update({ noteSaving: false, notesHere: st.current.notesHere + (ok ? 1 : 0) });
+                  void engine.say(ok ? "Saved your note for the family." : "Sorry, I couldn't save that note.");
+                }}
+                onError={(m) => {
+                  setTapRecording(false);
+                  setError(m);
+                }}
+              />
+            ) : (
+              <Button
+                variant="ivory"
+                size="lg"
+                className="w-full"
+                icon={s.noteSaving ? <Spinner /> : <MicIcon size={22} className="text-gold-600" />}
+                disabled={s.noteSaving}
+                onClick={() => tap("leave_note")}
+              >
+                {s.notesHere > 0 ? `Leave another note (${s.notesHere} saved)` : "Leave a voice note"}
+              </Button>
+            )}
 
-            <Button variant="ghost" size="md" icon={<CheckIcon size={20} />} onClick={() => tap("finish_tour")}>
+            <Button variant="ghost" size="md" onClick={() => tap("finish_tour")}>
               Finish the tour
             </Button>
-            {error && <p className="rounded-2xl bg-white p-3 text-lg font-bold text-clay-500 shadow-card">{error}</p>}
+            {error && <p className="rounded-2xl bg-white p-3 text-base font-bold text-clay-500 shadow-card">{error}</p>}
           </section>
         </div>
       )}
 
       {s.phase === "end" && (
-        <Card className="mx-auto mt-4 w-full max-w-xl p-6 text-center animate-fade-up">
-          <span className="mx-auto mb-3 flex size-16 items-center justify-center rounded-full bg-sage-100 text-sage-700 animate-pop">
-            <CheckIcon size={34} strokeWidth={3} />
-          </span>
-          <h2 className="font-display text-3xl font-semibold">Thank you for the tour.</h2>
-          <p className="mt-2 text-lg text-navy-700">Saved for your family to walk again with you.</p>
-          <ol className="mt-4 flex flex-wrap justify-center gap-1.5 text-sm font-bold text-navy-600">
+        <div className="mx-auto mt-2 w-full max-w-xl animate-fade-up">
+          <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">Thank you for the tour.</h2>
+          <p className="mt-1 text-lg text-navy-700">Saved for your family to walk again with you.</p>
+          <ol className="mt-4 flex flex-wrap gap-1.5 text-sm font-bold text-navy-600" aria-label="The way you walked">
             {pathNames.map((n, i) => (
               <li key={`${n}-${i}`} className="flex items-center gap-1.5">
                 {i > 0 && <span aria-hidden="true">→</span>}
@@ -517,15 +496,15 @@ export default function StreetPage() {
               </li>
             ))}
           </ol>
-          <div className="mt-6 flex flex-col gap-2">
-            <Button variant="gold" size="lg" icon={<PlayIcon size={22} />} onClick={() => tap("start_tour")}>
+          <div className="mt-6 grid gap-2">
+            <Button variant="gold" size="xl" icon={<PlayIcon size={24} />} onClick={() => tap("start_tour")}>
               Walk again
             </Button>
             <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/")}>
-              Choose another game
+              Another game
             </Button>
           </div>
-        </Card>
+        </div>
       )}
     </GameShell>
   );
