@@ -111,7 +111,7 @@ export default function StreetSetup() {
   return (
     <FamilyShell
       title="Show Me Your Street"
-      intro="Add photos of places along a familiar walk, then connect them: from each stop, which place is to the left, straight on, or to the right. Any branch is a fine choice in the game."
+      intro="Photos of a familiar walk. From each stop, choose what is to the left, straight on, or to the right."
     >
       <Section
         title="Stops"
