@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useApp, useScreen, useVoice } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RecordButton } from "@/components/RecordButton";
-import { Button, Card, Eyebrow, Spinner } from "@/components/ui";
-import { CheckIcon, HomeIcon, PlayIcon, SkipIcon, StopIcon, TrashIcon, MicIcon } from "@/components/icons";
+import { Button, Card, Spinner } from "@/components/ui";
+import { CheckIcon, HomeIcon, PlayIcon, SkipIcon, StopIcon, TrashIcon } from "@/components/icons";
 import { clientKey, sendJson, uploadMedia } from "@/lib/client/api";
 import { MicCapture, type Recording } from "@/lib/client/recorder";
 import { words } from "@/lib/shared/text";
@@ -26,6 +26,7 @@ interface Clip {
 }
 
 const OPENING = "What would you like to share about this day?";
+const REVIEW_Q = "Would you like to listen back, save it, or let it go?";
 const TAP_PROMPTS = [
   "Who else was there with you?",
   "What do you remember most about that day?",
@@ -181,7 +182,7 @@ export default function TellTheStoryPage() {
           return { speak: "That's all right. Would you like to skip this photo?" };
         }
         update({ phase: "review" });
-        return { speak: "Thank you for sharing that. Would you like to listen back, save it, or let it go?" };
+        return { speak: `Thank you for sharing that. ${REVIEW_Q}` };
       }
       case "skip_photo":
         dropCommandClip(meta.utterance);
@@ -335,35 +336,39 @@ export default function TellTheStoryPage() {
   const voiceOn = snap.active && !snap.paused;
   const totalSecs = Math.round(s.clips.reduce((a, c) => a + c.durationMs, 0) / 1000);
 
+  const screenText = s.phase === "photo" ? s.prompt : s.phase === "review" ? REVIEW_Q : null;
+
   return (
-    <GameShell title="Tell the Story">
-      <div className="grid gap-4 md:grid-cols-[1.4fr_1fr] md:items-start md:gap-6">
+    <GameShell title="Tell the Story" screenText={screenText}>
+      <div className="grid gap-4 md:grid-cols-[1.4fr_1fr] md:items-start md:gap-8">
         <div className="photo-frame animate-fade-up" key={photo.id}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={photo.photo.url} alt="A family photo" className="aspect-[4/3] w-full rounded-[0.9rem] object-cover" />
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {s.phase === "photo" && (
             <>
-              <Card className="p-5 animate-fade-up">
-                <Eyebrow>{s.clips.length ? "Tell me more" : "Your story"}</Eyebrow>
-                <h2 className="mt-2 font-display text-2xl font-semibold leading-snug md:text-3xl">{s.prompt}</h2>
-                {voiceOn && snap.capturing && (
-                  <p className="mt-3 flex items-center gap-2 text-base font-bold text-clay-500">
-                    <span className="size-2.5 animate-pulse rounded-full bg-clay-500" /> Recording your words for the family
-                  </p>
-                )}
-              </Card>
-
-              {s.clips.length > 0 && (
-                <p className="flex items-center gap-2 text-lg font-bold text-navy-700">
-                  <CheckIcon size={22} className="text-sage-500" />
-                  {s.clips.length} part{s.clips.length === 1 ? "" : "s"} recorded · {Math.floor(totalSecs / 60)}:{String(totalSecs % 60).padStart(2, "0")}
+              <h2 className="font-display text-[1.6rem] font-semibold leading-tight animate-fade-up md:text-3xl" key={s.prompt}>
+                {s.prompt}
+              </h2>
+              {(s.clips.length > 0 || (voiceOn && snap.capturing)) && (
+                <p className="flex items-center gap-2 text-base font-bold text-navy-600">
+                  {voiceOn && snap.capturing ? (
+                    <>
+                      <span className="size-2.5 animate-pulse rounded-full bg-clay-500" /> Recording your words
+                    </>
+                  ) : (
+                    <>
+                      <CheckIcon size={18} className="text-sage-500" /> {s.clips.length} part{s.clips.length === 1 ? "" : "s"} recorded ·{" "}
+                      {Math.floor(totalSecs / 60)}:{String(totalSecs % 60).padStart(2, "0")}
+                    </>
+                  )}
                 </p>
               )}
-
-              {!voiceOn && (
+              {voiceOn ? (
+                <p className="text-base text-navy-600">Just talk. Say &ldquo;that&apos;s all&rdquo; when you&apos;ve finished.</p>
+              ) : (
                 <RecordButton
                   mic={tapMic}
                   label={s.clips.length ? "Record more" : "Record my story"}
@@ -376,16 +381,11 @@ export default function TellTheStoryPage() {
                   onError={setError}
                 />
               )}
-              {voiceOn && (
-                <p className="rounded-2xl bg-white/70 px-4 py-3 text-lg text-navy-700">
-                  <MicIcon size={20} className="mr-1 inline text-gold-600" /> Just talk. Say &ldquo;that&apos;s all&rdquo; when you&apos;ve finished.
-                </p>
-              )}
               <div className="grid grid-cols-2 gap-2">
-                <Button variant="navy" size="lg" icon={<CheckIcon size={22} />} disabled={s.clips.length === 0} onClick={() => tap("finish_story")}>
+                <Button variant="ivory" size="md" icon={<CheckIcon size={20} />} disabled={s.clips.length === 0} onClick={() => tap("finish_story")}>
                   I&apos;ve finished
                 </Button>
-                <Button variant="ivory" size="lg" icon={<SkipIcon size={22} />} onClick={() => tap("skip_photo")}>
+                <Button variant="ivory" size="md" icon={<SkipIcon size={20} />} onClick={() => tap("skip_photo")}>
                   Skip photo
                 </Button>
               </div>
@@ -393,38 +393,35 @@ export default function TellTheStoryPage() {
           )}
 
           {s.phase === "review" && (
-            <Card className="p-5 animate-fade-up">
-              <Eyebrow>Your recording · {s.clips.length} part{s.clips.length === 1 ? "" : "s"}</Eyebrow>
-              <h2 className="mt-2 font-display text-2xl font-semibold leading-snug md:text-3xl">
-                Would you like to listen back, save it, or let it go?
-              </h2>
-              <div className="mt-4 flex flex-col gap-2">
-                {s.listening ? (
-                  <Button variant="ivory" size="lg" icon={<StopIcon size={20} />} onClick={() => { update({ listening: false }); engine.stopSpeaking(); }}>
-                    Stop listening
-                  </Button>
-                ) : (
-                  <Button variant="ivory" size="lg" icon={<PlayIcon size={22} />} onClick={() => tap("listen_back")}>
-                    Listen back
-                  </Button>
-                )}
-                <Button variant="gold" size="lg" icon={s.saving ? <Spinner /> : <CheckIcon size={24} />} disabled={s.saving} onClick={() => tap("save_story")}>
-                  Save my story
+            <div className="flex flex-col gap-2 animate-fade-up">
+              <h2 className="mb-1 font-display text-[1.6rem] font-semibold leading-tight md:text-3xl">{REVIEW_Q}</h2>
+              {s.listening ? (
+                <Button variant="ivory" size="lg" icon={<StopIcon size={20} />} onClick={() => { update({ listening: false }); engine.stopSpeaking(); }}>
+                  Stop listening
                 </Button>
-                <Button variant="danger" size="lg" icon={<TrashIcon size={22} />} onClick={() => tap("discard_story")}>
+              ) : (
+                <Button variant="ivory" size="lg" icon={<PlayIcon size={22} />} onClick={() => tap("listen_back")}>
+                  Listen back
+                </Button>
+              )}
+              <Button variant="gold" size="lg" icon={s.saving ? <Spinner /> : <CheckIcon size={24} />} disabled={s.saving} onClick={() => tap("save_story")}>
+                Save my story
+              </Button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="danger" size="md" icon={<TrashIcon size={20} />} onClick={() => tap("discard_story")}>
                   Let it go
                 </Button>
                 <Button variant="ghost" size="md" onClick={() => tap("tell_more")}>
-                  Add a bit more
+                  Add more
                 </Button>
               </div>
-            </Card>
+            </div>
           )}
 
           {s.phase === "confirm-discard" && (
-            <Card className="p-5 animate-fade-up">
-              <h2 className="font-display text-2xl font-semibold leading-snug md:text-3xl">Let this recording go?</h2>
-              <p className="mt-2 text-lg text-navy-700">It won&apos;t be saved.</p>
+            <div className="animate-fade-up">
+              <h2 className="font-display text-[1.6rem] font-semibold leading-tight md:text-3xl">Let this recording go?</h2>
+              <p className="mt-1 text-lg text-navy-700">It won&apos;t be saved.</p>
               <div className="mt-4 grid grid-cols-2 gap-2">
                 <Button variant="danger" size="lg" onClick={() => tap("confirm_discard")}>
                   Yes, let it go
@@ -433,38 +430,33 @@ export default function TellTheStoryPage() {
                   No, keep it
                 </Button>
               </div>
-            </Card>
+            </div>
           )}
 
           {(s.phase === "saved" || s.phase === "finished") && (
-            <Card className="p-5 text-center animate-fade-up">
-              <span className="mx-auto mb-3 flex size-14 items-center justify-center rounded-full bg-sage-100 text-sage-700 animate-pop">
-                <CheckIcon size={30} strokeWidth={3} />
-              </span>
-              <h2 className="font-display text-2xl font-semibold md:text-3xl">
+            <div className="animate-fade-up">
+              <h2 className="font-display text-[1.6rem] font-semibold leading-tight md:text-3xl">
                 {s.phase === "finished"
                   ? "That's all the photos for today."
                   : s.outcome === "saved"
                     ? "Saved for your family."
                     : "All right. Nothing was saved."}
               </h2>
-              {s.phase === "saved" && s.outcome === "saved" && (
-                <p className="mt-2 text-lg text-navy-700">Thank you for sharing your story.</p>
-              )}
-              <div className="mt-4 flex flex-col gap-2">
+              {s.phase === "saved" && s.outcome === "saved" && <p className="mt-1 text-lg text-navy-700">Thank you for sharing.</p>}
+              <div className="mt-4 grid gap-2">
                 {s.phase === "saved" && s.index + 1 < photos.length && (
                   <Button variant="gold" size="lg" icon={<PlayIcon size={22} />} onClick={() => tap("next_photo")}>
                     Another photo
                   </Button>
                 )}
                 <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/")}>
-                  Choose another game
+                  Another game
                 </Button>
               </div>
-            </Card>
+            </div>
           )}
 
-          {error && <p className="rounded-2xl bg-white p-3 text-lg font-bold text-clay-500 shadow-card">{error}</p>}
+          {error && <p className="rounded-2xl bg-white p-3 text-base font-bold text-clay-500 shadow-card">{error}</p>}
         </div>
       </div>
     </GameShell>
