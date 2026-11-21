@@ -114,7 +114,7 @@ export default function PeopleSetup() {
   }
 
   return (
-    <FamilyShell title="People & alerts" intro={`Set up ${player.name}'s profile and choose who gets a gentle alert if ${player.familyName} needs more help than usual.`}>
+    <FamilyShell title="People & alerts">
       <Section title={`About ${player.name}`}>
         <Card className="grid gap-4 p-5 md:grid-cols-2">
           <label className="text-base font-bold">
