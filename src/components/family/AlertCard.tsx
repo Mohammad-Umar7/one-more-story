@@ -72,8 +72,7 @@ export function AlertCard({
         </div>
       </dl>
       <p className="mt-3 text-base text-navy-700">
-        This describes a change in how much help {familyName} asked for in one game. It is not a medical assessment. You
-        might check in with {familyName}, see whether anything in the room has moved, or play a round together.
+        A change in one game, not a medical assessment. You might check in with {familyName} or play a round together.
       </p>
       <p className="mt-2 text-sm text-navy-600">
         {sent.length > 0
