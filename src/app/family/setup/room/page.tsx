@@ -157,7 +157,7 @@ export default function RoomSetup() {
 
   const player = bundle.player;
   return (
-    <FamilyShell title="My Memory Room" intro={`Use a photo of ${player.name}'s own room. Mark familiar places, choose four everyday things, and record a clue for each in ${player.name}'s own voice.`}>
+    <FamilyShell title="My Memory Room" intro={`A photo of ${player.name}'s own room, four everyday things, and a clue for each in ${player.name}'s own voice.`}>
       <Section title="1. The room photo">
         <Card className="p-4">
           <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -305,7 +305,7 @@ export default function RoomSetup() {
           {(
             [
               ["gentle", "Gentle", "Place names are shown on the photo."],
-              ["standard", "Standard", "Places are marked; names show in the list below the photo."],
+              ["standard", "Standard", "Places are marked on the photo; names appear only on tablets."],
             ] as const
           ).map(([id, label, text]) => (
             <button
