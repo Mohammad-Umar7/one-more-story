@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { FamilyShell, Section } from "@/components/family/FamilyShell";
 import { AlertCard } from "@/components/family/AlertCard";
-import { HintChart } from "@/components/family/HintChart";
+import { HelpSummary } from "@/components/family/HelpSummary";
 import { Button, Card, Spinner } from "@/components/ui";
 import { BellIcon, ChevronRightIcon, MapIcon, PlayIcon, RefreshIcon, TrashIcon } from "@/components/icons";
 import { getJson, sendJson } from "@/lib/client/api";
@@ -82,7 +82,6 @@ export default function FamilyHome() {
     await load();
   }
 
-  const p = history?.pattern;
   const recipient = bundle?.caregivers.find((c) => c.id === bundle.player.alertCaregiverId);
 
   return (
@@ -127,41 +126,22 @@ export default function FamilyHome() {
         <Card className="p-5">
           {history ? (
             <>
-              <HintChart sessions={history.sessions} baseline={p?.baseline ?? null} threshold={p?.threshold ?? null} familyName={familyName} />
-              <dl className="mt-4 grid grid-cols-3 gap-2 text-center">
-                <div className="rounded-2xl bg-ivory-100 px-2 py-3">
-                  <dt className="text-xs font-bold uppercase tracking-wider text-navy-600">Usual</dt>
-                  <dd className="font-display text-2xl font-semibold">{p?.baseline ?? "–"}</dd>
-                  <dd className="text-xs text-navy-600">
-                    {p?.state === "building" ? `${p.needed} more rounds` : `${p?.baseline === 1 ? "hint" : "hints"} / round`}
-                  </dd>
-                </div>
-                <div className="rounded-2xl bg-ivory-100 px-2 py-3">
-                  <dt className="text-xs font-bold uppercase tracking-wider text-navy-600">Alert at</dt>
-                  <dd className="font-display text-2xl font-semibold">{p?.threshold !== null && p?.threshold !== undefined ? `${p.threshold}+` : "–"}</dd>
-                  <dd className="text-xs text-navy-600">usual + 2</dd>
-                </div>
-                <div className="rounded-2xl bg-ivory-100 px-2 py-3">
-                  <dt className="text-xs font-bold uppercase tracking-wider text-navy-600">In a row</dt>
-                  <dd className="font-display text-2xl font-semibold">{Math.min(p?.streak ?? 0, 3)}/3</dd>
-                  <dd className="text-xs text-navy-600">{p?.state === "alert" ? "alert sent" : "3 sends one alert"}</dd>
-                </div>
-              </dl>
-              <details className="mt-4 rounded-2xl border border-ivory-300 p-4">
-                <summary className="cursor-pointer text-base font-bold text-navy-700">How the rule works, and every round</summary>
+              <HelpSummary history={history} familyName={familyName} recipient={recipient?.name ?? null} />
+              <details className="mt-4 rounded-2xl bg-ivory-100 px-4 py-3">
+                <summary className="cursor-pointer text-base font-bold text-navy-700">How this works</summary>
                 <ul className="mt-3 list-disc space-y-1 pl-5 text-base text-navy-700">
-                  <li>Only My Memory Room counts. A hint is counted when a requested clue actually starts playing, once per playback.</li>
-                  <li>The usual level is the median hint count of the first five valid four-object rounds with the same objects, places and difficulty.</li>
-                  <li>Interrupted rounds and rounds with a microphone or playback problem are left out.</li>
-                  <li>Three comparable rounds in a row, each at least two hints above the usual level, send one alert. The same pattern never sends twice.</li>
-                  <li>These are prototype game thresholds. They describe a change in one game, not a health assessment.</li>
+                  <li>We count each time {familyName} plays a clue in My Memory Room.</li>
+                  <li>The usual number comes from the first five full rounds with the same things in the same places.</li>
+                  <li>If three rounds in a row each need at least two more clues than usual, one alert is sent. Never twice for the same run.</li>
+                  <li>Rounds that were stopped early, or had a microphone or sound problem, are left out.</li>
+                  <li>This shows a change in one game. It is not a medical assessment.</li>
                 </ul>
                 <div className="mt-4 overflow-x-auto">
                   <table className="w-full min-w-[30rem] text-left text-base">
                     <thead className="text-sm text-navy-600">
                       <tr>
                         <th className="py-2 pr-3">When</th>
-                        <th className="py-2 pr-3">Hints</th>
+                        <th className="py-2 pr-3">Clues</th>
                         <th className="py-2 pr-3">Counted as</th>
                       </tr>
                     </thead>
