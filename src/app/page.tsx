@@ -11,6 +11,7 @@ import { BreatheGame, SparkleGame } from "@/components/companion/CalmGames";
 import { MicIcon, MicOffIcon, PauseIcon, UsersIcon } from "@/components/icons";
 import Link from "next/link";
 import { HoldToTalk } from "@/components/HoldToTalk";
+import { StoryReport } from "@/components/StoryReport";
 import { sendReliably } from "@/lib/client/api";
 import { startChain } from "@/lib/client/chain";
 import { sparkleChord, unlockChime } from "@/lib/client/chime";
@@ -720,7 +721,8 @@ export default function CompanionPage() {
             <p className="text-lg text-ivory-200">Touch my picture to hear a story.</p>
           )}
 
-          {/* After the game: the family's way in (the report is there, in the caregiver part). */}
+          {/* After the game: the baseline report right here, then the family's way in. */}
+          {phase === "rest" && <StoryReport name={call} className="mt-4 w-full max-w-md text-left" />}
           {phase === "rest" && (
             <Link
               href="/family"
