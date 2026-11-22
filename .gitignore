@@ -46,3 +46,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# demo recordings and photos of real people stay local (only the script is committed)
+/demo/*
+!/demo/SCRIPT.md
