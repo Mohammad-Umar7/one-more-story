@@ -36,7 +36,7 @@ function greetingWord(h: number) {
   return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
 }
 
-export default function HomePage() {
+export default function ClassicGamesPage() {
   const { bundle, loadError } = useApp();
   const router = useRouter();
   const [now, setNow] = useState<Date | null>(null);

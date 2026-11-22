@@ -51,8 +51,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, [bundle, engine]);
 
+  // "Go home" inside a classic game returns to the classic games list. The
+  // companion's own screen has no menu to go back to.
+  const pathRef = useRef(pathname);
   useEffect(() => {
-    engine.setNavigator(() => router.push("/"));
+    pathRef.current = pathname;
+  }, [pathname]);
+  useEffect(() => {
+    engine.setNavigator(() => {
+      if (pathRef.current.startsWith("/play/")) router.push("/play");
+    });
   }, [engine, router]);
 
   // Leaving the family/caregiver areas or the games ends nothing by itself;

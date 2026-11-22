@@ -481,7 +481,7 @@ export default function MemoryRoomPage() {
               <Button variant="gold" size="xl" icon={<RefreshIcon size={26} />} onClick={() => tap("play_again")}>
                 Play again
               </Button>
-              <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/")}>
+              <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/play")}>
                 Another game
               </Button>
             </div>

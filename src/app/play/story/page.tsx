@@ -449,7 +449,7 @@ export default function TellTheStoryPage() {
                     Another photo
                   </Button>
                 )}
-                <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/")}>
+                <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/play")}>
                   Another game
                 </Button>
               </div>

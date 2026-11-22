@@ -500,7 +500,7 @@ export default function StreetPage() {
             <Button variant="gold" size="xl" icon={<PlayIcon size={24} />} onClick={() => tap("start_tour")}>
               Walk again
             </Button>
-            <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/")}>
+            <Button variant="ivory" size="lg" icon={<HomeIcon size={24} />} onClick={() => router.push("/play")}>
               Another game
             </Button>
           </div>

@@ -24,7 +24,7 @@ export function GameShell({
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-30 bg-ivory-100/90 backdrop-blur-md safe-top">
         <div className="mx-auto flex h-[4.5rem] w-full max-w-6xl items-center gap-2 px-3 md:h-16 md:px-6">
-          <Link href="/" className={barButton}>
+          <Link href="/play" className={barButton}>
             <HomeIcon size={22} />
             <span>Home</span>
           </Link>
