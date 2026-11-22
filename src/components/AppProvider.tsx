@@ -48,7 +48,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       lang: bundle.player.speechLang,
       patience: bundle.player.patience,
       serverVoice: bundle.config.tts,
-      browserVoice: !bundle.config.recordedOnly,
+      browserVoice: false, // only the family's recorded voice; anything else is a caption
     });
   }, [bundle, engine]);
 

@@ -339,6 +339,7 @@ export class Speaker {
       // decoding/playback failed: fall through to the browser voice
     }
     if (gen !== this.generation) return { ok: false, interrupted: true, source: null };
+    if (!this.browserVoice) return { ok: true, interrupted: false, source: null }; // caption only
     const r = await this.browserSpeak(text, gen);
     return { ok: r !== "error", interrupted: r === "stopped", source: r === "error" ? null : "browser" };
   }

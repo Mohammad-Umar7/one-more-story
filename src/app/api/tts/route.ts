@@ -2,6 +2,7 @@ import { synthesize, TtsError } from "@/lib/server/tts";
 // Registers the companion's matched voice with the speech module.
 import "@/lib/server/family";
 import { readJson } from "@/lib/server/http";
+import { ensureSeeded } from "@/lib/server/seed";
 import { findRecorded, isRecordedOnly } from "@/lib/server/voicebank";
 
 // Returns audio for one spoken reply: the family member's own recording when
@@ -11,6 +12,7 @@ export async function POST(req: Request) {
   try {
     const { text } = await readJson<{ text?: string }>(req);
     if (typeof text !== "string") return Response.json({ error: "Missing text" }, { status: 400 });
+    ensureSeeded(); // a fresh server loads Aamir's recordings before looking for the line
     // The family member recorded this line: play their real voice.
     const recorded = findRecorded(text);
     if (recorded) {
@@ -20,7 +22,8 @@ export async function POST(req: Request) {
     }
     // Only the family member's real voice: a line they didn't record stays silent
     // (the browser shows it as a caption and never uses a synthetic voice).
-    if (isRecordedOnly()) return new Response(null, { status: 204, headers: { "X-TTS-Cache": "silent" } });
+    // Always, even on a fresh server whose voice bank isn't loaded yet.
+    if (isRecordedOnly() || process.env.COMPANION_AI_VOICE !== "1") return new Response(null, { status: 204, headers: { "X-TTS-Cache": "silent" } });
     const { audio, mime, cached } = await synthesize(text);
     return new Response(new Uint8Array(audio), {
       headers: {
