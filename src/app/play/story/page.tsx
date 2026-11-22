@@ -317,6 +317,14 @@ export default function TellTheStoryPage() {
         onTurnAudio: (turn: CapturedTurn) => {
           if (st.current.phase === "photo") addClip(turn, turn.transcript, turn.turnId);
         },
+        onIgnored: (turnId: number) => {
+          const cs = st.current.clips;
+          const drop = cs.find((c) => c.turnId === turnId);
+          if (drop) {
+            URL.revokeObjectURL(drop.url);
+            update({ clips: cs.filter((c) => c !== drop) });
+          }
+        },
         act,
       }
     : null;

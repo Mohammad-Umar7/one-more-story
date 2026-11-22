@@ -69,6 +69,8 @@ export interface ScreenController {
   captureAnswers?(): boolean;
   onTurnAudio?(turn: CapturedTurn): void;
   onFailure?(kind: "mic" | "playback", detail: string): void;
+  /** That turn was talk meant for someone else: forget it (e.g. drop its recording). */
+  onIgnored?(turnId: number): void;
   onVoiceEnded?(): void;
 }
 
@@ -614,6 +616,15 @@ export class VoiceEngine {
     }
     decision = validateDecision(decision, current);
     this.set({ lastDecision: { ...decision, utterance: text } });
+
+    if (decision.action === "ignore") {
+      // Talk meant for someone else in the room: say nothing, keep listening.
+      this.history = this.history.filter((h, i, arr) => !(i === arr.length - 1 && h.role === "player" && h.text === text));
+      this.screen?.onIgnored?.(turnId);
+      this.enterListening();
+      this.drainQueue();
+      return;
+    }
 
     if (GLOBAL.has(decision.action)) {
       await this.runGlobal(decision.action);

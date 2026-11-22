@@ -133,6 +133,7 @@ export function useScreen(ctrl: ScreenController | null) {
       onTurnAudio: (turn) => ref.current?.onTurnAudio?.(turn),
       onFailure: (k, d) => ref.current?.onFailure?.(k, d),
       onVoiceEnded: () => ref.current?.onVoiceEnded?.(),
+      onIgnored: (turnId) => ref.current?.onIgnored?.(turnId),
     };
     return engine.setScreen(proxy);
   }, [engine, id]);

@@ -81,6 +81,11 @@ export const GLOBAL_ACTIONS: ActionSpec[] = [
     phrases: ["go home", "main menu", "home screen", "different game", "another game"],
   },
   {
+    name: "ignore",
+    description:
+      "The words were not meant for you: the player is talking to someone else in the room or on the phone (calls another person by name, asks someone for tea, chats about something unrelated to the screen), or it is background talk from another person. Do nothing and say nothing.",
+  },
+  {
     name: "none",
     description:
       "No game action. Just reply: a short friendly answer, conversation, or one gentle clarifying question.",
