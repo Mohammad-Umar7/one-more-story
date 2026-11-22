@@ -71,6 +71,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, engine]);
 
+  // While the companion leads (its own screen, or a game it opened), the
+  // player only speaks: game buttons and tap hints are hidden (see globals.css).
+  useEffect(() => {
+    const led = pathname === "/" || (pathname.startsWith("/play/") && new URLSearchParams(window.location.search).has("chain"));
+    if (led) document.documentElement.dataset.voiceOnly = "1";
+    else delete document.documentElement.dataset.voiceOnly;
+  }, [pathname]);
+
   useEffect(() => {
     // Phones: release the mic when the screen locks or the app goes to the background.
     const onHide = () => {

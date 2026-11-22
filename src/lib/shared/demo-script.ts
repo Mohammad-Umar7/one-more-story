@@ -29,7 +29,6 @@ export const DEMO_LINES: { section: string; text: string; key?: string }[] = [
 
   { section: "Tell the Story", text: "Here's a photo from your album. What would you like to share about this day?" },
   ...STORY_FOLLOWUPS.map((text) => ({ section: "Tell the Story", text })),
-  { section: "Tell the Story", text: "Thank you for sharing that. Would you like to listen back, save it, or let it go?" },
   { section: "Tell the Story", text: "Saved. Your family will love hearing this. Thank you, Dada." },
 
   { section: "My Memory Room", text: "Now let's find four things in your living room." },

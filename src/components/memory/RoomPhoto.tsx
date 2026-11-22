@@ -30,7 +30,7 @@ export function RoomPhoto({
 }) {
   return (
     <div className="photo-frame">
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[0.9rem] bg-ivory-200">
+      <div className="room-photo relative aspect-[4/3] w-full overflow-hidden rounded-[0.9rem] bg-ivory-200">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={photoUrl} alt="Your room" className="absolute inset-0 h-full w-full object-cover" />
         {spots.map((s) => {

@@ -123,6 +123,8 @@ export default function TellTheStoryPage() {
 
   async function save(): Promise<ActResult> {
     const cur = st.current;
+    // Led by the companion, never get stuck: nothing recorded means just carry on.
+    if (chain.current && !cur.saving && (!photo || cur.clips.length === 0)) return nextPhoto();
     if (!photo || cur.clips.length === 0 || cur.saving) return { speak: null };
     update({ saving: true });
     setError(null);
@@ -136,6 +138,7 @@ export default function TellTheStoryPage() {
     } catch {
       if (alive.current) {
         update({ saving: false });
+        if (chain.current) return nextPhoto();
         setError("Saving didn't work just now. Please try again.");
       }
       return { speak: "I couldn't save it just now. Shall we try again?" };
@@ -168,6 +171,11 @@ export default function TellTheStoryPage() {
   }
 
   async function nextPhoto(): Promise<ActResult> {
+    if (chain.current) {
+      await engine.say(`Thank you, ${name}.`);
+      if (alive.current) router.push(nextInChain(chain.current));
+      return { speak: null };
+    }
     const next = st.current.index + 1;
     if (next >= photos.length) {
       update({ phase: "finished" });
@@ -185,6 +193,8 @@ export default function TellTheStoryPage() {
     switch (action) {
       case "tell": {
         // The clip was already added when the turn's audio arrived.
+        // Led by the companion: after three follow-ups the story saves itself.
+        if (chain.current && cur.tapPromptIndex >= 3) return save();
         const follow = meta.say || TAP_PROMPTS[cur.tapPromptIndex % TAP_PROMPTS.length];
         update({ prompt: follow, tapPromptIndex: cur.tapPromptIndex + 1 });
         return { speak: follow };
@@ -192,8 +202,11 @@ export default function TellTheStoryPage() {
       case "finish_story": {
         dropCommandClip(meta.utterance);
         if (st.current.clips.length === 0) {
+          if (chain.current) return nextPhoto();
           return { speak: "That's all right. Would you like to skip this photo?" };
         }
+        // Led by the companion: no "listen back or save?" question, it just saves.
+        if (chain.current) return save();
         update({ phase: "review" });
         return { speak: `Thank you for sharing that. ${REVIEW_Q}` };
       }
@@ -388,7 +401,7 @@ export default function TellTheStoryPage() {
                 </p>
               )}
               {voiceOn ? (
-                <p className="text-base text-navy-600">Just talk. Say &ldquo;that&apos;s all&rdquo; when you&apos;ve finished.</p>
+                <p className="tap-hint text-base text-navy-600">Just talk. Say &ldquo;that&apos;s all&rdquo; when you&apos;ve finished.</p>
               ) : (
                 <RecordButton
                   mic={tapMic}
