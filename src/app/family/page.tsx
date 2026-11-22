@@ -7,7 +7,6 @@ import { FamilyShell, Section } from "@/components/family/FamilyShell";
 import { AlertCard } from "@/components/family/AlertCard";
 import { HelpSummary } from "@/components/family/HelpSummary";
 import { CompanionPanel } from "@/components/family/CompanionPanel";
-import { StoryReport } from "@/components/StoryReport";
 import { Button, Spinner } from "@/components/ui";
 import { BellIcon, BookIcon, CheckIcon, ChevronRightIcon, HomeIcon, ImageIcon, MapIcon, RefreshIcon, TrashIcon, UsersIcon } from "@/components/icons";
 import { getJson, sendJson } from "@/lib/client/api";
@@ -113,8 +112,22 @@ export default function FamilyHome() {
 
   return (
     <FamilyShell>
-      {/* The story game's starting point (set by the first game) and the latest comparison. */}
-      <StoryReport name={familyName} />
+      {/* The caregiver part: the baseline report and alerts. */}
+      <Link
+        href="/caregiver"
+        className="flex min-h-16 items-center justify-between gap-3 rounded-[1.75rem] bg-navy-900 px-5 py-4 text-ivory-50 shadow-card"
+      >
+        <span className="flex items-center gap-3">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gold-400 text-navy-950">
+            <BellIcon size={22} />
+          </span>
+          <span>
+            <span className="block text-xl font-bold leading-tight">Caregiver</span>
+            <span className="block text-base text-ivory-200">{familyName}&apos;s baseline report and alerts</span>
+          </span>
+        </span>
+        <ChevronRightIcon size={24} />
+      </Link>
 
       {/* The companion: baseline, today's games, the life story. */}
       <CompanionPanel />
