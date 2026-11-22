@@ -12,6 +12,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { getDb, nowIso, tx } from "./db";
 import { saveMedia } from "./media";
+import { normLine } from "./voicebank";
 import { roundSignature } from "../shared/baseline";
 
 export const DEMO = {
@@ -302,5 +303,118 @@ export function restoreDemo(): void {
 export function ensureSeeded(): void {
   const db = getDb();
   const row = db.prepare("SELECT COUNT(*) AS n FROM players").get() as { n: number };
-  if (row.n === 0) seedDemoContent();
+  if (row.n === 0) {
+    seedDemoContent();
+    importDemoPack();
+  }
+}
+
+// ---- the demo family pack ------------------------------------------------------
+// seed/demo-pack/ holds one family's companion (face, real recorded voice),
+// life story, story photo and baseline, exported with
+// scripts/export-demo-pack.mjs. A brand-new database (every fresh Vercel
+// instance) starts with it, so the demo works without going through setup.
+
+const PACK_DIR = path.join(SEED_DIR, "demo-pack");
+
+interface DemoPack {
+  player: { name: string; familyName: string; pronoun: string; speechLang: string };
+  member: {
+    id: string;
+    name: string;
+    relation: string;
+    photoMediaId: string | null;
+    avatarMediaId: string | null;
+    showPhoto: number;
+    look: string | null;
+    voiceName: string | null;
+    voiceStyle: string | null;
+    voiceSummary: string | null;
+  };
+  lines: { key: string; mediaId: string; transcript: string | null }[];
+  bank: { text: string; mediaId: string }[];
+  memories: {
+    id: string;
+    kind: string;
+    title: string;
+    detail: string;
+    people: string;
+    place: string | null;
+    era: string | null;
+    facts: string;
+    photoMediaId: string | null;
+    artMediaId: string | null;
+    artPrompt: string | null;
+    source: string;
+    addedBy: string | null;
+    createdAt: string;
+  }[];
+  baselines: { id: string; stage: string; level: number; trend: string; reason: string; familyNote: string; decidedBy: string; metrics: string | null; createdAt: string }[];
+  storyPhotos: { id: string; mediaId: string; title: string }[];
+  media: { id: string; kind: string; mime: string; file: string; durationMs: number | null; transcript: string | null }[];
+}
+
+/** Load the demo family pack into an empty companion (no-op otherwise). */
+export function importDemoPack(): boolean {
+  const file = path.join(PACK_DIR, "pack.json");
+  if (!fs.existsSync(file)) return false;
+  const db = getDb();
+  const members = db.prepare("SELECT COUNT(*) AS n FROM family_members").get() as { n: number };
+  if (members.n > 0) return false;
+  const pack = JSON.parse(fs.readFileSync(file, "utf8")) as DemoPack;
+  for (const m of pack.media) {
+    const src = path.join(PACK_DIR, "media", m.file);
+    if (!fs.existsSync(src)) continue;
+    saveMedia({ id: m.id, data: fs.readFileSync(src), mime: m.mime, durationMs: m.durationMs, transcript: m.transcript });
+  }
+  const now = nowIso();
+  const playerId = DEMO.playerId;
+  tx((d) => {
+    d.prepare("UPDATE players SET name = ?, family_name = ?, pronoun = ?, speech_lang = ?, onboarded_at = ? WHERE id = ?").run(
+      pack.player.name,
+      pack.player.familyName,
+      pack.player.pronoun,
+      pack.player.speechLang,
+      now,
+      playerId,
+    );
+    const m = pack.member;
+    d.prepare(
+      `INSERT INTO family_members (id, player_id, name, relation, photo_media_id, avatar_media_id, avatar_status, show_photo, look,
+         voice_name, voice_style, voice_summary, is_companion, consent_at, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
+    ).run(m.id, playerId, m.name, m.relation, m.photoMediaId, m.avatarMediaId, m.avatarMediaId ? "ready" : "none", m.showPhoto, m.look, m.voiceName, m.voiceStyle, m.voiceSummary, now, now);
+    for (const l of pack.lines) {
+      d.prepare("INSERT INTO voice_lines (id, member_id, line_key, media_id, transcript, created_at) VALUES (?, ?, ?, ?, ?, ?)").run(
+        `vl_${l.key}`,
+        m.id,
+        l.key,
+        l.mediaId,
+        l.transcript,
+        now,
+      );
+    }
+    for (const b of pack.bank) {
+      const norm = normLine(b.text);
+      d.prepare("INSERT OR REPLACE INTO voice_bank (text_norm, text, media_id, created_at) VALUES (?, ?, ?, ?)").run(norm, b.text, b.mediaId, now);
+    }
+    for (const x of pack.memories) {
+      d.prepare(
+        `INSERT INTO memories (id, player_id, kind, title, detail, people, place, era, facts, photo_media_id, art_media_id, art_prompt, art_status, source, added_by, active, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
+      ).run(x.id, playerId, x.kind, x.title, x.detail, x.people, x.place, x.era, x.facts, x.photoMediaId, x.artMediaId, x.artPrompt, x.artMediaId ? "ready" : "none", x.source, x.addedBy, x.createdAt);
+    }
+    for (const b of pack.baselines) {
+      d.prepare(
+        `INSERT INTO baselines (id, player_id, stage, level, trend, reason, family_note, decided_by, metrics, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ).run(b.id, playerId, b.stage, b.level, b.trend, b.reason, b.familyNote, b.decidedBy, b.metrics, b.createdAt);
+    }
+    if (pack.storyPhotos.length) {
+      d.prepare("UPDATE story_photos SET sort = sort + ? WHERE player_id = ?").run(pack.storyPhotos.length, playerId);
+      pack.storyPhotos.forEach((sp, i) => {
+        d.prepare("INSERT OR REPLACE INTO story_photos (id, player_id, media_id, title, sort) VALUES (?, ?, ?, ?, ?)").run(sp.id, playerId, sp.mediaId, sp.title, i);
+      });
+    }
+  });
+  return true;
 }

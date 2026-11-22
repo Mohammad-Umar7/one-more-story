@@ -1,0 +1,1171 @@
+{
+ "exportedAt": "2026-11-22T10:48:33.413Z",
+ "player": {
+  "name": "Abdul Karim",
+  "familyName": "Dada",
+  "pronoun": "he",
+  "speechLang": "en-US"
+ },
+ "member": {
+  "id": "fm_f4a71c17e26a4d87a4f0",
+  "name": "Aamir",
+  "relation": "Grandchild",
+  "photoMediaId": "img_f619807de2d74b98b319",
+  "avatarMediaId": "img_6b4a864fd3774e8a98d7",
+  "showPhoto": 0,
+  "look": "Young man wearing a black leather cap, gold-framed glasses, and a full beard\nA man in his mid-to-late twenties with light tan skin and a rounded, square jawline. He wears thin, gold-rimmed hexagonal glasses over dark brown eyes with thick, arched black eyebrows. His nose is straight with a defined tip, resting above a closed, neutral mouth with natural pink lips. A dense, neatly trimmed black beard and connected mustache frame his lower face, extending down to visible chest hair. His head hair is completely concealed beneath a dark grey-to-black textured leather baseball cap. He wears a taupe-brown jacket featuring a fine, subtle grid pattern.",
+  "voiceName": "Schedar",
+  "voiceStyle": "Speak in a calm, slightly deep tone with a subtle Indian accent. Maintain a relaxed, deliberate pace with careful articulation and gentle, thoughtful pauses between phrases.",
+  "voiceSummary": "A deep, gentle male voice in his twenties with a measured Indian English accent and a warm, sincere delivery."
+ },
+ "lines": [
+  {
+   "key": "hello",
+   "mediaId": "aud_0b9193cff2784e72a728",
+   "transcript": "Hello Dada, it's me Aamir."
+  },
+  {
+   "key": "its_okay",
+   "mediaId": "aud_3bd648dba83d4e5b86a3",
+   "transcript": "That's okay. Let's try another one."
+  },
+  {
+   "key": "lets_play",
+   "mediaId": "aud_ea1b04f8cb2643dca7e6",
+   "transcript": "Let's play a little game together."
+  },
+  {
+   "key": "love_you",
+   "mediaId": "aud_6c8922abd4894de1b38f",
+   "transcript": "I love you, dada. See you tomorrow."
+  },
+  {
+   "key": "take_time",
+   "mediaId": "aud_b4e7428a51c4486eb246",
+   "transcript": "Take your time, there's no rush."
+  },
+  {
+   "key": "well_done",
+   "mediaId": "aud_79cdc23aff7c4a2a8f82",
+   "transcript": "Well done, dada, I am proud of you."
+  }
+ ],
+ "bank": [
+  {
+   "text": "Hello Dada, it's me, Aamir!",
+   "mediaId": "aud_eeb67d7ca3e643e0b0a7"
+  },
+  {
+   "text": "Good morning, Dada. It's so lovely to see you today.",
+   "mediaId": "aud_7535579a8aa948c892e3"
+  },
+  {
+   "text": "I have a picture to show you.",
+   "mediaId": "aud_aa63ef2a292d41d79a11"
+  },
+  {
+   "text": "Here's a photo from your album. What would you like to share about this day?",
+   "mediaId": "aud_a8a14bdce3cb4f27a511"
+  },
+  {
+   "text": "That was the day you taught me to ride my bike, Dada. What do you remember most about it?",
+   "mediaId": "aud_36132e2af4bf4f60bdbe"
+  },
+  {
+   "text": "You kept running behind me, holding the seat. How did it feel when I finally rode on my own?",
+   "mediaId": "aud_511d9198cd0447b6985d"
+  },
+  {
+   "text": "Thank you for sharing that. Would you like to listen back, save it, or let it go?",
+   "mediaId": "aud_07eb70360eb34602ac74"
+  },
+  {
+   "text": "Saved. Your family will love hearing this. Thank you, Dada.",
+   "mediaId": "aud_6547b5c3c99440ac8d11"
+  },
+  {
+   "text": "Now let's find four things in your living room.",
+   "mediaId": "aud_353cc1e054694e1f9268"
+  },
+  {
+   "text": "Where do you usually keep your glasses?",
+   "mediaId": "aud_bd572f486d1a420a86c1"
+  },
+  {
+   "text": "Yes, the blue bowl. That's where your glasses live.",
+   "mediaId": "aud_76f48b1709c34d8ca081"
+  },
+  {
+   "text": "Now, where do you usually keep your keys?",
+   "mediaId": "aud_a026277ab62d4208a87d"
+  },
+  {
+   "text": "That's the top drawer. Your keys usually live somewhere else. Would you like to hear your clue?",
+   "mediaId": "aud_3cfe70d385c4498b93b6"
+  },
+  {
+   "text": "Here's your clue, in your own voice.",
+   "mediaId": "aud_d06ad3ce078f4fc193a1"
+  },
+  {
+   "text": "Where do you think they are?",
+   "mediaId": "aud_e52bd7089c874fe19248"
+  },
+  {
+   "text": "That's right, the hooks by the door.",
+   "mediaId": "aud_afaaa27574a24161b74c"
+  },
+  {
+   "text": "Now, where do you usually keep your watch?",
+   "mediaId": "aud_b5f5cdadef7a467292f7"
+  },
+  {
+   "text": "Lovely. Your watch goes in the top drawer.",
+   "mediaId": "aud_eaaec89cce7a4a40b05f"
+  },
+  {
+   "text": "Now, where do you usually keep your prayer beads?",
+   "mediaId": "aud_85f957b3368c4c4eb2ee"
+  },
+  {
+   "text": "Yes, the windowsill. Just where they belong.",
+   "mediaId": "aud_490f99600cab49b886da"
+  },
+  {
+   "text": "All four, back where they belong. Well done, Dada.",
+   "mediaId": "aud_f606fbe1127340d08545"
+  },
+  {
+   "text": "Now you're the tour guide, Dada. Let's walk down your street.",
+   "mediaId": "aud_4ff3070d860f40af8f0d"
+  },
+  {
+   "text": "We're starting at the front gate. What can you tell me about this place?",
+   "mediaId": "aud_d5e8110de7f34297bdff"
+  },
+  {
+   "text": "What a lovely gate, Dada. Shall we go on to the bakery straight ahead?",
+   "mediaId": "aud_d97254bc4378482a878e"
+  },
+  {
+   "text": "Here we are at Noor Bakery. What can you tell me about this place?",
+   "mediaId": "aud_c36da4f204ab40058568"
+  },
+  {
+   "text": "I can almost smell the fresh bread. Which way shall we go: the lane on the left, or the main road on the right?",
+   "mediaId": "aud_b34bae699da746c5bb40"
+  },
+  {
+   "text": "Here we are at Jasmine Lane. What can you tell me about this place?",
+   "mediaId": "aud_9f1fe8617b654e5095f8"
+  },
+  {
+   "text": "It's so peaceful here. Shall we go on to the little park?",
+   "mediaId": "aud_ab5c26574d5047d18018"
+  },
+  {
+   "text": "Here we are at the little park. This is as far as the path goes. What can you tell me about it?",
+   "mediaId": "aud_c4aedfedba594bafb83b"
+  },
+  {
+   "text": "I love this park too, Dada. Shall we finish the tour here?",
+   "mediaId": "aud_a90595f82336428f96f5"
+  },
+  {
+   "text": "Thank you for the tour, Dada. Your family can walk it with you any time.",
+   "mediaId": "aud_12b528ba41874515a456"
+  },
+  {
+   "text": "Well done, Dada! I'm so proud of you.",
+   "mediaId": "aud_c0775211f3e84aa18642"
+  },
+  {
+   "text": "That was wonderful, Dada. Thank you for playing with me.",
+   "mediaId": "aud_c58cb0b8acb74780bc3a"
+  },
+  {
+   "text": "I love you, Dada. See you tomorrow.",
+   "mediaId": "aud_6e06a4cd92204b549831"
+  },
+  {
+   "text": "I'll never forget it, Dada. Tell me a little more.",
+   "mediaId": "aud_5b46419a11f44370aad2"
+  },
+  {
+   "text": "Here's a photo from your album.",
+   "mediaId": "aud_b70acbe8d3c146129133"
+  },
+  {
+   "text": "Where are we in this picture, Dada?",
+   "mediaId": "aud_fa81f791e72649079d6d"
+  },
+  {
+   "text": "Yes, the Corniche! You remembered.",
+   "mediaId": "aud_3d9ccc0c73ff45e294c4"
+  },
+  {
+   "text": "Good try, Dada. It's the Corniche, by the sea.",
+   "mediaId": "aud_3dcaa99ffc3944bdb99c"
+  },
+  {
+   "text": "What were you teaching me to do that day?",
+   "mediaId": "aud_952087643f1d49bd8f55"
+  },
+  {
+   "text": "Yes! You were teaching me to ride my bike.",
+   "mediaId": "aud_85028c590ad8448998b6"
+  },
+  {
+   "text": "Good try. You were teaching me to ride my bike.",
+   "mediaId": "aud_c54cdff70a384ee98411"
+  },
+  {
+   "text": "When I finally rode on my own, what did you buy us?",
+   "mediaId": "aud_dabce5d4cd8643078444"
+  },
+  {
+   "text": "That's right, ice cream for both of us!",
+   "mediaId": "aud_e0af5f0efd90438dbf00"
+  },
+  {
+   "text": "Good try. You bought us both ice cream.",
+   "mediaId": "aud_92fc7d34a1ba498f9a36"
+  },
+  {
+   "text": "And which flavour did you choose for yourself?",
+   "mediaId": "aud_8c286dc4621044f99c23"
+  },
+  {
+   "text": "Yes, pistachio! And mango for me.",
+   "mediaId": "aud_9de6e1d370774a439726"
+  },
+  {
+   "text": "Good try. It was pistachio for you, and mango for me.",
+   "mediaId": "aud_b208854f03994ac099c2"
+  },
+  {
+   "text": "Are you done, Dada?",
+   "mediaId": "aud_228a04c6a1814aa5ad76"
+  },
+  {
+   "text": "Anything else, Dada?",
+   "mediaId": "aud_2bb55e0db0c74957b8a5"
+  },
+  {
+   "text": "Okay, take your time. I'm listening.",
+   "mediaId": "aud_1307183a174e42e883f8"
+  },
+  {
+   "text": "Take your time. There's no rush.",
+   "mediaId": "aud_4feed9f7c30f423db59b"
+  },
+  {
+   "text": "That's okay. Let's try another one.",
+   "mediaId": "aud_8712566cad6b427cadc7"
+  }
+ ],
+ "memories": [
+  {
+   "id": "mem_48061bb50778467c80a9",
+   "kind": "place",
+   "title": "Childhood home in Lucknow",
+   "detail": "Dada grew up in Lucknow in a big old house with a courtyard and a lemon tree in the middle. He was the eldest of six children.",
+   "people": "[]",
+   "place": "Lucknow",
+   "era": "Childhood",
+   "facts": "[{\"prompt\":\"Which city did you grow up in?\",\"answer\":\"Lucknow\",\"distractors\":[\"Agra\",\"Quetta\",\"Kanpur\"]},{\"prompt\":\"What grew in the middle of the courtyard at your childhood home?\",\"answer\":\"A lemon tree\",\"distractors\":[\"A mango tree\",\"A neem tree\",\"A rose bush\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_06ca8dd6c21d457ab8d0",
+   "artPrompt": "A big old house with a sunny courtyard and a lemon tree in the middle, painted in warm soft colours.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.243Z"
+  },
+  {
+   "id": "mem_ca17ea6efd804761a179",
+   "kind": "event",
+   "title": "Roti and street cricket",
+   "detail": "Every morning Dada's mother made fresh roti in a clay tandoor. He and his brothers played cricket in the street until it got dark.",
+   "people": "[]",
+   "place": "Lucknow",
+   "era": "Childhood",
+   "facts": "[{\"prompt\":\"What did your mother make in a clay tandoor every morning?\",\"answer\":\"Fresh roti\",\"distractors\":[\"Rice pudding\",\"Fried samosas\",\"Sweet halwa\"]},{\"prompt\":\"Which game did you and your brothers play in the street?\",\"answer\":\"Cricket\",\"distractors\":[\"Football\",\"Marbles\",\"Hockey\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_a23e2f1cf50f4d1190c7",
+   "artPrompt": "A clay tandoor glowing in a courtyard at dawn with fresh round roti, and boys with a cricket bat in a dusky lane in the background.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.268Z"
+  },
+  {
+   "id": "mem_f520f45650154170b7cf",
+   "kind": "person",
+   "title": "Fatima, his wife",
+   "detail": "Dada's most important person is Fatima, whom the grandchildren call Dadi. They have been married for 52 years.",
+   "people": "[\"Fatima\"]",
+   "place": null,
+   "era": null,
+   "facts": "[{\"prompt\":\"What is your wife's name?\",\"answer\":\"Fatima\",\"distractors\":[\"Amina\",\"Zainab\",\"Nasreen\"]},{\"prompt\":\"For how many years have you and your wife been married?\",\"answer\":\"52 years\",\"distractors\":[\"30 years\",\"45 years\",\"60 years\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_20779c26b391490fb38c",
+   "artPrompt": "Two cups of chai on a small table by a sunny window, with two chairs side by side, in a gentle storybook style.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.274Z"
+  },
+  {
+   "id": "mem_40d21981d3a44894810b",
+   "kind": "event",
+   "title": "Meeting Fatima at a wedding",
+   "detail": "Dada met Fatima at a wedding in Lucknow in 1972. He says she laughed at one of his jokes, and that was it. They got married a year later.",
+   "people": "[\"Fatima\"]",
+   "place": "Lucknow",
+   "era": "1972",
+   "facts": "[{\"prompt\":\"Where did you first meet your wife?\",\"answer\":\"At a wedding\",\"distractors\":[\"At a school\",\"At a bazaar\",\"On a train\"]},{\"prompt\":\"What did she do that made you fall for her?\",\"answer\":\"Laughed at his joke\",\"distractors\":[\"Sang a song\",\"Danced with him\",\"Gave him a flower\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_5dd88536563c454baeb8",
+   "artPrompt": "A joyful wedding courtyard in the evening with string lights, marigold garlands and guests laughing, painted softly without clear faces.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.280Z"
+  },
+  {
+   "id": "mem_257bad0c08b841bbb8c7",
+   "kind": "event",
+   "title": "Moving to Abu Dhabi",
+   "detail": "In 1976 Dada and Fatima moved to Abu Dhabi with just two suitcases and a small radio.",
+   "people": "[\"Fatima\"]",
+   "place": "Abu Dhabi",
+   "era": "1976",
+   "facts": "[{\"prompt\":\"How many suitcases did you take to Abu Dhabi?\",\"answer\":\"Two\",\"distractors\":[\"Four\",\"Six\",\"Ten\"]},{\"prompt\":\"Besides suitcases, what did you bring along?\",\"answer\":\"A small radio\",\"distractors\":[\"A sewing machine\",\"A wall clock\",\"A cricket bat\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_875414eeba604ea28276",
+   "artPrompt": "Two old suitcases and a small vintage radio resting on a sunlit floor beside a window overlooking a new city.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.288Z"
+  },
+  {
+   "id": "mem_cdf7a50a782d4fa6b727",
+   "kind": "person",
+   "title": "Children and grandchildren",
+   "detail": "Dada has three children: Imran, Saima and Kamran. He has five grandchildren, and Aamir is the eldest.",
+   "people": "[\"Imran\",\"Saima\",\"Kamran\",\"Aamir\"]",
+   "place": null,
+   "era": null,
+   "facts": "[{\"prompt\":\"How many children do you have?\",\"answer\":\"Three\",\"distractors\":[\"Two\",\"Four\",\"Five\"]},{\"prompt\":\"How many grandchildren do you have?\",\"answer\":\"Five\",\"distractors\":[\"Two\",\"Eight\",\"Ten\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_69bbd76d783d47fcb73b",
+   "artPrompt": "A family dining table with many chairs, a big bowl of food in the middle and small children's drawings on the wall, warm lamplight.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.291Z"
+  },
+  {
+   "id": "mem_b6a476f3dffe4ea69c94",
+   "kind": "person",
+   "title": "Uncle Javed, best friend",
+   "detail": "Uncle Javed is Dada's best friend. They have had chai together every Friday for 40 years.",
+   "people": "[\"Javed\"]",
+   "place": null,
+   "era": null,
+   "facts": "[{\"prompt\":\"What do you and your best friend share every Friday?\",\"answer\":\"Chai\",\"distractors\":[\"A game of carrom\",\"A long drive\",\"A big breakfast\"]},{\"prompt\":\"For about how many years have you and your best friend been meeting for Friday chai?\",\"answer\":\"40 years\",\"distractors\":[\"10 years\",\"25 years\",\"60 years\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_fa8a2532f7f7453badb0",
+   "artPrompt": "Two steaming cups of chai on a small table between two empty chairs outside, soft golden afternoon light.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.294Z"
+  },
+  {
+   "id": "mem_43cd1af131014069b41c",
+   "kind": "event",
+   "title": "Building roads and bridges",
+   "detail": "Dada was a civil engineer who helped build roads and bridges in Abu Dhabi for over 30 years. Whenever the family drives along the Corniche, he points and says, 'I built that one.' The whole family still goes to him for advice.",
+   "people": "[]",
+   "place": "Abu Dhabi",
+   "era": "Working years",
+   "facts": "[{\"prompt\":\"What was your work?\",\"answer\":\"Civil engineer\",\"distractors\":[\"Doctor\",\"Teacher\",\"Pilot\"]},{\"prompt\":\"What did you help build in Abu Dhabi?\",\"answer\":\"Roads and bridges\",\"distractors\":[\"Ships and boats\",\"Trains\",\"Cinemas\"]},{\"prompt\":\"What do you proudly say when driving along the Corniche?\",\"answer\":\"I built that one\",\"distractors\":[\"I love this road\",\"Let's stop here\",\"This is my favourite view\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_f9a9c80fe87449bf8737",
+   "artPrompt": "A graceful bridge and a seaside road at golden hour, with a hard hat and rolled blueprints in the foreground, storybook style.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.299Z"
+  },
+  {
+   "id": "mem_21b610f8546146e28a67",
+   "kind": "event",
+   "title": "Learning to ride a bike",
+   "detail": "When Aamir was 7, Dada taught him to ride a bike on the Corniche, running behind him and holding the seat while he kept falling. When Aamir finally rode on his own, Dada bought them ice cream: pistachio for him, mango for Aamir. He still calls Aamir his champion.",
+   "people": "[\"Aamir\"]",
+   "place": "Corniche, Abu Dhabi",
+   "era": "Aamir at age 7",
+   "facts": "[{\"prompt\":\"How old was Aamir when you taught him to ride a bike?\",\"answer\":\"7\",\"distractors\":[\"4\",\"10\",\"12\"]},{\"prompt\":\"Which ice cream flavour did you choose for yourself?\",\"answer\":\"Pistachio\",\"distractors\":[\"Chocolate\",\"Vanilla\",\"Strawberry\"]},{\"prompt\":\"What do you call Aamir?\",\"answer\":\"Champion\",\"distractors\":[\"Little tiger\",\"Captain\",\"My star\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_a017adad1f8c43c29396",
+   "artPrompt": "A small bicycle on a seaside promenade at sunset, with two ice cream cones, one green and one orange, resting on a bench.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.307Z"
+  },
+  {
+   "id": "mem_cb49dce8e8b743ef8672",
+   "kind": "favorite",
+   "title": "Strong chai and gulab jamun",
+   "detail": "Dada loves strong chai with lots of sugar, and gulab jamun.",
+   "people": "[]",
+   "place": null,
+   "era": null,
+   "facts": "[{\"prompt\":\"How do you like your chai?\",\"answer\":\"Strong with lots of sugar\",\"distractors\":[\"Light with no sugar\",\"With honey\",\"Iced\"]},{\"prompt\":\"Which sweet do you love?\",\"answer\":\"Gulab jamun\",\"distractors\":[\"Rasmalai\",\"Barfi\",\"Kheer\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_edbf895a53054ce1897e",
+   "artPrompt": "A steaming glass cup of dark chai beside a small bowl of golden gulab jamun in syrup on an embroidered tablecloth.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.312Z"
+  },
+  {
+   "id": "mem_0a4d952471ab408fbb36",
+   "kind": "favorite",
+   "title": "Mohammed Rafi ghazals",
+   "detail": "Dada loves old Mohammed Rafi ghazals and hums them all the time.",
+   "people": "[]",
+   "place": null,
+   "era": null,
+   "facts": "[{\"prompt\":\"Whose old ghazals do you love to hum?\",\"answer\":\"Mohammed Rafi\",\"distractors\":[\"Kishore Kumar\",\"Lata Mangeshkar\",\"Elvis Presley\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_b9d5cedaa0f547afa442",
+   "artPrompt": "An old record player and a small radio on a wooden shelf with soft musical notes drifting in warm evening light.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.315Z"
+  },
+  {
+   "id": "mem_39028b2c440d4802adef",
+   "kind": "favorite",
+   "title": "Cricket and India",
+   "detail": "Dada loves watching cricket, especially when India is playing.",
+   "people": "[]",
+   "place": null,
+   "era": null,
+   "facts": "[{\"prompt\":\"Which team do you cheer for most in cricket?\",\"answer\":\"India\",\"distractors\":[\"Australia\",\"England\",\"West Indies\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_4dd33a5032a345b0aa1b",
+   "artPrompt": "A cricket bat and ball on green grass beside a small television glowing in a cosy living room with green cushions.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.319Z"
+  },
+  {
+   "id": "mem_d2bbd46d1fd848f8a5cb",
+   "kind": "routine",
+   "title": "Evening pigeons in the park",
+   "detail": "Every evening Dada walks to the park with Dadi and feeds the pigeons. He loves it.",
+   "people": "[\"Fatima\"]",
+   "place": "The park",
+   "era": "Today",
+   "facts": "[{\"prompt\":\"What do you feed in the park every evening?\",\"answer\":\"Pigeons\",\"distractors\":[\"Ducks\",\"Sparrows\",\"Squirrels\"]},{\"prompt\":\"Who walks with you to the park?\",\"answer\":\"Fatima\",\"distractors\":[\"Zainab\",\"Nasreen\",\"Amina\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_12bce17dfe944cf9b59a",
+   "artPrompt": "An elderly couple seen from behind walking on a park path at sunset, with pigeons fluttering around scattered grain.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.323Z"
+  },
+  {
+   "id": "mem_ae4024b6b3124973923c",
+   "kind": "routine",
+   "title": "Morning chai and newspaper",
+   "detail": "Dada wakes up early for Fajr, then has his chai and reads the newspaper in his chair by the window. After lunch he takes a nap.",
+   "people": "[]",
+   "place": "Home",
+   "era": "Today",
+   "facts": "[{\"prompt\":\"What do you read in your chair by the window?\",\"answer\":\"The newspaper\",\"distractors\":[\"A novel\",\"A poetry book\",\"A magazine\"]},{\"prompt\":\"What do you do after lunch?\",\"answer\":\"Take a nap\",\"distractors\":[\"Go swimming\",\"Play carrom\",\"Water the garden\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_2e820b2d417d481caf86",
+   "artPrompt": "A comfortable armchair by a bright window with a folded newspaper and a cup of chai in soft morning light.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.328Z"
+  },
+  {
+   "id": "mem_22b0aad3e20a4a2faeab",
+   "kind": "routine",
+   "title": "Friday family lunch",
+   "detail": "On Friday the whole family comes over to Dada's home for lunch.",
+   "people": "[]",
+   "place": "Home",
+   "era": "Today",
+   "facts": "[{\"prompt\":\"On which day does the whole family come for lunch?\",\"answer\":\"Friday\",\"distractors\":[\"Monday\",\"Wednesday\",\"Sunday\"]}]",
+   "photoMediaId": null,
+   "artMediaId": "img_22218c469e7e484aa8de",
+   "artPrompt": "A long family table full of colourful dishes with sunlight streaming through the window.",
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.332Z"
+  },
+  {
+   "id": "mem_3234813a7a904e0d969c",
+   "kind": "gentle",
+   "title": "Do not mention Rashid",
+   "detail": "Please do not bring up Dada's younger brother Rashid, who passed away two years ago. It still makes him very sad. If he mentions him himself, be soft and comforting and gently move on to a happier memory.",
+   "people": "[\"Rashid\"]",
+   "place": null,
+   "era": null,
+   "facts": "[]",
+   "photoMediaId": null,
+   "artMediaId": null,
+   "artPrompt": null,
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.340Z"
+  },
+  {
+   "id": "mem_a5344e003051455d92f5",
+   "kind": "gentle",
+   "title": "Worry about his wallet",
+   "detail": "Dada gets worried if he thinks he has lost his wallet, so avoid the topic of wallets or lost things. If he seems anxious, reassure him that everything is safe and change the subject warmly.",
+   "people": "[]",
+   "place": null,
+   "era": null,
+   "facts": "[]",
+   "photoMediaId": null,
+   "artMediaId": null,
+   "artPrompt": null,
+   "source": "interview",
+   "addedBy": "Aamir",
+   "createdAt": "2026-11-22T09:00:56.348Z"
+  }
+ ],
+ "baselines": [
+  {
+   "id": "bl_1ef66d48db864f089bfe",
+   "stage": "early",
+   "level": 2,
+   "trend": "first",
+   "reason": "Starting where the doctor said (early stage), at level 2 from your answers. It adjusts every day from how the games go.",
+   "familyNote": "",
+   "decidedBy": "onboarding",
+   "metrics": "{\"metrics\":null,\"focus\":null}",
+   "createdAt": "2026-11-22T09:00:14.997Z"
+  }
+ ],
+ "storyPhotos": [
+  {
+   "id": "sp_bike",
+   "mediaId": "img_a017adad1f8c43c29396",
+   "title": "Learning to ride a bike"
+  }
+ ],
+ "media": [
+  {
+   "id": "img_f619807de2d74b98b319",
+   "kind": "image",
+   "mime": "image/jpeg",
+   "file": "img_f619807de2d74b98b319.jpg",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_6b4a864fd3774e8a98d7",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_6b4a864fd3774e8a98d7.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "aud_0b9193cff2784e72a728",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_0b9193cff2784e72a728.mp3",
+   "durationMs": null,
+   "transcript": "Hello Dada, it's me Aamir."
+  },
+  {
+   "id": "aud_3bd648dba83d4e5b86a3",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_3bd648dba83d4e5b86a3.mp3",
+   "durationMs": null,
+   "transcript": "That's okay. Let's try another one."
+  },
+  {
+   "id": "aud_ea1b04f8cb2643dca7e6",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_ea1b04f8cb2643dca7e6.mp3",
+   "durationMs": null,
+   "transcript": "Let's play a little game together."
+  },
+  {
+   "id": "aud_6c8922abd4894de1b38f",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_6c8922abd4894de1b38f.mp3",
+   "durationMs": null,
+   "transcript": "I love you, dada. See you tomorrow."
+  },
+  {
+   "id": "aud_b4e7428a51c4486eb246",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_b4e7428a51c4486eb246.mp3",
+   "durationMs": null,
+   "transcript": "Take your time, there's no rush."
+  },
+  {
+   "id": "aud_79cdc23aff7c4a2a8f82",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_79cdc23aff7c4a2a8f82.mp3",
+   "durationMs": null,
+   "transcript": "Well done, dada, I am proud of you."
+  },
+  {
+   "id": "aud_eeb67d7ca3e643e0b0a7",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_eeb67d7ca3e643e0b0a7.mp3",
+   "durationMs": null,
+   "transcript": "Hello Dada, it's me, Aamir!"
+  },
+  {
+   "id": "aud_7535579a8aa948c892e3",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_7535579a8aa948c892e3.mp3",
+   "durationMs": null,
+   "transcript": "Good morning, Dada. It's so lovely to see you today."
+  },
+  {
+   "id": "aud_aa63ef2a292d41d79a11",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_aa63ef2a292d41d79a11.mp3",
+   "durationMs": null,
+   "transcript": "I have a picture to show you."
+  },
+  {
+   "id": "aud_a8a14bdce3cb4f27a511",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_a8a14bdce3cb4f27a511.mp3",
+   "durationMs": null,
+   "transcript": "Here's a photo from your album. What would you like to share about this day?"
+  },
+  {
+   "id": "aud_36132e2af4bf4f60bdbe",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_36132e2af4bf4f60bdbe.mp3",
+   "durationMs": null,
+   "transcript": "That was the day you taught me to ride my bike, Dada. What do you remember most about it?"
+  },
+  {
+   "id": "aud_511d9198cd0447b6985d",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_511d9198cd0447b6985d.mp3",
+   "durationMs": null,
+   "transcript": "You kept running behind me, holding the seat. How did it feel when I finally rode on my own?"
+  },
+  {
+   "id": "aud_07eb70360eb34602ac74",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_07eb70360eb34602ac74.mp3",
+   "durationMs": null,
+   "transcript": "Thank you for sharing that. Would you like to listen back, save it, or let it go?"
+  },
+  {
+   "id": "aud_6547b5c3c99440ac8d11",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_6547b5c3c99440ac8d11.mp3",
+   "durationMs": null,
+   "transcript": "Saved. Your family will love hearing this. Thank you, Dada."
+  },
+  {
+   "id": "aud_353cc1e054694e1f9268",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_353cc1e054694e1f9268.mp3",
+   "durationMs": null,
+   "transcript": "Now let's find four things in your living room."
+  },
+  {
+   "id": "aud_bd572f486d1a420a86c1",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_bd572f486d1a420a86c1.mp3",
+   "durationMs": null,
+   "transcript": "Where do you usually keep your glasses?"
+  },
+  {
+   "id": "aud_76f48b1709c34d8ca081",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_76f48b1709c34d8ca081.mp3",
+   "durationMs": null,
+   "transcript": "Yes, the blue bowl. That's where your glasses live."
+  },
+  {
+   "id": "aud_a026277ab62d4208a87d",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_a026277ab62d4208a87d.mp3",
+   "durationMs": null,
+   "transcript": "Now, where do you usually keep your keys?"
+  },
+  {
+   "id": "aud_3cfe70d385c4498b93b6",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_3cfe70d385c4498b93b6.mp3",
+   "durationMs": null,
+   "transcript": "That's the top drawer. Your keys usually live somewhere else. Would you like to hear your clue?"
+  },
+  {
+   "id": "aud_d06ad3ce078f4fc193a1",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_d06ad3ce078f4fc193a1.mp3",
+   "durationMs": null,
+   "transcript": "Here's your clue, in your own voice."
+  },
+  {
+   "id": "aud_e52bd7089c874fe19248",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_e52bd7089c874fe19248.mp3",
+   "durationMs": null,
+   "transcript": "Where do you think they are?"
+  },
+  {
+   "id": "aud_afaaa27574a24161b74c",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_afaaa27574a24161b74c.mp3",
+   "durationMs": null,
+   "transcript": "That's right, the hooks by the door."
+  },
+  {
+   "id": "aud_b5f5cdadef7a467292f7",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_b5f5cdadef7a467292f7.mp3",
+   "durationMs": null,
+   "transcript": "Now, where do you usually keep your watch?"
+  },
+  {
+   "id": "aud_eaaec89cce7a4a40b05f",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_eaaec89cce7a4a40b05f.mp3",
+   "durationMs": null,
+   "transcript": "Lovely. Your watch goes in the top drawer."
+  },
+  {
+   "id": "aud_85f957b3368c4c4eb2ee",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_85f957b3368c4c4eb2ee.mp3",
+   "durationMs": null,
+   "transcript": "Now, where do you usually keep your prayer beads?"
+  },
+  {
+   "id": "aud_490f99600cab49b886da",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_490f99600cab49b886da.mp3",
+   "durationMs": null,
+   "transcript": "Yes, the windowsill. Just where they belong."
+  },
+  {
+   "id": "aud_f606fbe1127340d08545",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_f606fbe1127340d08545.mp3",
+   "durationMs": null,
+   "transcript": "All four, back where they belong. Well done, Dada."
+  },
+  {
+   "id": "aud_4ff3070d860f40af8f0d",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_4ff3070d860f40af8f0d.mp3",
+   "durationMs": null,
+   "transcript": "Now you're the tour guide, Dada. Let's walk down your street."
+  },
+  {
+   "id": "aud_d5e8110de7f34297bdff",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_d5e8110de7f34297bdff.mp3",
+   "durationMs": null,
+   "transcript": "We're starting at the front gate. What can you tell me about this place?"
+  },
+  {
+   "id": "aud_d97254bc4378482a878e",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_d97254bc4378482a878e.mp3",
+   "durationMs": null,
+   "transcript": "What a lovely gate, Dada. Shall we go on to the bakery straight ahead?"
+  },
+  {
+   "id": "aud_c36da4f204ab40058568",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_c36da4f204ab40058568.mp3",
+   "durationMs": null,
+   "transcript": "Here we are at Noor Bakery. What can you tell me about this place?"
+  },
+  {
+   "id": "aud_b34bae699da746c5bb40",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_b34bae699da746c5bb40.mp3",
+   "durationMs": null,
+   "transcript": "I can almost smell the fresh bread. Which way shall we go: the lane on the left, or the main road on the right?"
+  },
+  {
+   "id": "aud_9f1fe8617b654e5095f8",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_9f1fe8617b654e5095f8.mp3",
+   "durationMs": null,
+   "transcript": "Here we are at Jasmine Lane. What can you tell me about this place?"
+  },
+  {
+   "id": "aud_ab5c26574d5047d18018",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_ab5c26574d5047d18018.mp3",
+   "durationMs": null,
+   "transcript": "It's so peaceful here. Shall we go on to the little park?"
+  },
+  {
+   "id": "aud_c4aedfedba594bafb83b",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_c4aedfedba594bafb83b.mp3",
+   "durationMs": null,
+   "transcript": "Here we are at the little park. This is as far as the path goes. What can you tell me about it?"
+  },
+  {
+   "id": "aud_a90595f82336428f96f5",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_a90595f82336428f96f5.mp3",
+   "durationMs": null,
+   "transcript": "I love this park too, Dada. Shall we finish the tour here?"
+  },
+  {
+   "id": "aud_12b528ba41874515a456",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_12b528ba41874515a456.mp3",
+   "durationMs": null,
+   "transcript": "Thank you for the tour, Dada. Your family can walk it with you any time."
+  },
+  {
+   "id": "aud_c0775211f3e84aa18642",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_c0775211f3e84aa18642.mp3",
+   "durationMs": null,
+   "transcript": "Well done, Dada! I'm so proud of you."
+  },
+  {
+   "id": "aud_c58cb0b8acb74780bc3a",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_c58cb0b8acb74780bc3a.mp3",
+   "durationMs": null,
+   "transcript": "That was wonderful, Dada. Thank you for playing with me."
+  },
+  {
+   "id": "aud_6e06a4cd92204b549831",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_6e06a4cd92204b549831.mp3",
+   "durationMs": null,
+   "transcript": "I love you, Dada. See you tomorrow."
+  },
+  {
+   "id": "aud_5b46419a11f44370aad2",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_5b46419a11f44370aad2.mp3",
+   "durationMs": null,
+   "transcript": "I'll never forget it, Dada. Tell me a little more."
+  },
+  {
+   "id": "aud_b70acbe8d3c146129133",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_b70acbe8d3c146129133.mp3",
+   "durationMs": null,
+   "transcript": "Here's a photo from your album."
+  },
+  {
+   "id": "aud_fa81f791e72649079d6d",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_fa81f791e72649079d6d.mp3",
+   "durationMs": null,
+   "transcript": "Where are we in this picture, Dada?"
+  },
+  {
+   "id": "aud_3d9ccc0c73ff45e294c4",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_3d9ccc0c73ff45e294c4.mp3",
+   "durationMs": null,
+   "transcript": "Yes, the Corniche! You remembered."
+  },
+  {
+   "id": "aud_3dcaa99ffc3944bdb99c",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_3dcaa99ffc3944bdb99c.mp3",
+   "durationMs": null,
+   "transcript": "Good try, Dada. It's the Corniche, by the sea."
+  },
+  {
+   "id": "aud_952087643f1d49bd8f55",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_952087643f1d49bd8f55.mp3",
+   "durationMs": null,
+   "transcript": "What were you teaching me to do that day?"
+  },
+  {
+   "id": "aud_85028c590ad8448998b6",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_85028c590ad8448998b6.mp3",
+   "durationMs": null,
+   "transcript": "Yes! You were teaching me to ride my bike."
+  },
+  {
+   "id": "aud_c54cdff70a384ee98411",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_c54cdff70a384ee98411.mp3",
+   "durationMs": null,
+   "transcript": "Good try. You were teaching me to ride my bike."
+  },
+  {
+   "id": "aud_dabce5d4cd8643078444",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_dabce5d4cd8643078444.mp3",
+   "durationMs": null,
+   "transcript": "When I finally rode on my own, what did you buy us?"
+  },
+  {
+   "id": "aud_e0af5f0efd90438dbf00",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_e0af5f0efd90438dbf00.mp3",
+   "durationMs": null,
+   "transcript": "That's right, ice cream for both of us!"
+  },
+  {
+   "id": "aud_92fc7d34a1ba498f9a36",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_92fc7d34a1ba498f9a36.mp3",
+   "durationMs": null,
+   "transcript": "Good try. You bought us both ice cream."
+  },
+  {
+   "id": "aud_8c286dc4621044f99c23",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_8c286dc4621044f99c23.mp3",
+   "durationMs": null,
+   "transcript": "And which flavour did you choose for yourself?"
+  },
+  {
+   "id": "aud_9de6e1d370774a439726",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_9de6e1d370774a439726.mp3",
+   "durationMs": null,
+   "transcript": "Yes, pistachio! And mango for me."
+  },
+  {
+   "id": "aud_b208854f03994ac099c2",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_b208854f03994ac099c2.mp3",
+   "durationMs": null,
+   "transcript": "Good try. It was pistachio for you, and mango for me."
+  },
+  {
+   "id": "aud_228a04c6a1814aa5ad76",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_228a04c6a1814aa5ad76.mp3",
+   "durationMs": null,
+   "transcript": "Are you done, Dada?"
+  },
+  {
+   "id": "aud_2bb55e0db0c74957b8a5",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_2bb55e0db0c74957b8a5.mp3",
+   "durationMs": null,
+   "transcript": "Anything else, Dada?"
+  },
+  {
+   "id": "aud_1307183a174e42e883f8",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_1307183a174e42e883f8.mp3",
+   "durationMs": null,
+   "transcript": "Okay, take your time. I'm listening."
+  },
+  {
+   "id": "aud_4feed9f7c30f423db59b",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_4feed9f7c30f423db59b.mp3",
+   "durationMs": null,
+   "transcript": "Take your time. There's no rush."
+  },
+  {
+   "id": "aud_8712566cad6b427cadc7",
+   "kind": "audio",
+   "mime": "audio/mpeg",
+   "file": "aud_8712566cad6b427cadc7.mp3",
+   "durationMs": null,
+   "transcript": "That's okay. Let's try another one."
+  },
+  {
+   "id": "img_06ca8dd6c21d457ab8d0",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_06ca8dd6c21d457ab8d0.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_a23e2f1cf50f4d1190c7",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_a23e2f1cf50f4d1190c7.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_20779c26b391490fb38c",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_20779c26b391490fb38c.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_5dd88536563c454baeb8",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_5dd88536563c454baeb8.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_875414eeba604ea28276",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_875414eeba604ea28276.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_69bbd76d783d47fcb73b",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_69bbd76d783d47fcb73b.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_fa8a2532f7f7453badb0",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_fa8a2532f7f7453badb0.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_f9a9c80fe87449bf8737",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_f9a9c80fe87449bf8737.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_a017adad1f8c43c29396",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_a017adad1f8c43c29396.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_edbf895a53054ce1897e",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_edbf895a53054ce1897e.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_b9d5cedaa0f547afa442",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_b9d5cedaa0f547afa442.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_4dd33a5032a345b0aa1b",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_4dd33a5032a345b0aa1b.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_12bce17dfe944cf9b59a",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_12bce17dfe944cf9b59a.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_2e820b2d417d481caf86",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_2e820b2d417d481caf86.webp",
+   "durationMs": null,
+   "transcript": null
+  },
+  {
+   "id": "img_22218c469e7e484aa8de",
+   "kind": "image",
+   "mime": "image/webp",
+   "file": "img_22218c469e7e484aa8de.webp",
+   "durationMs": null,
+   "transcript": null
+  }
+ ]
+}
