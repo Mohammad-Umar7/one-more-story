@@ -166,6 +166,25 @@ export class VoiceEngine {
     this.speaker.unlock();
   }
 
+  /**
+   * Can the companion start talking the moment the app opens, with no tap?
+   * Only when the natural voice is set up (the browser's own voice always
+   * needs a tap), the microphone was already allowed, and the browser lets
+   * this site play sound on its own.
+   */
+  async canStartWithoutTap(naturalVoiceConfigured: boolean): Promise<boolean> {
+    if (!naturalVoiceConfigured || this.snap.active) return false;
+    if (speechRecognitionSupported()) {
+      try {
+        const status = await navigator.permissions.query({ name: "microphone" as PermissionName });
+        if (status.state !== "granted") return false;
+      } catch {
+        return false;
+      }
+    }
+    return this.speaker.canAutoplay();
+  }
+
   // ---- screens -------------------------------------------------------------
   setScreen(ctrl: ScreenController): () => void {
     this.screen = ctrl;
