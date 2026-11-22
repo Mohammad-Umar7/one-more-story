@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { AlertCard } from "@/components/family/AlertCard";
+import { StoryReport } from "@/components/StoryReport";
+import { useApp } from "@/components/AppProvider";
 import { Button, Card, Spinner } from "@/components/ui";
 import { BellIcon, CheckIcon, ArrowLeftIcon } from "@/components/icons";
 import { getJson, sendJson } from "@/lib/client/api";
@@ -33,6 +35,7 @@ interface CaregiverInfo {
 const STORE = "oms-caregiver-pairing";
 
 export default function CaregiverPage() {
+  const { bundle } = useApp();
   const [pairing, setPairing] = useState<Pairing | null>(null);
   const [info, setInfo] = useState<CaregiverInfo | null>(null);
   const [vapid, setVapid] = useState<string | null>(null);
@@ -175,6 +178,9 @@ export default function CaregiverPage() {
       </header>
 
       <main className="mx-auto max-w-xl px-4 pb-16 pt-5">
+        {/* The baseline report: set by the first story game, then each game compared with it. */}
+        <StoryReport name={info?.familyName ?? bundle?.player.familyName ?? "Your relative"} className="mb-6" />
+
         {pairing && (
           <Card className="mb-6 p-5">
             {status === "on" ? (
