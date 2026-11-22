@@ -151,10 +151,10 @@ export default function TourReplay() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img key={`${step.id}`} src={step.stop.photoUrl} alt={step.stop.name} className={`absolute inset-0 h-full w-full object-cover ${ANIM[step.viaDirection ?? ""] ?? "animate-fade-in"}`} />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-950/85 to-transparent p-4 pt-12 text-ivory-50">
-                <p className="text-sm font-bold uppercase tracking-wider text-gold-300">
+                <p className="text-sm font-bold text-gold-300">
                   Stop {index + 1} of {tour.steps.length} · {how(step, index)}
                 </p>
-                <p className="font-display text-2xl font-semibold">{step.stop.name}</p>
+                <p className="font-display text-2xl font-bold">{step.stop.name}</p>
               </div>
             </div>
           </div>
@@ -186,7 +186,7 @@ export default function TourReplay() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={s.stop.photoUrl} alt="" className="size-12 shrink-0 rounded-xl object-cover" />
                   <span className="min-w-0 flex-1">
-                    <span className={`block text-xs font-bold uppercase tracking-wider ${i === index ? "text-gold-300" : "text-navy-500"}`}>{how(s, i)}</span>
+                    <span className={`block text-sm font-bold ${i === index ? "text-gold-300" : "text-navy-500"}`}>{how(s, i)}</span>
                     <span className="block truncate font-bold">{s.stop.name}</span>
                   </span>
                   {s.notes.length > 0 && (

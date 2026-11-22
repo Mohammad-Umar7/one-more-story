@@ -376,7 +376,7 @@ export default function StreetPage() {
             <img src={stop.photo.url} alt={stop.name} className="aspect-[4/3] w-full rounded-[0.9rem] object-cover" />
           </div>
           <div className="animate-fade-up [animation-delay:100ms]">
-            <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">Will you show me around your street?</h2>
+            <h2 className="font-display text-[1.7rem] font-bold leading-tight md:text-4xl">Will you show me around your street?</h2>
             <p className="mt-1 text-lg text-navy-700">We&apos;ll start at {stop.name}. You choose the way.</p>
             <Button variant="gold" size="xl" className="mt-5 w-full" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} disabled={s.starting} onClick={() => tap("start_tour")}>
               Start the tour
@@ -392,7 +392,7 @@ export default function StreetPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img key={`${stop.id}-${s.moves}`} src={stop.photo.url} alt={stop.name} className={`absolute inset-0 h-full w-full object-cover ${ANIM[s.via]}`} />
               <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-navy-950/75 to-transparent px-4 pb-8 pt-3">
-                <h2 className="font-display text-2xl font-semibold text-ivory-50 md:text-3xl">{stop.name}</h2>
+                <h2 className="font-display text-2xl font-bold text-ivory-50 md:text-3xl">{stop.name}</h2>
               </div>
               {forward.map((o) => (
                 <button
@@ -486,7 +486,7 @@ export default function StreetPage() {
 
       {s.phase === "end" && (
         <div className="mx-auto mt-2 w-full max-w-xl animate-fade-up">
-          <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">Thank you for the tour.</h2>
+          <h2 className="font-display text-[1.7rem] font-bold leading-tight md:text-4xl">Thank you for the tour.</h2>
           <p className="mt-1 text-lg text-navy-700">Saved for your family to walk again with you.</p>
           <ol className="mt-4 flex flex-wrap gap-1.5 text-sm font-bold text-navy-600" aria-label="The way you walked">
             {pathNames.map((n, i) => (

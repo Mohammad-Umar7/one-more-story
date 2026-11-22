@@ -349,7 +349,7 @@ export default function TellTheStoryPage() {
         <div className="flex flex-col gap-3">
           {s.phase === "photo" && (
             <>
-              <h2 className="font-display text-[1.6rem] font-semibold leading-tight animate-fade-up md:text-3xl" key={s.prompt}>
+              <h2 className="font-display text-[1.6rem] font-bold leading-tight animate-fade-up md:text-3xl" key={s.prompt}>
                 {s.prompt}
               </h2>
               {(s.clips.length > 0 || (voiceOn && snap.capturing)) && (
@@ -394,7 +394,7 @@ export default function TellTheStoryPage() {
 
           {s.phase === "review" && (
             <div className="flex flex-col gap-2 animate-fade-up">
-              <h2 className="mb-1 font-display text-[1.6rem] font-semibold leading-tight md:text-3xl">{REVIEW_Q}</h2>
+              <h2 className="mb-1 font-display text-[1.6rem] font-bold leading-tight md:text-3xl">{REVIEW_Q}</h2>
               {s.listening ? (
                 <Button variant="ivory" size="lg" icon={<StopIcon size={20} />} onClick={() => { update({ listening: false }); engine.stopSpeaking(); }}>
                   Stop listening
@@ -420,7 +420,7 @@ export default function TellTheStoryPage() {
 
           {s.phase === "confirm-discard" && (
             <div className="animate-fade-up">
-              <h2 className="font-display text-[1.6rem] font-semibold leading-tight md:text-3xl">Let this recording go?</h2>
+              <h2 className="font-display text-[1.6rem] font-bold leading-tight md:text-3xl">Let this recording go?</h2>
               <p className="mt-1 text-lg text-navy-700">It won&apos;t be saved.</p>
               <div className="mt-4 grid grid-cols-2 gap-2">
                 <Button variant="danger" size="lg" onClick={() => tap("confirm_discard")}>
@@ -435,7 +435,7 @@ export default function TellTheStoryPage() {
 
           {(s.phase === "saved" || s.phase === "finished") && (
             <div className="animate-fade-up">
-              <h2 className="font-display text-[1.6rem] font-semibold leading-tight md:text-3xl">
+              <h2 className="font-display text-[1.6rem] font-bold leading-tight md:text-3xl">
                 {s.phase === "finished"
                   ? "That's all the photos for today."
                   : s.outcome === "saved"

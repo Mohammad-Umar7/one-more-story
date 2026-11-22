@@ -90,7 +90,7 @@ export default function HomePage() {
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-3 pt-5 safe-top md:px-8 md:pt-10">
         <header className="flex items-start justify-between gap-3 animate-fade-up">
           <div>
-            <h1 className="font-display text-[2.1rem] font-semibold leading-[1.1] text-navy-900 md:text-6xl">
+            <h1 className="font-display text-[2.1rem] font-bold leading-[1.1] text-navy-900 md:text-6xl">
               {now ? greetingWord(now.getHours()) : "Hello"}
               {name ? `, ${name}` : ""}
             </h1>
@@ -128,7 +128,7 @@ export default function HomePage() {
                 <span className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/35 to-transparent" aria-hidden="true" />
                 <span className="relative mt-auto flex w-full items-end gap-3 p-4 md:p-5">
                   <span className="min-w-0 flex-1 text-ivory-50">
-                    <span className="block font-display text-[1.65rem] font-semibold leading-tight md:text-3xl">{g.title}</span>
+                    <span className="block font-display text-[1.65rem] font-bold leading-tight md:text-3xl">{g.title}</span>
                     <span className="block text-base text-ivory-100/90 md:text-lg">{g.blurb}</span>
                   </span>
                   <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gold-400 text-navy-950">

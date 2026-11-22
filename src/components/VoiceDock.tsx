@@ -99,7 +99,7 @@ export function VoiceDock({ screenText }: { screenText?: string | null }) {
               >
                 <Bars />
                 <span className="text-left leading-tight">
-                  <span className="block text-xs uppercase tracking-[0.14em] opacity-70" role="status">
+                  <span className="block text-sm opacity-75" role="status">
                     Speaking
                   </span>
                   <span className="block">Stop speaking</span>

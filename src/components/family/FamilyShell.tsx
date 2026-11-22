@@ -18,11 +18,11 @@ export function FamilyShell({ title, intro, children }: { title?: string; intro?
           >
             <ArrowLeftIcon size={18} /> {onOverview ? "Games" : "Family"}
           </Link>
-          <p className="ml-auto text-sm font-bold uppercase tracking-[0.16em] text-gold-600">Family corner</p>
+          <p className="ml-auto text-sm font-bold text-gold-600">Family corner</p>
         </div>
       </header>
       <main className="mx-auto max-w-3xl px-4 pb-16 pt-2">
-        {title && <h1 className="font-display text-[2rem] font-semibold leading-tight text-navy-900 md:text-4xl">{title}</h1>}
+        {title && <h1 className="font-display text-[2rem] font-bold leading-tight text-navy-900 md:text-4xl">{title}</h1>}
         {intro && <p className="mt-1 max-w-2xl text-lg text-navy-700">{intro}</p>}
         <div className={title ? "mt-6" : ""}>{children}</div>
       </main>
@@ -34,7 +34,7 @@ export function Section({ title, action, children, id }: { title: string; action
   return (
     <section id={id} className="mb-8 scroll-mt-20">
       <div className="mb-3 flex items-end justify-between gap-3">
-        <h2 className="font-display text-2xl font-semibold text-navy-900">{title}</h2>
+        <h2 className="font-display text-2xl font-bold text-navy-900">{title}</h2>
         {action}
       </div>
       {children}

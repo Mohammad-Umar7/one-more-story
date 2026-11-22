@@ -28,7 +28,7 @@ export function GameShell({
             <HomeIcon size={22} />
             <span>Home</span>
           </Link>
-          <h1 className="min-w-0 flex-1 text-center font-display text-xl font-semibold leading-tight md:text-2xl">{title}</h1>
+          <h1 className="min-w-0 flex-1 text-center font-display text-xl font-bold leading-tight md:text-2xl">{title}</h1>
           <button type="button" onClick={() => engine.pause()} className={barButton}>
             <PauseIcon size={20} />
             <span>Pause</span>

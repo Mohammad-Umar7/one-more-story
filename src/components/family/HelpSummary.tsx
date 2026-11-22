@@ -61,7 +61,7 @@ export function HelpSummary({
               return (
                 <li key={r.id} className="flex shrink-0 flex-col items-center gap-1">
                   <span
-                    className={`flex size-12 items-center justify-center rounded-full font-display text-2xl font-semibold ${
+                    className={`flex size-12 items-center justify-center rounded-full font-display text-2xl font-bold ${
                       more ? "bg-gold-400 text-navy-950" : "bg-ivory-100 text-navy-900"
                     }`}
                   >

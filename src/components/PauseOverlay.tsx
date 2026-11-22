@@ -23,7 +23,7 @@ export function PauseOverlay() {
             <span className="h-9 w-3 rounded bg-gold-300" />
           </span>
         </div>
-        <h2 id="pause-title" className="font-display text-5xl font-semibold">
+        <h2 id="pause-title" className="font-display text-5xl font-bold">
           Paused
         </h2>
         <p className="mt-3 text-xl text-ivory-200">Take your time. Everything will wait right here.</p>

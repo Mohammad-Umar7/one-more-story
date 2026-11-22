@@ -164,8 +164,8 @@ export default function CaregiverPage() {
           <Link href="/family" className="inline-flex items-center gap-1 text-sm font-bold text-gold-200">
             <ArrowLeftIcon size={16} /> Family corner
           </Link>
-          <p className="mt-3 text-sm font-bold uppercase tracking-[0.16em] text-gold-300">One More Story</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold leading-tight">
+          <p className="mt-3 text-sm font-bold text-gold-300">One More Story</p>
+          <h1 className="mt-1 font-display text-3xl font-bold leading-tight">
             {info ? `Hi ${info.name}` : "Caregiver alerts"}
           </h1>
           <p className="mt-1 text-lg text-ivory-200">
@@ -239,7 +239,7 @@ export default function CaregiverPage() {
           </Card>
         )}
 
-        <h2 className="mb-3 font-display text-2xl font-semibold">Inbox</h2>
+        <h2 className="mb-3 font-display text-2xl font-bold">Inbox</h2>
         {alerts === null ? (
           <Spinner />
         ) : alerts.length === 0 ? (

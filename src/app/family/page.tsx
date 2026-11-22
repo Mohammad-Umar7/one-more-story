@@ -112,14 +112,14 @@ export default function FamilyHome() {
       {/* How things are, in one glance */}
       <section className={`rounded-[1.75rem] p-5 shadow-card ${needsCheck ? "bg-gold-100" : "bg-navy-900 text-ivory-50"}`}>
         <div className="flex items-center gap-3">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-gold-400 font-display text-2xl font-semibold text-navy-950">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-gold-400 font-display text-2xl font-bold text-navy-950">
             {player.name.charAt(0)}
           </span>
           <div>
-            <p className={`text-sm font-bold uppercase tracking-[0.14em] ${needsCheck ? "text-gold-700" : "text-gold-300"}`}>
+            <p className={`text-sm font-bold ${needsCheck ? "text-gold-700" : "text-gold-300"}`}>
               {player.name} · {familyName}
             </p>
-            <h1 className="font-display text-[1.75rem] font-semibold leading-tight">
+            <h1 className="font-display text-[1.75rem] font-bold leading-tight">
               {needsCheck ? `${familyName} may need a little more help` : `All is well with ${familyName}`}
             </h1>
           </div>

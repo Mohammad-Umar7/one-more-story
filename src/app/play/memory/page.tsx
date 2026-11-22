@@ -391,7 +391,7 @@ export default function MemoryRoomPage() {
             <RoomPhoto photoUrl={room.photo.url} spots={spots} found={[]} wrongSpotId={null} revealSpotId={null} labels="never" interactive={false} onChoose={() => undefined} />
           </div>
           <div className="animate-fade-up [animation-delay:100ms]">
-            <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">
+            <h2 className="font-display text-[1.7rem] font-bold leading-tight md:text-4xl">
               Let&apos;s find four things in your {room.name.toLowerCase()}.
             </h2>
             <ul className="mt-4 grid grid-cols-4 gap-2" aria-label="Things to find">
@@ -418,7 +418,7 @@ export default function MemoryRoomPage() {
               <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-card animate-pop md:size-16">
                 <ObjectIcon icon={current.icon} size={40} />
               </span>
-              <h2 className="font-display text-[1.55rem] font-semibold leading-tight animate-fade-up md:text-3xl">
+              <h2 className="font-display text-[1.55rem] font-bold leading-tight animate-fade-up md:text-3xl">
                 {s.phase === "celebrating" ? (
                   <span className="text-sage-700">{isPluralNoun(current.name) ? "Found them!" : "Found it!"}</span>
                 ) : (
@@ -475,7 +475,7 @@ export default function MemoryRoomPage() {
         <div className="grid gap-4 md:grid-cols-[1.45fr_1fr] md:items-center md:gap-8">
           <RoomPhoto photoUrl={room.photo.url} spots={spots} found={found} wrongSpotId={null} revealSpotId={null} labels="never" interactive={false} onChoose={() => undefined} />
           <div className="animate-fade-up">
-            <h2 className="font-display text-[1.7rem] font-semibold leading-tight md:text-4xl">All four, back where they belong.</h2>
+            <h2 className="font-display text-[1.7rem] font-bold leading-tight md:text-4xl">All four, back where they belong.</h2>
             <p className="mt-1 text-lg text-navy-700">Thank you, {name}.</p>
             <div className="mt-5 grid gap-2">
               <Button variant="gold" size="xl" icon={<RefreshIcon size={26} />} onClick={() => tap("play_again")}>

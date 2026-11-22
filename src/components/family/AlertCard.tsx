@@ -56,7 +56,7 @@ export function AlertCard({
           <BellIcon size={16} /> {alert.game}
         </span>
         <time dateTime={alert.createdAt}>{when(alert.createdAt)}</time>
-        {!seenAt && <span className="rounded-full bg-navy-800 px-2 py-0.5 text-xs uppercase tracking-wider text-ivory-50">New</span>}
+        {!seenAt && <span className="rounded-full bg-navy-800 px-2.5 py-0.5 text-sm font-bold text-ivory-50">New</span>}
       </header>
       <p className="mt-3 font-display text-xl leading-snug text-navy-900 md:text-2xl">{alert.message}</p>
       <dl className="mt-3 grid grid-cols-2 gap-2 text-base">

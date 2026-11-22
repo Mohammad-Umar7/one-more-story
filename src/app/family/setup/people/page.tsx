@@ -125,7 +125,7 @@ export default function PeopleSetup() {
             return (
               <div key={c.id} className={`flex items-center gap-3 rounded-3xl border-2 bg-white p-4 shadow-card ${on ? "border-gold-400" : "border-transparent"}`}>
                 <button type="button" onClick={() => void choose(c.id)} className="flex min-w-0 flex-1 items-center gap-3 text-left" aria-pressed={on}>
-                  <span className={`flex size-12 shrink-0 items-center justify-center rounded-full font-display text-xl font-semibold ${on ? "bg-gold-400 text-navy-950" : "bg-navy-100 text-navy-800"}`}>
+                  <span className={`flex size-12 shrink-0 items-center justify-center rounded-full font-display text-xl font-bold ${on ? "bg-gold-400 text-navy-950" : "bg-navy-100 text-navy-800"}`}>
                     {c.name.charAt(0)}
                   </span>
                   <span className="min-w-0">

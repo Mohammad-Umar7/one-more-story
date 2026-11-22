@@ -43,7 +43,7 @@ export function Card({ children, className = "" }: { children: ReactNode; classN
 }
 
 export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={`text-sm font-bold uppercase tracking-[0.14em] text-gold-600 ${className}`}>{children}</p>;
+  return <p className={`text-sm font-bold text-gold-600 ${className}`}>{children}</p>;
 }
 
 export function Spinner({ className = "" }: { className?: string }) {

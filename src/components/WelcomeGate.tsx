@@ -92,8 +92,8 @@ export function WelcomeGate() {
             <MicIcon size={44} />
           </span>
         </span>
-        <p className="mt-8 text-sm font-bold uppercase tracking-[0.18em] text-gold-300">One More Story</p>
-        <h1 id="welcome-title" className="mt-2 font-display text-[2.4rem] font-semibold leading-tight">
+        <p className="mt-8 text-sm font-bold text-gold-300">One More Story</p>
+        <h1 id="welcome-title" className="mt-2 font-display text-[2.4rem] font-bold leading-tight">
           {greetingWord(new Date().getHours())}, {bundle.player.name}
         </h1>
         <p className="mt-3 text-xl leading-relaxed text-ivory-200">Shall we play a game together? Tap below and I&apos;ll talk with you.</p>
