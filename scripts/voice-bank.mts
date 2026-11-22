@@ -9,7 +9,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
-import { DEMO_LINES } from "../src/lib/shared/demo-script.ts";
+import { DEMO_LINES } from "../src/lib/shared/demo-script";
 
 const args = process.argv.slice(2);
 const BASE = (args.includes("--url") ? args[args.indexOf("--url") + 1] : "http://localhost:3000").replace(/\/+$/, "");
