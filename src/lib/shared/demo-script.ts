@@ -19,6 +19,7 @@ export const STREET_REPLIES: Record<string, string> = {
 export const STORY_INTRO = "Here's a photo from your album.";
 export const STORY_QUIZ = [
   {
+    topic: "where the photo was taken",
     ask: "Where are we in this picture, Dada?",
     answer: "the Corniche (the seaside, the beach, by the sea in Abu Dhabi)",
     aliases: ["corniche", "beach", "sea", "seaside", "by the sea", "the water"],
@@ -26,6 +27,7 @@ export const STORY_QUIZ = [
     tryAgain: "Good try, Dada. It's the Corniche, by the sea.",
   },
   {
+    topic: "the bike lesson",
     ask: "What were you teaching me to do that day?",
     answer: "to ride a bike (cycling, a bicycle)",
     aliases: ["bike", "bicycle", "cycle", "cycling", "ride"],
@@ -33,6 +35,7 @@ export const STORY_QUIZ = [
     tryAgain: "Good try. You were teaching me to ride my bike.",
   },
   {
+    topic: "the treat afterwards",
     ask: "When I finally rode on my own, what did you buy us?",
     answer: "ice cream",
     aliases: ["ice cream", "icecream", "ice-cream", "kulfi"],
@@ -40,6 +43,7 @@ export const STORY_QUIZ = [
     tryAgain: "Good try. You bought us both ice cream.",
   },
   {
+    topic: "the ice-cream flavour",
     ask: "And which flavour did you choose for yourself?",
     answer: "pistachio",
     aliases: ["pistachio", "pista"],
@@ -56,9 +60,6 @@ export const STORY_FACTS = [
   "Dada still calls Aamir his champion.",
 ];
 
-export const DONE_FIRST = "Are you done, Dada?";
-export const DONE_AGAIN = "Anything else, Dada?";
-export const KEEP_GOING = "Okay, take your time. I'm listening.";
 export const WELL_DONE = "Well done, Dada! I'm so proud of you.";
 
 export const STORY_FOLLOWUPS = [
@@ -79,9 +80,6 @@ export const DEMO_LINES: { section: string; text: string; key?: string }[] = [
     { section: "Tell the Story", text: q.right },
     { section: "Tell the Story", text: q.tryAgain },
   ]),
-  { section: "Tell the Story", text: DONE_FIRST },
-  { section: "Tell the Story", text: DONE_AGAIN },
-  { section: "Tell the Story", text: KEEP_GOING },
   { section: "Tell the Story", text: "Saved. Your family will love hearing this. Thank you, Dada." },
 
   { section: "My Memory Room", text: "Now let's find four things in your living room." },

@@ -3,13 +3,14 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { chainFromUrl, nextInChain } from "@/lib/client/chain";
-import { DONE_AGAIN, DONE_FIRST, KEEP_GOING, STORY_FACTS, STORY_INTRO, STORY_QUIZ, WELL_DONE } from "@/lib/shared/demo-script";
+import { STORY_FACTS, STORY_INTRO, STORY_QUIZ } from "@/lib/shared/demo-script";
+import type { StoryAnswer } from "@/lib/shared/storycheck";
 import { useApp, useScreen, useVoice } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RecordButton } from "@/components/RecordButton";
 import { Button, Card, Spinner } from "@/components/ui";
 import { CheckIcon, HomeIcon, PlayIcon, SkipIcon, StopIcon, TrashIcon } from "@/components/icons";
-import { clientKey, sendJson, uploadMedia } from "@/lib/client/api";
+import { clientKey, sendJson, sendReliably, uploadMedia } from "@/lib/client/api";
 import { MicCapture, type Recording } from "@/lib/client/recorder";
 import { words } from "@/lib/shared/text";
 import type { ActResult, CapturedTurn, ScreenController } from "@/lib/client/voice-engine";
@@ -57,8 +58,10 @@ export default function TellTheStoryPage() {
     tapPromptIndex: 0,
     // Led by the companion: a guided chat about the picture, one question at a time.
     quiz: 0,
-    quizStage: "ask" as "ask" | "confirm" | "more",
-    doneAsked: 0,
+    quizStage: "ask" as const,
+    // What Dada remembered: the family's report, compared with his starting point.
+    answers: [] as StoryAnswer[],
+    checkKey: clientKey("storycheck"),
     outcome: "saved" as "saved" | "discarded" | "skipped",
   });
   const alive = useRef(true);
@@ -193,44 +196,52 @@ export default function TellTheStoryPage() {
     return { speak: null };
   }
 
+  /** After Aamir's reply: straight on to the next question, or the end of the game. */
+  async function nextQuestion(): Promise<ActResult> {
+    const next = st.current.quiz + 1;
+    if (next >= STORY_QUIZ.length) {
+      reportCheck();
+      return save();
+    }
+    update({ quiz: next, quizStage: "ask", prompt: STORY_QUIZ[next].ask });
+    return { speak: STORY_QUIZ[next].ask };
+  }
+
+  /**
+   * The game is over: send what Dada remembered. The first game is his
+   * starting point (the family is told); later games are compared with it.
+   */
+  function reportCheck() {
+    const { answers, checkKey } = st.current;
+    if (answers.length === 0) return;
+    void sendReliably("/api/story-checks", { clientKey: checkKey, answers }).catch(() => undefined);
+  }
+
   async function act(action: string, _target: string | null, meta: { source: "voice" | "tap"; say: string; utterance: string | null }): Promise<ActResult | void> {
     const cur = st.current;
     switch (action) {
       case "tell": {
         // The clip was already added when the turn's audio arrived.
-        // Led by the companion: Dada told more of the story -> Aamir reacts to it, then checks he's done.
+        // Led by the companion: Aamir reacts to what Dada added, then asks the question again.
         if (chain.current) {
-          update({ quizStage: "confirm", doneAsked: cur.doneAsked + 1 });
           if (meta.say) await engine.say(meta.say);
-          return { speak: cur.doneAsked === 0 ? DONE_FIRST : DONE_AGAIN };
+          return { speak: STORY_QUIZ[cur.quiz]?.ask ?? null };
         }
         const follow = meta.say || TAP_PROMPTS[cur.tapPromptIndex % TAP_PROMPTS.length];
         update({ prompt: follow, tapPromptIndex: cur.tapPromptIndex + 1 });
         return { speak: follow };
       }
       case "answer": {
-        // Aamir replies to the answer (never "wrong": a good try gets the answer kindly), then checks he's done.
+        // Aamir replies to the answer (never "wrong": a good try gets the answer kindly), then asks the next one.
         const q = STORY_QUIZ[cur.quiz];
         if (!q) return { speak: null };
-        update({ quizStage: "confirm", doneAsked: 1 });
+        if (!cur.answers.some((a) => a.topic === q.topic)) {
+          update({ answers: [...cur.answers, { topic: q.topic, right: _target === "right", words: words(meta.utterance ?? "").length }] });
+        }
         await engine.say(_target === "right" ? q.right : q.tryAgain);
         // He said more than the answer: Aamir reacts to it, like a real conversation.
         if (meta.say && words(meta.utterance ?? "").length > 5) await engine.say(meta.say);
-        return { speak: DONE_FIRST };
-      }
-      case "done_yes": {
-        // Finished with this question: well done, then the next one (or save after the last).
-        dropCommandClip(meta.utterance);
-        await engine.say(WELL_DONE);
-        const next = cur.quiz + 1;
-        if (next >= STORY_QUIZ.length) return save();
-        update({ quiz: next, quizStage: "ask", doneAsked: 0, prompt: STORY_QUIZ[next].ask });
-        return { speak: STORY_QUIZ[next].ask };
-      }
-      case "done_no": {
-        dropCommandClip(meta.utterance);
-        update({ quizStage: "more" });
-        return { speak: KEEP_GOING };
+        return nextQuestion();
       }
       case "finish_story": {
         dropCommandClip(meta.utterance);
@@ -296,55 +307,6 @@ export default function TellTheStoryPage() {
               { id: "right", label: q.answer, aliases: q.aliases },
               { id: "wrong", label: "a different answer, or I don't know" },
             ],
-          },
-        ],
-      };
-    }
-    if (cur.phase === "photo" && chainFromUrl() && cur.quizStage === "more") {
-      return {
-        ...base,
-        screen: "quiz-more",
-        version: `quiz-${cur.index}-${cur.quiz}-more-${cur.clips.length}`,
-        mode: "conversation",
-        talkAction: "tell",
-        scene: "Dada is telling more of the story of this picture. You are Aamir, his grandson, and you were there that day.",
-        question: KEEP_GOING,
-        facts: STORY_FACTS,
-        actions: [
-          {
-            name: "tell",
-            description:
-              "Dada tells more about the picture or the day. say: ONE short warm sentence (under 18 words) reacting to his own words as Aamir, who was there, sharing a memory of your own when it fits. No question.",
-          },
-        ],
-      };
-    }
-    if (cur.phase === "photo" && chainFromUrl() && cur.quizStage === "confirm") {
-      return {
-        ...base,
-        screen: "done-check",
-        version: `quiz-${cur.index}-${cur.quiz}-confirm-${cur.doneAsked}`,
-        mode: "conversation",
-        talkAction: "tell",
-        askedIfDone: true,
-        scene: "Dada is telling the story of a family photo. You (Aamir, his grandson, who was there) just asked if he has finished this part.",
-        facts: STORY_FACTS,
-        question: cur.doneAsked > 1 ? DONE_AGAIN : DONE_FIRST,
-        actions: [
-          {
-            name: "done_yes",
-            description: "Yes, they have finished this part (yes, yeah, I'm done, that's it, that's all, finished, nothing more).",
-            phrases: ["yes", "yeah", "yes i'm done", "i'm done", "done", "that's it", "that's all", "finished", "nothing more", "yes that's all"],
-          },
-          {
-            name: "done_no",
-            description: "No, not yet: they want to say more but haven't said it yet (no, not yet, wait, one more thing, hold on).",
-            phrases: ["no", "not yet", "wait", "one more thing", "hold on", "no not yet", "there's more"],
-          },
-          {
-            name: "tell",
-            description:
-              "Instead of answering yes or no, Dada simply carries on telling the story. say: ONE short warm sentence (under 18 words) reacting to his words as Aamir, who was there. No question.",
           },
         ],
       };
@@ -448,8 +410,7 @@ export default function TellTheStoryPage() {
         repeatLine: () => context().question ?? null,
         captureAnswers: () => st.current.phase === "photo",
         // Storytelling has pauses: give Dada a little longer before his turn ends.
-        turnPauseMs: () =>
-          st.current.phase === "photo" && chain.current ? (st.current.quizStage === "confirm" ? 1300 : st.current.quizStage === "more" ? 2200 : 1800) : null,
+        turnPauseMs: () => (st.current.phase === "photo" && chain.current ? 1800 : null),
         onTurnAudio: (turn: CapturedTurn) => {
           if (st.current.phase === "photo") addClip(turn, turn.transcript, turn.turnId);
         },
