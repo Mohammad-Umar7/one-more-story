@@ -154,7 +154,7 @@ export class VoiceEngine {
     this.listeners.forEach((l) => l());
   }
 
-  configure(opts: { playerName?: string; lang?: string; patience?: "normal" | "extra"; serverVoice?: boolean }) {
+  configure(opts: { playerName?: string; lang?: string; patience?: "normal" | "extra"; serverVoice?: boolean; browserVoice?: boolean }) {
     if (opts.playerName) this.playerName = opts.playerName;
     if (opts.lang) {
       this.lang = opts.lang;
@@ -163,6 +163,7 @@ export class VoiceEngine {
     }
     if (opts.patience) this.patience = opts.patience;
     if (opts.serverVoice !== undefined) this.speaker.serverVoice = opts.serverVoice;
+    if (opts.browserVoice !== undefined) this.speaker.browserVoice = opts.browserVoice;
   }
 
   setNavigator(fn: () => void) {

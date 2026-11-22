@@ -48,6 +48,28 @@ export function listBank(): { text: string; mediaId: string }[] {
   }));
 }
 
+/** Once the family has recorded lines, the companion speaks only in their real voice. */
+export function isRecordedOnly(): boolean {
+  return bankSize() > 0;
+}
+
+function bestMatch(text: string): { media_id: string; score: number } | null {
+  const n = normLine(text);
+  if (!n) return null;
+  const rows = getDb().prepare("SELECT text_norm, media_id FROM voice_bank").all() as { text_norm: string; media_id: string }[];
+  let best: { media_id: string; score: number } | null = null;
+  for (const r of rows) {
+    const score = r.text_norm === n ? 1 : similarity(r.text_norm, n);
+    if (!best || score > best.score) best = { media_id: r.media_id, score };
+  }
+  return best && best.score >= 0.86 ? best : null;
+}
+
+/** Did the family record this sentence (or nearly the same words)? */
+export function isRecorded(text: string): boolean {
+  return bestMatch(text) !== null;
+}
+
 /** The recording for this sentence, if the family recorded it (exact, or nearly the same words). */
 export function findRecorded(text: string): { audio: Buffer; mime: string } | null {
   const n = normLine(text);

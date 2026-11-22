@@ -48,6 +48,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       lang: bundle.player.speechLang,
       patience: bundle.player.patience,
       serverVoice: bundle.config.tts,
+      browserVoice: !bundle.config.recordedOnly,
     });
   }, [bundle, engine]);
 

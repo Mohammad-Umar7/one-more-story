@@ -2,10 +2,11 @@ import { synthesize, TtsError } from "@/lib/server/tts";
 // Registers the companion's matched voice with the speech module.
 import "@/lib/server/family";
 import { readJson } from "@/lib/server/http";
-import { findRecorded } from "@/lib/server/voicebank";
+import { findRecorded, isRecordedOnly } from "@/lib/server/voicebank";
 
-// Returns audio for one spoken reply. Any non-200 tells the browser to use its
-// own speech synthesis instead.
+// Returns audio for one spoken reply: the family member's own recording when
+// they recorded it. With recordings, an unrecorded line is 204 (silent). Without
+// any, the matched AI voice speaks; other errors let the browser speak instead.
 export async function POST(req: Request) {
   try {
     const { text } = await readJson<{ text?: string }>(req);
@@ -17,6 +18,9 @@ export async function POST(req: Request) {
         headers: { "Content-Type": recorded.mime, "Content-Length": String(recorded.audio.byteLength), "Cache-Control": "no-store", "X-TTS-Cache": "recorded" },
       });
     }
+    // Only the family member's real voice: a line they didn't record stays silent
+    // (the browser shows it as a caption and never uses a synthetic voice).
+    if (isRecordedOnly()) return new Response(null, { status: 204, headers: { "X-TTS-Cache": "silent" } });
     const { audio, mime, cached } = await synthesize(text);
     return new Response(new Uint8Array(audio), {
       headers: {

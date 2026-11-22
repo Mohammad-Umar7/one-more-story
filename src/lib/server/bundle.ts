@@ -6,6 +6,7 @@ import { isTtsConfigured, ttsModel } from "./tts";
 import { getVapidKeys } from "./push";
 import { roundSignature } from "../shared/baseline";
 import { companionView, isPlayerOnboarded } from "./family";
+import { isRecordedOnly } from "./voicebank";
 import { currentBaseline } from "./assess";
 import type {
   Bundle,
@@ -166,6 +167,7 @@ export function getBundle(): Bundle {
       claude: isAgentConfigured(),
       model: agentModel(),
       tts: isTtsConfigured(),
+      recordedOnly: isRecordedOnly(),
       ttsModel: ttsModel(),
       vapidPublicKey: getVapidKeys().publicKey,
     },

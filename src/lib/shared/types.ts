@@ -90,6 +90,7 @@ export interface AppConfigStatus {
   claude: boolean; // ANTHROPIC_API_KEY present on the server
   model: string;
   tts: boolean; // OPENROUTER_API_KEY present on the server
+  recordedOnly: boolean; // the family recorded lines: only their real voice speaks
   ttsModel: string;
   vapidPublicKey: string;
 }

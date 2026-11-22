@@ -50,6 +50,7 @@ export class Speaker {
   private generation = 0;
   private unlocked = false;
   serverVoice = true; // set false when the server has no TTS key
+  browserVoice = true; // false: never fall back to the browser's synthetic voice
   lang = "en-US";
 
   // Output level for the talking avatar: read from a copy of the playing
@@ -182,6 +183,7 @@ export class Speaker {
           this.serverVoice = false; // not configured: stop asking
           return null;
         }
+        if (res.status === 204) return ""; // deliberately silent: not recorded
         if (!res.ok) return null;
         const blob = await res.blob();
         if (blob.size < 100) return null;
@@ -325,6 +327,11 @@ export class Speaker {
     const gen = ++this.generation;
     const url = await this.fetchVoice(text);
     if (gen !== this.generation) return { ok: false, interrupted: true, source: null };
+    if (url === "" || (!url && !this.browserVoice)) {
+      // Not recorded by the family: shown as a caption only, never a synthetic voice.
+      await new Promise((r) => setTimeout(r, 500));
+      return { ok: true, interrupted: false, source: null };
+    }
     if (url && this.voiceAudio) {
       const r = await this.playElement(this.voiceAudio, url);
       if (r === "ended") return { ok: true, interrupted: false, source: "openrouter" };
