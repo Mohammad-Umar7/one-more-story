@@ -90,7 +90,7 @@ export interface OnboardingState {
     look: string | null;
   } | null;
   answered: { key: string; transcript: string; reply: string | null; audioUrl: string | null }[];
-  lines: string[];
+  lines: { key: string; url: string; transcript: string | null }[];
   baseline: Baseline | null;
   build: BuildStatus | null;
 }
@@ -99,7 +99,7 @@ export function onboardingState(): OnboardingState {
   const ctx = playerContext();
   const m = getCompanionMember(ctx.playerId);
   const ans = m ? answers(m.id) : [];
-  const lines = m ? voiceLines(m.id).map((l) => l.key) : [];
+  const lines = m ? voiceLines(m.id).map((l) => ({ key: l.key, url: `/api/media/${l.mediaId}`, transcript: l.transcript })) : [];
   const baseline = currentBaseline(ctx.playerId);
   const build = buildStatus();
   const onboarded = isOnboarded(ctx.playerId);
