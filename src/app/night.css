@@ -6,9 +6,12 @@
    onboarding and the welcome page.
    ========================================================================== */
 
-.night {
-  /* Inside the sky the shared colour names mean: ink for text, violet for
-     actions, white text on violet buttons, purple tints for overlays. */
+/* Inside the sky the shared colour names mean: ink for text, violet for
+   actions, white text on violet buttons, purple tints for overlays.
+   .sky applies just the colours (for a panel inside a light page). */
+.night,
+.sky {
+  color: #1f0f45;
   --color-ivory-50: #1f0f45;
   --color-ivory-100: #2c1a5c;
   --color-ivory-200: #65568f;
@@ -22,7 +25,9 @@
   --color-navy-800: #ede9fe;
   --color-white: #6d28d9;
   --shadow-gold: 0 14px 30px -12px rgb(124 58 237 / 0.6);
+}
 
+.night {
   position: relative;
   min-height: 100dvh;
   color: var(--color-ivory-50);
