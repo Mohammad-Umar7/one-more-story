@@ -339,6 +339,14 @@ CREATE TABLE IF NOT EXISTS daily_plans (
 );
 CREATE INDEX IF NOT EXISTS idx_plans_player ON daily_plans(player_id, day, created_at);
 
+-- Recorded family lines that replace the synthetic voice when the text matches.
+CREATE TABLE IF NOT EXISTS voice_bank (
+  text_norm TEXT PRIMARY KEY,
+  text TEXT NOT NULL,
+  media_id TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS game_results (
   id TEXT PRIMARY KEY,
   plan_id TEXT NOT NULL REFERENCES daily_plans(id) ON DELETE CASCADE,
