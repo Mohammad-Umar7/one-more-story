@@ -25,10 +25,14 @@ export const STORY_FOLLOWUPS = [
 export const DEMO_LINES: { section: string; text: string; key?: string }[] = [
   { section: "Hello", text: "Hello Dada, it's me, Aamir!", key: "hello" },
   { section: "Hello", text: "Good morning, Dada. It's so lovely to see you today." },
-  { section: "Hello", text: "Let's play a little game together.", key: "lets_play" },
-  { section: "Hello", text: "First, let's find a few of your things in the living room." },
+  { section: "Hello", text: "I have a picture to show you." },
 
-  { section: "My Memory Room", text: "Let's find four things in your living room. Shall we start?" },
+  { section: "Tell the Story", text: "Here's a photo from your album. What would you like to share about this day?" },
+  ...STORY_FOLLOWUPS.map((text) => ({ section: "Tell the Story", text })),
+  { section: "Tell the Story", text: "Thank you for sharing that. Would you like to listen back, save it, or let it go?" },
+  { section: "Tell the Story", text: "Saved. Your family will love hearing this. Thank you, Dada." },
+
+  { section: "My Memory Room", text: "Now let's find four things in your living room." },
   { section: "My Memory Room", text: "Where do you usually keep your glasses?" },
   { section: "My Memory Room", text: "Yes, the blue bowl. That's where your glasses live." },
   { section: "My Memory Room", text: "Now, where do you usually keep your keys?" },
@@ -42,7 +46,7 @@ export const DEMO_LINES: { section: string; text: string; key?: string }[] = [
   { section: "My Memory Room", text: "Yes, the windowsill. Just where they belong." },
   { section: "My Memory Room", text: "All four, back where they belong. Well done, Dada." },
 
-  { section: "Show Me Your Street", text: "Today you're the tour guide. Will you show me around your street?" },
+  { section: "Show Me Your Street", text: "Now you're the tour guide, Dada. Let's walk down your street." },
   { section: "Show Me Your Street", text: "We're starting at the front gate. What can you tell me about this place?" },
   { section: "Show Me Your Street", text: STREET_REPLIES["the front gate"] },
   { section: "Show Me Your Street", text: "Here we are at Noor Bakery. What can you tell me about this place?" },
@@ -52,11 +56,6 @@ export const DEMO_LINES: { section: string; text: string; key?: string }[] = [
   { section: "Show Me Your Street", text: "Here we are at the little park. This is as far as the path goes. What can you tell me about it?" },
   { section: "Show Me Your Street", text: STREET_REPLIES["the little park"] },
   { section: "Show Me Your Street", text: "Thank you for the tour, Dada. Your family can walk it with you any time." },
-
-  { section: "Tell the Story", text: "Here's a photo from your album. What would you like to share about this day?" },
-  ...STORY_FOLLOWUPS.map((text) => ({ section: "Tell the Story", text })),
-  { section: "Tell the Story", text: "Thank you for sharing that. Would you like to listen back, save it, or let it go?" },
-  { section: "Tell the Story", text: "Saved. Your family will love hearing this. Thank you, Dada." },
 
   { section: "Goodbye", text: "Well done, Dada! I'm so proud of you.", key: "well_done" },
   { section: "Goodbye", text: "That was wonderful, Dada. Thank you for playing with me." },

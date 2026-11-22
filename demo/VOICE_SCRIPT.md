@@ -16,66 +16,68 @@ Every line he records is played in his real voice; anything not recorded falls b
 
 1. Hello Dada, it's me, Aamir!  *(already recorded)*
 2. Good morning, Dada. It's so lovely to see you today.
-3. Let's play a little game together.  *(already recorded)*
-4. First, let's find a few of your things in the living room.
-
-**My Memory Room**
-
-5. Let's find four things in your living room. Shall we start?
-6. Where do you usually keep your glasses?
-7. Yes, the blue bowl. That's where your glasses live.
-8. Now, where do you usually keep your keys?
-9. That's the top drawer. Your keys usually live somewhere else. Would you like to hear your clue?
-10. Here's your clue, in your own voice.
-11. Where do you think they are?
-12. That's right, the hooks by the door.
-13. Now, where do you usually keep your watch?
-14. Lovely. Your watch goes in the top drawer.
-15. Now, where do you usually keep your prayer beads?
-16. Yes, the windowsill. Just where they belong.
-17. All four, back where they belong. Well done, Dada.
-
-**Show Me Your Street**
-
-18. Today you're the tour guide. Will you show me around your street?
-19. We're starting at the front gate. What can you tell me about this place?
-20. What a lovely gate, Dada. Shall we go on to the bakery straight ahead?
-21. Here we are at Noor Bakery. What can you tell me about this place?
-22. I can almost smell the fresh bread. Which way shall we go: the lane on the left, or the main road on the right?
-23. Here we are at Jasmine Lane. What can you tell me about this place?
-24. It's so peaceful here. Shall we go on to the little park?
-25. Here we are at the little park. This is as far as the path goes. What can you tell me about it?
-26. I love this park too, Dada. Shall we finish the tour here?
-27. Thank you for the tour, Dada. Your family can walk it with you any time.
+3. I have a picture to show you.
 
 **Tell the Story**
 
-28. Here's a photo from your album. What would you like to share about this day?
-29. That was the day you taught me to ride my bike, Dada. What do you remember most about it?
-30. You kept running behind me, holding the seat. How did it feel when I finally rode on my own?
-31. I'll never forget it, Dada. Tell me a little more.
-32. Thank you for sharing that. Would you like to listen back, save it, or let it go?
-33. Saved. Your family will love hearing this. Thank you, Dada.
+4. Here's a photo from your album. What would you like to share about this day?
+5. That was the day you taught me to ride my bike, Dada. What do you remember most about it?
+6. You kept running behind me, holding the seat. How did it feel when I finally rode on my own?
+7. I'll never forget it, Dada. Tell me a little more.
+8. Thank you for sharing that. Would you like to listen back, save it, or let it go?
+9. Saved. Your family will love hearing this. Thank you, Dada.
+
+**My Memory Room**
+
+10. Now let's find four things in your living room.
+11. Where do you usually keep your glasses?
+12. Yes, the blue bowl. That's where your glasses live.
+13. Now, where do you usually keep your keys?
+14. That's the top drawer. Your keys usually live somewhere else. Would you like to hear your clue?
+15. Here's your clue, in your own voice.
+16. Where do you think they are?
+17. That's right, the hooks by the door.
+18. Now, where do you usually keep your watch?
+19. Lovely. Your watch goes in the top drawer.
+20. Now, where do you usually keep your prayer beads?
+21. Yes, the windowsill. Just where they belong.
+22. All four, back where they belong. Well done, Dada.
+
+**Show Me Your Street**
+
+23. Now you're the tour guide, Dada. Let's walk down your street.
+24. We're starting at the front gate. What can you tell me about this place?
+25. What a lovely gate, Dada. Shall we go on to the bakery straight ahead?
+26. Here we are at Noor Bakery. What can you tell me about this place?
+27. I can almost smell the fresh bread. Which way shall we go: the lane on the left, or the main road on the right?
+28. Here we are at Jasmine Lane. What can you tell me about this place?
+29. It's so peaceful here. Shall we go on to the little park?
+30. Here we are at the little park. This is as far as the path goes. What can you tell me about it?
+31. I love this park too, Dada. Shall we finish the tour here?
+32. Thank you for the tour, Dada. Your family can walk it with you any time.
 
 **Goodbye**
 
-34. Well done, Dada! I'm so proud of you.  *(already recorded)*
-35. That was wonderful, Dada. Thank you for playing with me.
-36. I love you, Dada. See you tomorrow.  *(already recorded)*
+33. Well done, Dada! I'm so proud of you.  *(already recorded)*
+34. That was wonderful, Dada. Thank you for playing with me.
+35. I love you, Dada. See you tomorrow.  *(already recorded)*
 
 
-## 2. Dada: what to say live (voice only)
+## 2. Dada: what to say live (voice only, nothing to tap)
 
 | When Aamir says… | Dada says |
 |---|---|
-| "Let's find four things… Shall we start?" | "Yes, let's start." |
+| "What would you like to share about this day?" | "This is the day I taught Aamir to ride his bike on the Corniche." |
+| "What do you remember most about it?" | "He kept falling, but he never gave up." |
+| "How did it feel when I finally rode on my own?" | "I was so proud. I bought him mango ice cream." |
+| "Tell me a little more." | "That's all." |
+| "…listen back, save it, or let it go?" | "Save it." |
 | "…your glasses?" | "In the blue bowl." |
 | "…your keys?" | "In the drawer." (a deliberate miss, to show the clue) |
 | "Would you like to hear your clue?" | "Yes please." *(his own recorded clue plays)* |
 | "Where do you think they are?" | "On the hooks by the door." |
 | "…your watch?" | "In the top drawer." |
 | "…your prayer beads?" | "On the windowsill." |
-| "Will you show me around your street?" | "Yes, let's go." |
 | "We're starting at the front gate…" | "This is my front gate. I painted it green myself." |
 | "Shall we go on to the bakery…?" | "Let's go to the bakery." |
 | "Here we are at Noor Bakery…" | "I bought fresh bread here every morning." |
@@ -84,11 +86,8 @@ Every line he records is played in his real voice; anything not recorded falls b
 | "Shall we go on to the little park?" | "Let's go to the park." |
 | "Here we are at the little park…" | "This is where I feed the pigeons every evening." |
 | "Shall we finish the tour here?" | "Let's finish the tour." |
-| "What would you like to share about this day?" | "This is the day I taught Aamir to ride his bike on the Corniche." |
-| "What do you remember most about it?" | "He kept falling, but he never gave up." |
-| "How did it feel when I finally rode on my own?" | "I was so proud. I bought him mango ice cream." |
-| "Tell me a little more." | "That's all." |
-| "…listen back, save it, or let it go?" | "Save it." |
+
+To show that side talk is ignored, someone can say something to Dada mid-story ("Dada, your chai is ready"): the companion stays quiet and it isn't saved in the story.
 
 ## 3. Aamir: re-record three story answers (India, for setup)
 
@@ -105,6 +104,12 @@ Only these three mentioned Pakistan. Same as before otherwise.
 
 ## Before recording the demo
 
-- Open http://localhost:3000 in Chrome. In the address bar's site settings, set **Microphone: Allow** and **Sound: Allow**; the companion then starts talking by itself, with no tap.
-- The flow: Aamir greets → My Memory Room → Show Me Your Street → Tell the Story → goodbye. About 3 minutes.
+- Start the companion with no touch at all: this opens a separate Chrome window that may play sound and use the microphone without asking.
+
+  ```powershell
+  Start-Process chrome -ArgumentList "--user-data-dir=$env:TEMP\oms-demo","--autoplay-policy=no-user-gesture-required","--use-fake-ui-for-media-stream","--app=http://localhost:3000"
+  ```
+
+  (In normal Chrome: site settings for localhost, **Microphone: Allow** and **Sound: Allow**.)
+- The flow: Aamir greets → Tell the Story (one picture) → My Memory Room → Show Me Your Street → goodbye.
 - To run it again, just reload http://localhost:3000.
