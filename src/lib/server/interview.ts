@@ -68,10 +68,13 @@ export async function hearAnswer(opts: {
       },
     ],
   });
+  const transcript = res.transcript.trim();
+  // A rich answer needs no follow-up: keep the interview to about fifteen minutes.
+  const rich = transcript.split(/\s+/).filter(Boolean).length >= 45;
   return {
-    transcript: res.transcript.trim(),
+    transcript,
     reply: res.reply.trim().slice(0, 300),
-    followUp: opts.isFollowUp ? null : res.follow_up.trim().slice(0, 200) || null,
+    followUp: opts.isFollowUp || rich ? null : res.follow_up.trim().slice(0, 200) || null,
   };
 }
 
