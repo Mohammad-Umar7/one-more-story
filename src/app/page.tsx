@@ -9,8 +9,8 @@ import { Caption, Confetti } from "@/components/companion/Caption";
 import { ChoiceCard, type ChoiceState } from "@/components/companion/ChoiceCard";
 import { BreatheGame, SparkleGame } from "@/components/companion/CalmGames";
 import { MicIcon, MicOffIcon, PauseIcon, UsersIcon } from "@/components/icons";
+import Link from "next/link";
 import { HoldToTalk } from "@/components/HoldToTalk";
-import { StoryReport } from "@/components/StoryReport";
 import { sendReliably } from "@/lib/client/api";
 import { startChain } from "@/lib/client/chain";
 import { sparkleChord, unlockChime } from "@/lib/client/chime";
@@ -720,8 +720,15 @@ export default function CompanionPage() {
             <p className="text-lg text-ivory-200">Touch my picture to hear a story.</p>
           )}
 
-          {/* After the game: the starting-point report (the family sees the same). */}
-          {phase === "rest" && <StoryReport name={call} className="mt-4 w-full max-w-md text-left" />}
+          {/* After the game: the family's way in (the report is there, in the caregiver part). */}
+          {phase === "rest" && (
+            <Link
+              href="/family"
+              className="glass mt-4 inline-flex min-h-14 items-center gap-3 rounded-full px-6 py-3 text-xl font-bold text-gold-200"
+            >
+              <UsersIcon size={24} /> For family
+            </Link>
+          )}
         </section>
 
         {/* The game. */}
