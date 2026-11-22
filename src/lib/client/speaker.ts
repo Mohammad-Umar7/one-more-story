@@ -52,6 +52,64 @@ export class Speaker {
   serverVoice = true; // set false when the server has no TTS key
   lang = "en-US";
 
+  // Output level for the talking avatar: read from a copy of the playing
+  // audio (captureStream), so playback itself is never rerouted or muted.
+  private levelCtx: AudioContext | null = null;
+  private levelAnalyser: AnalyserNode | null = null;
+  private levelSource: MediaStreamAudioSourceNode | null = null;
+  private levelReal = false;
+  private playingSince = 0;
+
+  private ensureLevelContext() {
+    if (this.levelCtx || typeof window === "undefined") return;
+    try {
+      const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      this.levelCtx = new AC();
+      this.levelAnalyser = this.levelCtx.createAnalyser();
+      this.levelAnalyser.fftSize = 512;
+      this.levelAnalyser.smoothingTimeConstant = 0.5;
+    } catch {
+      this.levelCtx = null;
+    }
+  }
+
+  private tap(el: HTMLAudioElement) {
+    this.playingSince = Date.now();
+    this.levelReal = false;
+    // Chromium only: Firefox's capture mutes the element.
+    const capture = (el as HTMLAudioElement & { captureStream?: () => MediaStream }).captureStream;
+    if (!capture || !/Chrome|Chromium|Edg\//.test(navigator.userAgent)) return;
+    this.ensureLevelContext();
+    if (!this.levelCtx || !this.levelAnalyser) return;
+    try {
+      if (this.levelCtx.state === "suspended") void this.levelCtx.resume().catch(() => undefined);
+      const stream = capture.call(el);
+      if (!stream.getAudioTracks().length) return;
+      this.levelSource?.disconnect();
+      this.levelSource = this.levelCtx.createMediaStreamSource(stream);
+      this.levelSource.connect(this.levelAnalyser);
+      this.levelReal = true;
+    } catch {
+      this.levelReal = false;
+    }
+  }
+
+  /** 0..1 loudness of what is playing now, and whether it is measured (or should be simulated). */
+  outputLevel(): { level: number; real: boolean } {
+    if (!this.playingSince) return { level: 0, real: false };
+    if (!this.levelReal || !this.levelAnalyser || this.levelCtx?.state !== "running") return { level: 0, real: false };
+    const data = new Uint8Array(this.levelAnalyser.fftSize);
+    this.levelAnalyser.getByteTimeDomainData(data);
+    let sum = 0;
+    for (const x of data) sum += ((x - 128) / 128) ** 2;
+    return { level: Math.min(1, Math.sqrt(sum / data.length) * 4.5), real: true };
+  }
+
+  /** Something is audible right now (server voice, recording or browser voice). */
+  get isPlaying(): boolean {
+    return this.playingSince > 0;
+  }
+
   private ensureElements() {
     if (typeof window === "undefined") return;
     if (!this.voiceAudio) {
@@ -67,6 +125,8 @@ export class Speaker {
   /** Call inside a user gesture so later playback is allowed (iOS/Android). */
   unlock(): void {
     this.ensureElements();
+    this.ensureLevelContext();
+    if (this.levelCtx?.state === "suspended") void this.levelCtx.resume().catch(() => undefined);
     if (this.unlocked) return;
     this.unlocked = true;
     for (const el of [this.voiceAudio, this.clipAudio]) {
@@ -162,8 +222,10 @@ export class Speaker {
         el.onplaying = null;
         el.onended = null;
         el.onerror = null;
+        this.playingSince = 0;
       };
       el.onplaying = () => {
+        this.tap(el);
         if (!started) {
           started = true;
           onStarted?.();
@@ -234,11 +296,16 @@ export class Speaker {
       const end = (r: "ended" | "error" | "stopped") => {
         if (done) return;
         done = true;
+        this.playingSince = 0;
         clearTimeout(safety);
         resolve(r);
       };
       // Chrome sometimes never fires "end"; don't hang the conversation.
       const safety = setTimeout(() => end("ended"), 2500 + text.length * 90);
+      u.onstart = () => {
+        this.playingSince = Date.now();
+        this.levelReal = false;
+      };
       u.onend = () => end("ended");
       u.onerror = (e) => end(e.error === "interrupted" || e.error === "canceled" ? "stopped" : "error");
       this.waiter = {

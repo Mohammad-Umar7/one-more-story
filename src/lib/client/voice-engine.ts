@@ -166,6 +166,11 @@ export class VoiceEngine {
     this.speaker.unlock();
   }
 
+  /** Loudness of the companion's voice right now, for the talking avatar. */
+  outputLevel(): { level: number; real: boolean; playing: boolean } {
+    return { ...this.speaker.outputLevel(), playing: this.speaker.isPlaying };
+  }
+
   /**
    * Can the companion start talking the moment the app opens, with no tap?
    * Only when the natural voice is set up (the browser's own voice always
