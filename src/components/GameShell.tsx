@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useVoice } from "./AppProvider";
+import { useApp, useVoice } from "./AppProvider";
+import { Avatar } from "./companion/Avatar";
 import { HomeIcon, PauseIcon } from "./icons";
 import { VoiceDock } from "./VoiceDock";
 
@@ -19,7 +20,9 @@ export function GameShell({
   /** The question currently on screen; the dock won't repeat it. */
   screenText?: string | null;
 }) {
-  const { engine } = useVoice();
+  const { engine, snap } = useVoice();
+  const { bundle } = useApp();
+  const companion = bundle?.companion ?? null;
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-30 bg-ivory-100/90 backdrop-blur-md safe-top">
@@ -28,7 +31,14 @@ export function GameShell({
             <HomeIcon size={22} />
             <span>Home</span>
           </Link>
-          <h1 className="min-w-0 flex-1 text-center font-display text-xl font-bold leading-tight md:text-2xl">{title}</h1>
+          <div className="flex min-w-0 flex-1 items-center justify-center gap-3">
+            {companion?.avatarUrl && (
+              <span className="w-12 shrink-0 md:w-14">
+                <Avatar src={companion.avatarUrl} name={companion.name} speaking={snap.status === "speaking"} level={() => engine.outputLevel()} />
+              </span>
+            )}
+            <h1 className="min-w-0 text-center font-display text-xl font-bold leading-tight md:text-2xl">{title}</h1>
+          </div>
           <button type="button" onClick={() => engine.pause()} className={barButton}>
             <PauseIcon size={20} />
             <span>Pause</span>

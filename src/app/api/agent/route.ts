@@ -1,5 +1,7 @@
 import { decideViaOpenRouter, decideWithClaude, describeClaudeError, isClaudeConfigured } from "@/lib/server/claude";
 import { describeAiError, isOpenRouterConfigured } from "@/lib/server/openrouter";
+import { bankSize } from "@/lib/server/voicebank";
+import { scriptedReply } from "@/lib/shared/demo-script";
 import { HttpError, readJson, route } from "@/lib/server/http";
 import {
   interpretLocally,
@@ -61,5 +63,11 @@ export const POST = route(async (req: Request) => {
     decision = interpretLocally(body);
   }
   decision = validateDecision(decision, body.context);
+  // With the family's recorded voice bank, free replies come from the script
+  // so every line can be played in their real voice.
+  if (bankSize() > 0) {
+    const scripted = scriptedReply(body.context, decision.action, body.history);
+    if (scripted) decision = { ...decision, say: scripted };
+  }
   return Response.json({ ...decision, latencyMs: Date.now() - started });
 });
