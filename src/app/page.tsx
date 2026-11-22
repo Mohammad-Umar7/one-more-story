@@ -498,8 +498,7 @@ export default function CompanionPage() {
         if (USE_CLASSIC_GAMES) {
           await real(token, "hello", `Hello ${call}, it's me, ${companion?.name ?? "your friend"}.`);
           await say(token, `Good morning, ${call}. It's so lovely to see you today.`);
-          await real(token, "lets_play", "Let's play a little game together.");
-          await say(token, "First, let's find a few of your things in the living room.");
+          await say(token, "I have a picture to show you.");
           router.push(startChain());
           return;
         }

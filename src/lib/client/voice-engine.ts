@@ -184,7 +184,8 @@ export class VoiceEngine {
     if (speechRecognitionSupported()) {
       try {
         const status = await navigator.permissions.query({ name: "microphone" as PermissionName });
-        if (status.state !== "granted") return false;
+        // Allowed, or not asked yet (the browser asks once): only a refusal needs a touch.
+        if (status.state === "denied") return false;
       } catch {
         return false;
       }
@@ -236,7 +237,7 @@ export class VoiceEngine {
       status: "listening",
       recognition: supported ? "supported" : "unsupported",
       mic: "unknown",
-      micMessage: supported ? null : "This browser can't listen, so tap your answers and I'll talk you through.",
+      micMessage: supported ? null : "This browser can't listen. Please open the app in Chrome.",
       heard: "",
       interim: "",
     });
@@ -249,11 +250,11 @@ export class VoiceEngine {
           if (e.kind === "denied") {
             // A choice, not a malfunction: carry on in tap mode, nothing is excluded.
             this.micBlocked = true;
-            this.set({ mic: "denied", micMessage: "The microphone is off, so I can't hear you. You can still tap your answers." });
+            this.set({ mic: "denied", micMessage: "The microphone is off, so I can't hear you. Please allow the microphone for this site." });
             return;
           }
           // A real failure (no mic, mic busy, speech service down) affects the round.
-          this.set({ mic: "error", micMessage: `${e.message} You can still tap your answers.` });
+          this.set({ mic: "error", micMessage: e.message });
           this.screen?.onFailure?.("mic", e.message);
         },
         onActive: (on) => {

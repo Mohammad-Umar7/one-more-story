@@ -25,7 +25,7 @@ function StatusPill({ snap }: { snap: VoiceSnapshot }) {
         : snap.noteMode
           ? "Recording"
           : tapOnly
-            ? "Tap your answer"
+            ? "Microphone off"
             : "Listening";
   return (
     <div className="flex min-h-14 flex-1 items-center gap-3 rounded-2xl bg-navy-800 px-4" role="status" aria-live="polite">

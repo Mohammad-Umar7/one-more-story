@@ -1,6 +1,6 @@
 // The companion leads the player through Umar's classic games one after
-// another: /play/memory?chain=street,story -> /play/street?chain=story ->
-// /play/story -> back to the companion (/?after=1) to say goodbye.
+// another: /play/story?chain=memory,street -> /play/memory?chain=street ->
+// /play/street -> back to the companion (/?after=1) to say goodbye.
 
 const PATHS: Record<string, string> = { memory: "/play/memory", street: "/play/street", story: "/play/story" };
 
@@ -18,6 +18,7 @@ export function nextInChain(chain: string[]): string {
   return `${PATHS[next]}?chain=${rest.join(",")}`;
 }
 
+/** The day always opens on the story: one picture, and the player tells its story. */
 export function startChain(): string {
-  return "/play/memory?chain=street,story";
+  return "/play/story?chain=memory,street";
 }

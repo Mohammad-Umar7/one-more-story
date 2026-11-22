@@ -50,6 +50,8 @@ export default function StreetPage() {
   const route = bundle?.route ?? null;
   const name = bundle ? bundle.player.familyName || bundle.player.name : "";
   const chain = useRef<string[] | null>(null);
+  const [chained, setChained] = useState(false);
+  const autoStarted = useRef(false);
   const saveSpeech = bundle?.player.saveTourSpeech ?? true;
 
   const [, render] = useReducer((x: number) => x + 1, 0);
@@ -77,6 +79,7 @@ export default function StreetPage() {
 
   useEffect(() => {
     chain.current = chainFromUrl();
+    setChained(Boolean(chain.current));
   }, []);
 
   useEffect(() => {
@@ -311,13 +314,26 @@ export default function StreetPage() {
     };
   }
 
+  // Led by the companion: the tour simply begins.
+  useEffect(() => {
+    if (!chained || !route || autoStarted.current) return;
+    autoStarted.current = true;
+    void (async () => {
+      await engine.waitUntilActive();
+      if (!alive.current) return;
+      await engine.say(`Now you're the tour guide, ${name}. Let's walk down your street.`);
+      if (alive.current && st.current.phase === "intro") await startTour();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chained, route]);
+
   const ctrl: ScreenController | null = route
     ? {
         id: "show-me-your-street",
         context,
         greeting: () => {
           const cur = st.current;
-          if (cur.phase === "intro") return "Today you're the tour guide. Will you show me around your street?";
+          if (cur.phase === "intro") return chainFromUrl() ? null : "Today you're the tour guide. Will you show me around your street?";
           if (cur.phase === "end") return "Thank you for the tour.";
           return cur.prompt || choicesLine();
         },
@@ -385,9 +401,11 @@ export default function StreetPage() {
           <div className="animate-fade-up [animation-delay:100ms]">
             <h2 className="font-display text-[1.7rem] font-bold leading-tight md:text-4xl">Will you show me around your street?</h2>
             <p className="mt-1 text-lg text-navy-700">We&apos;ll start at {stop.name}. You choose the way.</p>
-            <Button variant="gold" size="xl" className="mt-5 w-full" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} disabled={s.starting} onClick={() => tap("start_tour")}>
-              Start the tour
-            </Button>
+            {!chained && (
+              <Button variant="gold" size="xl" className="mt-5 w-full" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} disabled={s.starting} onClick={() => tap("start_tour")}>
+                Start the tour
+              </Button>
+            )}
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useReducer, useRef } from "react";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useApp, useScreen } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RoomPhoto } from "@/components/memory/RoomPhoto";
@@ -71,6 +71,8 @@ export default function MemoryRoomPage() {
   const room = bundle?.room ?? null;
   const name = bundle ? bundle.player.familyName || bundle.player.name : "";
   const chain = useRef<string[] | null>(null);
+  const [chained, setChained] = useState(false);
+  const autoStarted = useRef(false);
   const st = useRef<RoundState>(fresh());
   const [, render] = useReducer((x: number) => x + 1, 0);
   const alive = useRef(true);
@@ -85,6 +87,7 @@ export default function MemoryRoomPage() {
   useEffect(() => {
     alive.current = true;
     chain.current = chainFromUrl();
+    setChained(Boolean(chain.current));
     try {
       debug.current = sessionStorage.getItem("oms-debug") === "1";
     } catch {
@@ -249,7 +252,7 @@ export default function MemoryRoomPage() {
     const spot = spots.find((p) => p.id === current.spotId);
     update({ revealed: true });
     recordEvent("reveal", `reveal-${cur.sessionId}-${cur.index}`, current.id);
-    await engine.say(`Your ${current.name} ${live(current)} in the ${spot?.label}. Tap it, or tell me, when you're ready.`);
+    await engine.say(`Your ${current.name} ${live(current)} in the ${spot?.label}. Tell me when you're ready.`);
     return { speak: null };
   }
 
@@ -323,12 +326,26 @@ export default function MemoryRoomPage() {
     };
   }
 
+  // Led by the companion: no "Shall we start?", the round simply begins.
+  useEffect(() => {
+    if (!chained || !room || autoStarted.current) return;
+    autoStarted.current = true;
+    void (async () => {
+      await engine.waitUntilActive();
+      if (!alive.current) return;
+      await engine.say(`Now let's find four things in your ${room.name.toLowerCase()}.`);
+      if (alive.current && st.current.phase === "intro") await startRound();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chained, room]);
+
   const ctrl: ScreenController | null = room
     ? {
         id: "memory-room",
         context,
         greeting: () => {
           const cur = st.current;
+          if (cur.phase === "intro" && chainFromUrl()) return null; // starts by itself (below)
           if (cur.phase === "asking" && current) return current.question;
           if (cur.phase === "done") return "Would you like to play again?";
           return `Let's find ${objects.length === 4 ? "four" : objects.length} things in your ${room.name.toLowerCase()}. Shall we start?`;
@@ -412,9 +429,11 @@ export default function MemoryRoomPage() {
                 </li>
               ))}
             </ul>
-            <Button variant="gold" size="xl" className="mt-5 w-full" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} onClick={() => tap("start_round")} disabled={s.starting}>
-              Begin
-            </Button>
+            {!chained && (
+              <Button variant="gold" size="xl" className="mt-5 w-full" icon={s.starting ? <Spinner /> : <PlayIcon size={26} />} onClick={() => tap("start_round")} disabled={s.starting}>
+                Begin
+              </Button>
+            )}
           </div>
         </div>
       )}
@@ -485,7 +504,7 @@ export default function MemoryRoomPage() {
           <div className="animate-fade-up">
             <h2 className="font-display text-[1.7rem] font-bold leading-tight md:text-4xl">All four, back where they belong.</h2>
             <p className="mt-1 text-lg text-navy-700">Thank you, {name}.</p>
-            <div className="mt-5 grid gap-2">
+            <div className={`mt-5 grid gap-2 ${chained ? "hidden" : ""}`}>
               <Button variant="gold" size="xl" icon={<RefreshIcon size={26} />} onClick={() => tap("play_again")}>
                 Play again
               </Button>
