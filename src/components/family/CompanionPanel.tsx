@@ -305,9 +305,6 @@ export function CompanionPanel() {
         <Link href="/doctor" className="underline underline-offset-4">
           Doctor&apos;s QR card
         </Link>
-        <Link href="/play" className="underline underline-offset-4">
-          Classic games
-        </Link>
         <Link href="/onboarding" className="underline underline-offset-4">
           Setup answers
         </Link>

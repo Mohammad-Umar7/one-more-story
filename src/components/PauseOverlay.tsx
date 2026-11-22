@@ -1,16 +1,11 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
 import { useVoice } from "./AppProvider";
 import { Button } from "./ui";
-import { HomeIcon, PlayIcon } from "./icons";
+import { PlayIcon } from "./icons";
 
 export function PauseOverlay() {
   const { engine, snap } = useVoice();
-  const router = useRouter();
-  const pathname = usePathname();
-  // The companion's screen is home: there is only "Continue" there.
-  const inGame = pathname.startsWith("/play/");
   if (!snap.paused) return null;
   return (
     <div
@@ -35,19 +30,7 @@ export function PauseOverlay() {
           <Button variant="gold" size="xl" icon={<PlayIcon size={26} />} onClick={() => void engine.resume()} autoFocus>
             Continue
           </Button>
-          {inGame && (
-            <Button
-              variant="ivory"
-              size="xl"
-              icon={<HomeIcon size={26} />}
-              onClick={() => {
-                void engine.resume({ quiet: true });
-                router.push("/play");
-              }}
-            >
-              Home
-            </Button>
-          )}
+
         </div>
       </div>
     </div>

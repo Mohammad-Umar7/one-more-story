@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useApp, useVoice } from "./AppProvider";
 import { Avatar } from "./companion/Avatar";
-import { HomeIcon, PauseIcon } from "./icons";
+import { PauseIcon } from "./icons";
 import { VoiceDock } from "./VoiceDock";
 
 const barButton =
@@ -27,10 +26,7 @@ export function GameShell({
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-30 bg-ivory-100/90 backdrop-blur-md safe-top">
         <div className="mx-auto flex h-[4.5rem] w-full max-w-6xl items-center gap-2 px-3 md:h-16 md:px-6">
-          <Link href="/play" className={barButton}>
-            <HomeIcon size={22} />
-            <span>Home</span>
-          </Link>
+          <span className="w-[4.25rem] shrink-0 md:w-24" aria-hidden="true" />
           <div className="flex min-w-0 flex-1 items-center justify-center gap-3">
             {companion?.avatarUrl && (
               <span className="w-12 shrink-0 md:w-14">
