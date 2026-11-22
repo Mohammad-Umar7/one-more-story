@@ -151,6 +151,20 @@ CREATE TABLE IF NOT EXISTS alerts (
   seen_at TEXT
 );
 
+-- The story game's answers. The player's first finished game is their own
+-- starting point (is_baseline = 1); later games are compared with it.
+CREATE TABLE IF NOT EXISTS story_checks (
+  id TEXT PRIMARY KEY,
+  player_id TEXT NOT NULL,
+  client_key TEXT NOT NULL UNIQUE,
+  total INTEGER NOT NULL,
+  correct INTEGER NOT NULL,
+  answers TEXT NOT NULL,
+  is_baseline INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_story_checks_player ON story_checks(player_id, created_at);
+
 CREATE TABLE IF NOT EXISTS alert_deliveries (
   id TEXT PRIMARY KEY,
   alert_id TEXT NOT NULL REFERENCES alerts(id) ON DELETE CASCADE,

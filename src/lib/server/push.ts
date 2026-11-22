@@ -229,6 +229,19 @@ export async function deliverAlert(alertId: string): Promise<DeliverySummary> {
   return summary;
 }
 
+/** A one-off message to every paired phone of the player's family (e.g. the starting point is set). */
+export async function notifyFamily(playerId: string, payload: PushPayload): Promise<DeliverySummary> {
+  const caregivers = getDb().prepare("SELECT id FROM caregivers WHERE player_id = ?").all(playerId) as { id: string }[];
+  const subs = caregivers.flatMap((c) => activeSubscriptions(c.id));
+  const summary: DeliverySummary = { devices: subs.length, sent: 0, failed: 0, alreadyHandled: 0 };
+  for (const sub of subs) {
+    const { outcome } = await sendWithRetry(sub, payload);
+    if (outcome.ok) summary.sent++;
+    else summary.failed++;
+  }
+  return summary;
+}
+
 export async function sendTestNotification(caregiverId: string): Promise<DeliverySummary> {
   const db = getDb();
   const cg = db.prepare("SELECT c.name, p.family_name FROM caregivers c JOIN players p ON p.id = c.player_id WHERE c.id = ?").get(
