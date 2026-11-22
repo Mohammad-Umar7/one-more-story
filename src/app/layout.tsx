@@ -1,19 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible, Fraunces } from "next/font/google";
+import { Atkinson_Hyperlegible } from "next/font/google";
 import { AppProvider } from "@/components/AppProvider";
 import "./globals.css";
 
-// Atkinson Hyperlegible was designed for readers with low vision.
+// One font for everything: Atkinson Hyperlegible, designed by the Braille
+// Institute for readers with low vision. Plain sans-serif, as dementia-friendly
+// design guidance recommends (no serif or decorative display faces).
 const atkinson = Atkinson_Hyperlegible({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-atkinson",
-  display: "swap",
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
   display: "swap",
 });
 
@@ -39,7 +35,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${atkinson.variable} ${fraunces.variable}`}>
+    <html lang="en" className={atkinson.variable}>
       <body className="paper">
         <AppProvider>{children}</AppProvider>
       </body>
