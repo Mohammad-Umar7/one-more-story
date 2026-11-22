@@ -79,6 +79,20 @@ export interface ScreenController {
   onVoiceEnded?(): void;
 }
 
+/**
+ * Android: ask for the microphone once, at the first touch, without keeping it
+ * open (the button then listens straight away). The stream closes immediately.
+ */
+let micAsked = false;
+function askForMicOnce() {
+  if (micAsked || typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) return;
+  micAsked = true;
+  navigator.mediaDevices
+    .getUserMedia({ audio: true })
+    .then((s) => s.getTracks().forEach((t) => t.stop()))
+    .catch(() => undefined);
+}
+
 const GLOBAL = new Set(["pause", "end_session", "repeat", "go_home"]);
 const CANCEL_RE = /^(cancel|never mind|nevermind|forget it|no thanks|no thank you)$/;
 
@@ -140,6 +154,13 @@ export class VoiceEngine {
   pushToTalk = true;
   private holding = false;
   private flushUntil = 0;
+  // Android Chrome: speech recognition grabs the phone's audio (Chrome pauses or
+  // ducks the companion's voice, and it beeps on every restart). With hold-to-talk
+  // it only needs to listen while the button is held, so that is all it does.
+  private readonly listenOnlyWhileHeld = typeof navigator !== "undefined" && /Android/i.test(navigator.userAgent);
+  private get heldListening(): boolean {
+    return this.pushToTalk && this.listenOnlyWhileHeld;
+  }
   private releaseTimer: ReturnType<typeof setTimeout> | null = null;
 
   // ---- store plumbing (useSyncExternalStore) ------------------------------
@@ -275,7 +296,8 @@ export class VoiceEngine {
           if (on && this.snap.mic !== "ok") this.set({ mic: "ok", micMessage: null });
         },
       });
-      this.recognizer.start();
+      if (this.heldListening) askForMicOnce();
+      else this.recognizer.start();
     }
     if (this.screen?.captureAnswers?.()) await this.mic.ensure();
     if (gen !== this.sessionGen) return;
@@ -349,7 +371,7 @@ export class VoiceEngine {
     this.set({ paused: false, status: active ? "listening" : "off" });
     if (!active) return;
     this.sessionGen++;
-    if (!this.micBlocked) this.recognizer?.start();
+    if (!this.micBlocked && !this.heldListening) this.recognizer?.start();
     if (opts.quiet) return; // e.g. "Home" from the pause screen: the next screen greets instead
     if (this.screen?.captureAnswers?.()) await this.mic.ensure();
     const q = this.screen?.repeatLine?.() ?? this.screen?.context().question ?? null;
@@ -416,7 +438,7 @@ export class VoiceEngine {
     this.hardGuardUntil = Date.now() + (opts.knownText ? 900 : 1800);
     this.set({ playing: null });
     if (gen === this.sessionGen && this.isActive) {
-      if (this.recognizer && !this.micBlocked) {
+      if (this.recognizer && !this.micBlocked && !(this.heldListening && !this.holding)) {
         this.recognizer.stop();
         this.recognizer.start(); // flush anything heard during the clip
       }
@@ -527,6 +549,11 @@ export class VoiceEngine {
   setPushToTalk(on: boolean) {
     this.pushToTalk = on;
     this.set({ ptt: on });
+    // Android listens only while the button is held; without the button it listens all the time.
+    if (this.listenOnlyWhileHeld && this.isActive && !this.micBlocked) {
+      if (on && !this.holding) this.recognizer?.stop();
+      else if (!on) this.recognizer?.start();
+    }
   }
 
   /** Hold-to-talk: the button (or Space) went down. */
@@ -543,6 +570,7 @@ export class VoiceEngine {
     this.swallowUntil = 0;
     this.queued = [];
     this.set({ holding: true, status: "listening", interim: "" });
+    if (this.heldListening && !this.micBlocked) this.recognizer?.start();
     if (this.screen?.captureAnswers?.() || this.noteResolver) {
       void this.mic.ensure().then((ok) => {
         if (ok && this.holding && !this.mic.recording) this.set({ capturing: this.mic.begin() });
@@ -556,6 +584,8 @@ export class VoiceEngine {
     this.holding = false;
     this.flushUntil = Date.now() + 900;
     this.set({ holding: false });
+    // Let the recogniser finish the last words, then it stays off until the next hold.
+    if (this.heldListening) this.recognizer?.finish();
     this.releaseTimer = setTimeout(() => {
       this.releaseTimer = null;
       if (this.finals.length || this.interim) this.finishTurn();

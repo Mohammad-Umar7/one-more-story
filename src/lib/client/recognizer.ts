@@ -139,6 +139,20 @@ export class Recognizer {
     if (!this.running) this.startNow();
   }
 
+  /** Stop gracefully: the words still being recognised arrive as a final result. */
+  finish(): void {
+    this.wanted = false;
+    if (this.restartTimer) {
+      clearTimeout(this.restartTimer);
+      this.restartTimer = null;
+    }
+    try {
+      this.rec?.stop();
+    } catch {
+      // ignore
+    }
+  }
+
   /** Stop listening and release the microphone. */
   stop(): void {
     this.wanted = false;
