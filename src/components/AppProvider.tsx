@@ -7,6 +7,7 @@ import { getJson } from "@/lib/client/api";
 import type { Bundle } from "@/lib/shared/types";
 import { PauseOverlay } from "./PauseOverlay";
 import { DebugPanel } from "./DebugPanel";
+import { WelcomeGate } from "./WelcomeGate";
 
 interface AppContextValue {
   engine: VoiceEngine;
@@ -82,6 +83,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <AppContext.Provider value={value}>
       {children}
+      <WelcomeGate />
       <PauseOverlay />
       <DebugPanel />
     </AppContext.Provider>
