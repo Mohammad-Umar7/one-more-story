@@ -47,6 +47,15 @@ export const STORY_QUIZ = [
     tryAgain: "Good try. It was pistachio for you, and mango for me.",
   },
 ];
+/** The day in the picture, as Aamir told it: what he may bring up when he reacts. */
+export const STORY_FACTS = [
+  "You are Aamir, Dada's grandson. You are the boy on the bike in this picture, and you were there that day.",
+  "When Aamir was seven, Dada taught him to ride a bike on the Corniche in Abu Dhabi.",
+  "Aamir kept falling, and Dada kept running behind him, holding the seat.",
+  "When Aamir finally rode on his own, Dada bought them both ice cream: pistachio for Dada, mango for Aamir.",
+  "Dada still calls Aamir his champion.",
+];
+
 export const DONE_FIRST = "Are you done, Dada?";
 export const DONE_AGAIN = "Anything else, Dada?";
 export const KEEP_GOING = "Okay, take your time. I'm listening.";
@@ -111,7 +120,7 @@ export function scriptedReply(ctx: ScreenContext, action: string, history: Conve
     const stop = /This stop is called "([^"]+)"/.exec(ctx.facts?.join(" ") ?? "")?.[1]?.toLowerCase();
     return (stop && STREET_REPLIES[stop]) || null;
   }
-  if (ctx.game === "tell_the_story" && action === "tell") {
+  if (ctx.game === "tell_the_story" && ctx.screen === "photo" && action === "tell") {
     const asked = history.filter((h) => h.role === "assistant" && STORY_FOLLOWUPS.includes(h.text)).length;
     return STORY_FOLLOWUPS[Math.min(asked, STORY_FOLLOWUPS.length - 1)];
   }

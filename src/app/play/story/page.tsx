@@ -3,7 +3,7 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { chainFromUrl, nextInChain } from "@/lib/client/chain";
-import { DONE_AGAIN, DONE_FIRST, KEEP_GOING, STORY_INTRO, STORY_QUIZ, WELL_DONE } from "@/lib/shared/demo-script";
+import { DONE_AGAIN, DONE_FIRST, KEEP_GOING, STORY_FACTS, STORY_INTRO, STORY_QUIZ, WELL_DONE } from "@/lib/shared/demo-script";
 import { useApp, useScreen, useVoice } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RecordButton } from "@/components/RecordButton";
@@ -198,9 +198,10 @@ export default function TellTheStoryPage() {
     switch (action) {
       case "tell": {
         // The clip was already added when the turn's audio arrived.
-        // Led by the companion: more talk after "No, not yet" -> check again.
+        // Led by the companion: Dada told more of the story -> Aamir reacts to it, then checks he's done.
         if (chain.current) {
           update({ quizStage: "confirm", doneAsked: cur.doneAsked + 1 });
+          if (meta.say) await engine.say(meta.say);
           return { speak: cur.doneAsked === 0 ? DONE_FIRST : DONE_AGAIN };
         }
         const follow = meta.say || TAP_PROMPTS[cur.tapPromptIndex % TAP_PROMPTS.length];
@@ -213,6 +214,8 @@ export default function TellTheStoryPage() {
         if (!q) return { speak: null };
         update({ quizStage: "confirm", doneAsked: 1 });
         await engine.say(_target === "right" ? q.right : q.tryAgain);
+        // He said more than the answer: Aamir reacts to it, like a real conversation.
+        if (meta.say && words(meta.utterance ?? "").length > 5) await engine.say(meta.say);
         return { speak: DONE_FIRST };
       }
       case "done_yes": {
@@ -281,14 +284,14 @@ export default function TellTheStoryPage() {
         ...base,
         screen: "quiz-ask",
         version: `quiz-${cur.index}-${cur.quiz}-ask`,
-        scene: "A family photo from the player's life. The companion asked a question about that day.",
+        scene: "A family photo from Dada's life, and you (Aamir, his grandson) are in it with him. You asked him a question about that day.",
         question: q.ask,
-        facts: [`The right answer is: ${q.answer}.`],
+        facts: [`The right answer is: ${q.answer}.`, ...STORY_FACTS],
         actions: [
           {
             name: "answer",
             description:
-              "The player answers the question. Target right if what they say means the same as the right answer (any wording; partly right counts as right). Target wrong if it is a different answer, or they say they don't know or can't remember.",
+              "The player answers the question. Target right if what they say means the same as the right answer (any wording; partly right counts as right). Target wrong if it is a different answer, or they say they don't know or can't remember. say: if they added a detail or a feeling beyond the bare answer, ONE short warm sentence (under 15 words) reacting to it as Aamir, who was there (\"I remember that too, Dada!\"); do not repeat or judge the answer, no question. Otherwise \"\".",
             targets: [
               { id: "right", label: q.answer, aliases: q.aliases },
               { id: "wrong", label: "a different answer, or I don't know" },
@@ -304,9 +307,16 @@ export default function TellTheStoryPage() {
         version: `quiz-${cur.index}-${cur.quiz}-more-${cur.clips.length}`,
         mode: "conversation",
         talkAction: "tell",
-        scene: "The player wanted to say more about their answer.",
+        scene: "Dada is telling more of the story of this picture. You are Aamir, his grandson, and you were there that day.",
         question: KEEP_GOING,
-        actions: [{ name: "tell", description: "The player says more about the picture or the day." }],
+        facts: STORY_FACTS,
+        actions: [
+          {
+            name: "tell",
+            description:
+              "Dada tells more about the picture or the day. say: ONE short warm sentence (under 18 words) reacting to his own words as Aamir, who was there, sharing a memory of your own when it fits. No question.",
+          },
+        ],
       };
     }
     if (cur.phase === "photo" && chainFromUrl() && cur.quizStage === "confirm") {
@@ -317,7 +327,8 @@ export default function TellTheStoryPage() {
         mode: "conversation",
         talkAction: "tell",
         askedIfDone: true,
-        scene: "The player is telling the story of a family photo. The companion just asked if they have finished this part.",
+        scene: "Dada is telling the story of a family photo. You (Aamir, his grandson, who was there) just asked if he has finished this part.",
+        facts: STORY_FACTS,
         question: cur.doneAsked > 1 ? DONE_AGAIN : DONE_FIRST,
         actions: [
           {
@@ -332,7 +343,8 @@ export default function TellTheStoryPage() {
           },
           {
             name: "tell",
-            description: "Instead of answering yes or no, they simply carry on telling the story (any new detail about the photo or the day).",
+            description:
+              "Instead of answering yes or no, Dada simply carries on telling the story. say: ONE short warm sentence (under 18 words) reacting to his words as Aamir, who was there. No question.",
           },
         ],
       };
