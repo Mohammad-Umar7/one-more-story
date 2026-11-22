@@ -7,6 +7,13 @@ import type { NextConfig } from "next";
  * routes mounted inside <Activity> and may prerender GET handlers.
  */
 const nextConfig: NextConfig = {
+  // The demo photos and clue recordings are read from ./seed at run time, so a
+  // serverless deploy (Vercel) must ship them with the API functions.
+  // Route handlers also leave maxDuration unset on purpose: on Vercel, routes
+  // with the same settings share one function, and so one /tmp database.
+  outputFileTracingIncludes: {
+    "/api/**": ["./seed/**/*"],
+  },
   // Lets a phone or tablet reach `next dev` through an HTTPS tunnel.
   allowedDevOrigins: [
     "*.trycloudflare.com",
