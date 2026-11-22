@@ -40,7 +40,8 @@ export function WelcomeGate() {
   const pathname = usePathname();
   const [state, setState] = useState<"checking" | "show" | "hidden">("checking");
   const checked = useRef(false);
-  const playerScreen = pathname === "/" || pathname.startsWith("/play");
+  // The companion's own screen ("/") wakes itself; this gate is for the classic games.
+  const playerScreen = pathname.startsWith("/play");
 
   useEffect(() => {
     if (!bundle || checked.current) return;

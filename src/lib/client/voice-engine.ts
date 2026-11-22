@@ -213,9 +213,13 @@ export class VoiceEngine {
   }
 
   // ---- session lifecycle ---------------------------------------------------
-  async start(): Promise<void> {
+  /**
+   * Turn the voice on. `silent`: don't speak the screen's greeting, because
+   * the screen leads the conversation itself (the companion).
+   */
+  async start(opts: { silent?: boolean } = {}): Promise<void> {
     if (this.snap.active) {
-      if (this.snap.paused) await this.resume();
+      if (this.snap.paused) await this.resume({ quiet: opts.silent });
       return;
     }
     this.speaker.unlock();
@@ -258,9 +262,31 @@ export class VoiceEngine {
     }
     if (this.screen?.captureAnswers?.()) await this.mic.ensure();
     if (gen !== this.sessionGen) return;
-    const greeting = this.screen?.greeting?.() ?? "Hello. I'm listening.";
     this.starting = false;
+    if (opts.silent) {
+      this.enterListening();
+      return;
+    }
+    const greeting = this.screen?.greeting?.() ?? "Hello. I'm listening.";
     await this.speakLine(greeting);
+  }
+
+  /** Resolves once the voice session is on and not paused (or after `timeoutMs`). */
+  waitUntilActive(timeoutMs = 600_000): Promise<boolean> {
+    if (this.isActive) return Promise.resolve(true);
+    return new Promise((resolve) => {
+      const t = setTimeout(() => {
+        off();
+        resolve(false);
+      }, timeoutMs);
+      const off = this.subscribe(() => {
+        if (this.isActive) {
+          clearTimeout(t);
+          off();
+          resolve(true);
+        }
+      });
+    });
   }
 
   /** "I'm done": stop listening, release the microphone, say goodbye. */
