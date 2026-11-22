@@ -47,8 +47,22 @@ const newTrack = (): Track => ({ attempts: 0, hints: 0, revealed: false, correct
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 class Stopped extends Error {}
 
-/** Lead the day with Umar's classic games (voice-led: room, street, story). */
+/** Lead the day with Umar's classic games (voice-led: story, room, street). */
 const USE_CLASSIC_GAMES = true;
+
+/** Stand-in plan for the classic games, so the greeting never waits for the AI plan. */
+const CLASSIC_DAY: DailyPlan = {
+  id: "classic",
+  day: "",
+  stage: "middle",
+  level: 3,
+  greeting: "",
+  closing: "",
+  games: [],
+  source: "fallback",
+  status: "ready",
+  createdAt: "",
+};
 
 const RETRY = ["Let's have another look.", "Hmm, have another look.", "Nearly. Look again."];
 
@@ -109,21 +123,10 @@ export default function CompanionPage() {
 
   // ---- loading -------------------------------------------------------------------
 
-  // Opening the app goes straight into the day's game; Aamir says hello there.
-  // This screen is only for saying goodbye after the games (/?after=1).
-  const goingToGame = typeof window !== "undefined" && !new URLSearchParams(window.location.search).has("after");
+  // No setup screens: opening the app always shows Aamir, who greets Dada and
+  // then leads him into the day's game.
   useEffect(() => {
-    if (!goingToGame) return;
-    try {
-      sessionStorage.setItem("oms-greet", "1");
-    } catch {
-      // the hello is skipped, the game still starts
-    }
-    router.replace(startChain());
-  }, [goingToGame, router]);
-
-  useEffect(() => {
-    if (!bundle || goingToGame) return;
+    if (!bundle) return;
     let cancelled = false;
     void (async () => {
       try {
@@ -560,21 +563,23 @@ export default function CompanionPage() {
   // Once there is a plan, wake up: by ourselves if the browser allows it, otherwise on the first touch.
   const woke = useRef(false);
   useEffect(() => {
-    if (!plan || !bundle || woke.current) return;
+    const p = plan ?? (USE_CLASSIC_GAMES ? CLASSIC_DAY : null);
+    if (!p || !bundle || woke.current) return;
     woke.current = true;
-    if (plan.status === "done") {
+    planRef.current = p;
+    if (!USE_CLASSIC_GAMES && p.status === "done") {
       queueMicrotask(() => setPhase("rest"));
       return;
     }
     if (engine.isActive) {
-      void direct(plan, played);
+      void direct(p, played);
       return;
     }
     void engine.canStartWithoutTap(bundle.config.tts).then((ok) => {
       if (!mounted.current) return;
       if (ok) {
         void engine.start({ silent: true });
-        void direct(plan, played);
+        void direct(p, played);
       } else {
         setPhase("wake");
       }
@@ -584,7 +589,7 @@ export default function CompanionPage() {
   const wake = () => {
     unlockChime();
     engine.unlockAudio();
-    const p = planRef.current;
+    const p = planRef.current ?? (USE_CLASSIC_GAMES ? CLASSIC_DAY : null);
     if (!engine.isActive) void engine.start({ silent: true });
     if (phase === "wake" && p) void direct(p, played);
     if (phase === "rest") void restTalk();
@@ -637,7 +642,7 @@ export default function CompanionPage() {
   const tapOnly = snap.recognition === "unsupported" || snap.mic === "denied";
   const now = new Date();
 
-  if (!bundle || goingToGame) {
+  if (!bundle) {
     return (
       <div className="night flex items-center justify-center">
         <NightSky />
