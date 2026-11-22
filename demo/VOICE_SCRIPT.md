@@ -14,71 +14,79 @@ Every line he records is played in his real voice; anything not recorded falls b
 
 **Hello**
 
-1. Hello Dada, it's me, Aamir!  *(already recorded)*
-2. Good morning, Dada. It's so lovely to see you today.
-3. I have a picture to show you.
+1. Hello Dada, it's me, Aamir!  *(recorded)*
+2. Good morning, Dada. It's so lovely to see you today.  *(recorded)*
+3. I have a picture to show you.  *(recorded)*
 
 **Tell the Story**
 
-4. Here's a photo from your album. What would you like to share about this day?
-5. Are you done, Dada?  **(new: please record)**
-6. Anything else, Dada?  **(new: please record)**
-7. Okay, take your time. I'm listening.  **(new: please record)**
-8. That was the day you taught me to ride my bike, Dada. What do you remember most about it?
-9. You kept running behind me, holding the seat. How did it feel when I finally rode on my own?
-10. I'll never forget it, Dada. Tell me a little more.
-11. Saved. Your family will love hearing this. Thank you, Dada.
+4. Here's a photo from your album. Let's talk about this day.  **(new: please record)**
+5. Where are we in this picture, Dada?  **(new: please record)**
+6. Yes, the Corniche! You remembered.  **(new: please record)**
+7. Good try, Dada. It's the Corniche, by the sea.  **(new: please record)**
+8. What were you teaching me to do that day?  **(new: please record)**
+9. Yes! You were teaching me to ride my bike.  **(new: please record)**
+10. Good try. You were teaching me to ride my bike.  **(new: please record)**
+11. When I finally rode on my own, what did you buy us?  **(new: please record)**
+12. That's right, ice cream for both of us!  **(new: please record)**
+13. Good try. You bought us both ice cream.  **(new: please record)**
+14. And which flavour did you choose for yourself?  **(new: please record)**
+15. Yes, pistachio! And mango for me.  **(new: please record)**
+16. Good try. It was pistachio for you, and mango for me.  **(new: please record)**
+17. Are you done, Dada?  **(new: please record)**
+18. Anything else, Dada?  **(new: please record)**
+19. Okay, take your time. I'm listening.  **(new: please record)**
+20. Saved. Your family will love hearing this. Thank you, Dada.  *(recorded)*
 
 **My Memory Room**
 
-12. Now let's find four things in your living room.
-13. Where do you usually keep your glasses?
-14. Yes, the blue bowl. That's where your glasses live.
-15. Now, where do you usually keep your keys?
-16. That's the top drawer. Your keys usually live somewhere else. Would you like to hear your clue?
-17. Here's your clue, in your own voice.
-18. Where do you think they are?
-19. That's right, the hooks by the door.
-20. Now, where do you usually keep your watch?
-21. Lovely. Your watch goes in the top drawer.
-22. Now, where do you usually keep your prayer beads?
-23. Yes, the windowsill. Just where they belong.
-24. All four, back where they belong. Well done, Dada.
+21. Now let's find four things in your living room.  *(recorded)*
+22. Where do you usually keep your glasses?  *(recorded)*
+23. Yes, the blue bowl. That's where your glasses live.  *(recorded)*
+24. Now, where do you usually keep your keys?  *(recorded)*
+25. That's the top drawer. Your keys usually live somewhere else. Would you like to hear your clue?  *(recorded)*
+26. Here's your clue, in your own voice.  *(recorded)*
+27. Where do you think they are?  *(recorded)*
+28. That's right, the hooks by the door.  *(recorded)*
+29. Now, where do you usually keep your watch?  *(recorded)*
+30. Lovely. Your watch goes in the top drawer.  *(recorded)*
+31. Now, where do you usually keep your prayer beads?  *(recorded)*
+32. Yes, the windowsill. Just where they belong.  *(recorded)*
+33. All four, back where they belong. Well done, Dada.  *(recorded)*
 
 **Show Me Your Street**
 
-25. Now you're the tour guide, Dada. Let's walk down your street.
-26. We're starting at the front gate. What can you tell me about this place?
-27. What a lovely gate, Dada. Shall we go on to the bakery straight ahead?
-28. Here we are at Noor Bakery. What can you tell me about this place?
-29. I can almost smell the fresh bread. Which way shall we go: the lane on the left, or the main road on the right?
-30. Here we are at Jasmine Lane. What can you tell me about this place?
-31. It's so peaceful here. Shall we go on to the little park?
-32. Here we are at the little park. This is as far as the path goes. What can you tell me about it?
-33. I love this park too, Dada. Shall we finish the tour here?
-34. Thank you for the tour, Dada. Your family can walk it with you any time.
+34. Now you're the tour guide, Dada. Let's walk down your street.  *(recorded)*
+35. We're starting at the front gate. What can you tell me about this place?  *(recorded)*
+36. What a lovely gate, Dada. Shall we go on to the bakery straight ahead?  *(recorded)*
+37. Here we are at Noor Bakery. What can you tell me about this place?  *(recorded)*
+38. I can almost smell the fresh bread. Which way shall we go: the lane on the left, or the main road on the right?  *(recorded)*
+39. Here we are at Jasmine Lane. What can you tell me about this place?  *(recorded)*
+40. It's so peaceful here. Shall we go on to the little park?  *(recorded)*
+41. Here we are at the little park. This is as far as the path goes. What can you tell me about it?  *(recorded)*
+42. I love this park too, Dada. Shall we finish the tour here?  *(recorded)*
+43. Thank you for the tour, Dada. Your family can walk it with you any time.  *(recorded)*
 
 **Goodbye**
 
-35. Well done, Dada! I'm so proud of you.  *(already recorded)*
-36. That was wonderful, Dada. Thank you for playing with me.
-37. I love you, Dada. See you tomorrow.  *(already recorded)*
+44. Well done, Dada! I'm so proud of you.  *(recorded)*
+45. That was wonderful, Dada. Thank you for playing with me.  *(recorded)*
+46. I love you, Dada. See you tomorrow.  *(recorded)*
 
 
 ## 2. Dada: what to say live (voice only: there is nothing on screen to tap)
 
 | When Aamir says… | Dada says |
 |---|---|
-| "What would you like to share about this day?" | "This is the day I taught Aamir to ride his bike on the Corniche." |
-| "Are you done, Dada?" | "No, not yet." |
-| "Okay, take your time. I'm listening." | "He kept falling, but he never gave up." |
+| "Where are we in this picture, Dada?" | "This is the Corniche." |
+| "Yes, the Corniche! You remembered. … Are you done, Dada?" | "Yes." |
+| "Well done, Dada! … What were you teaching me to do that day?" | "To ride your bike." |
+| "Are you done, Dada?" | "No, not yet. You kept falling, but you never gave up." |
 | "Anything else, Dada?" | "Yes, that's all." |
-| "…What do you remember most about it?" | "How happy he was when he finally rode on his own." |
+| "When I finally rode on my own, what did you buy us?" | "I don't remember." *(shows the kind "Good try": it tells him the answer)* |
 | "Are you done, Dada?" | "Yes." |
-| "…How did it feel when I finally rode on my own?" | "I was so proud. I bought him mango ice cream." |
-| "Are you done, Dada?" | "Yes." |
-| "…Tell me a little more." | "He still calls me his champion." |
-| "Are you done, Dada?" | "Yes, I'm done." *(the story saves itself and Aamir moves on)* |
+| "And which flavour did you choose for yourself?" | "Pistachio." |
+| "Are you done, Dada?" | "Yes, I'm done." *(Well done, the story saves itself, on to the Memory Room)* |
 | "…your glasses?" | "In the blue bowl." |
 | "…your keys?" | "In the drawer." (a deliberate miss, to show the clue) |
 | "Would you like to hear your clue?" | "Yes please." *(his own recorded clue plays)* |

@@ -15,6 +15,43 @@ export const STREET_REPLIES: Record<string, string> = {
   "the tea stall": "A cup of masala chai sounds perfect. Shall we finish the tour here?",
 };
 
+/** Questions about the picture, asked one by one; Aamir replies to each answer. */
+export const STORY_INTRO = "Here's a photo from your album. Let's talk about this day.";
+export const STORY_QUIZ = [
+  {
+    ask: "Where are we in this picture, Dada?",
+    answer: "the Corniche (the seaside, the beach, by the sea in Abu Dhabi)",
+    aliases: ["corniche", "beach", "sea", "seaside", "by the sea", "the water"],
+    right: "Yes, the Corniche! You remembered.",
+    tryAgain: "Good try, Dada. It's the Corniche, by the sea.",
+  },
+  {
+    ask: "What were you teaching me to do that day?",
+    answer: "to ride a bike (cycling, a bicycle)",
+    aliases: ["bike", "bicycle", "cycle", "cycling", "ride"],
+    right: "Yes! You were teaching me to ride my bike.",
+    tryAgain: "Good try. You were teaching me to ride my bike.",
+  },
+  {
+    ask: "When I finally rode on my own, what did you buy us?",
+    answer: "ice cream",
+    aliases: ["ice cream", "icecream", "ice-cream", "kulfi"],
+    right: "That's right, ice cream for both of us!",
+    tryAgain: "Good try. You bought us both ice cream.",
+  },
+  {
+    ask: "And which flavour did you choose for yourself?",
+    answer: "pistachio",
+    aliases: ["pistachio", "pista"],
+    right: "Yes, pistachio! And mango for me.",
+    tryAgain: "Good try. It was pistachio for you, and mango for me.",
+  },
+];
+export const DONE_FIRST = "Are you done, Dada?";
+export const DONE_AGAIN = "Anything else, Dada?";
+export const KEEP_GOING = "Okay, take your time. I'm listening.";
+export const WELL_DONE = "Well done, Dada! I'm so proud of you.";
+
 export const STORY_FOLLOWUPS = [
   "That was the day you taught me to ride my bike, Dada. What do you remember most about it?",
   "You kept running behind me, holding the seat. How did it feel when I finally rode on my own?",
@@ -27,11 +64,15 @@ export const DEMO_LINES: { section: string; text: string; key?: string }[] = [
   { section: "Hello", text: "Good morning, Dada. It's so lovely to see you today." },
   { section: "Hello", text: "I have a picture to show you." },
 
-  { section: "Tell the Story", text: "Here's a photo from your album. What would you like to share about this day?" },
-  { section: "Tell the Story", text: "Are you done, Dada?" },
-  { section: "Tell the Story", text: "Anything else, Dada?" },
-  { section: "Tell the Story", text: "Okay, take your time. I'm listening." },
-  ...STORY_FOLLOWUPS.map((text) => ({ section: "Tell the Story", text })),
+  { section: "Tell the Story", text: STORY_INTRO },
+  ...STORY_QUIZ.flatMap((q) => [
+    { section: "Tell the Story", text: q.ask },
+    { section: "Tell the Story", text: q.right },
+    { section: "Tell the Story", text: q.tryAgain },
+  ]),
+  { section: "Tell the Story", text: DONE_FIRST },
+  { section: "Tell the Story", text: DONE_AGAIN },
+  { section: "Tell the Story", text: KEEP_GOING },
   { section: "Tell the Story", text: "Saved. Your family will love hearing this. Thank you, Dada." },
 
   { section: "My Memory Room", text: "Now let's find four things in your living room." },
