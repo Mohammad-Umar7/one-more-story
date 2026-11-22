@@ -26,7 +26,7 @@ export async function hearAnswer(opts: {
 }): Promise<HeardAnswer> {
   const res = await chatJson<{ transcript: string; reply: string; follow_up: string }>({
     role: "media",
-    maxTokens: 2500,
+    maxTokens: 4000,
     timeoutMs: 70_000,
     temperature: 0.4,
     schema: {

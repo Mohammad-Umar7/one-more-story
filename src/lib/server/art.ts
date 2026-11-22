@@ -30,7 +30,7 @@ interface Look {
 export async function describeLook(data: Buffer, mime: string): Promise<Look> {
   return chatJson<Look>({
     role: "media",
-    maxTokens: 700,
+    maxTokens: 2000,
     timeoutMs: 60_000,
     temperature: 0.2,
     schema: {

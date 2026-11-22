@@ -96,7 +96,7 @@ async function describe(samples: { data: Buffer; mime: string }[]): Promise<Desc
   const catalog = GEMINI_VOICES.map((v) => `${v.name} (${v.gender}, ${v.character})`).join("; ");
   return chatJson<Description>({
     role: "media",
-    maxTokens: 900,
+    maxTokens: 2000,
     timeoutMs: 60_000,
     temperature: 0.2,
     schema: {
@@ -144,7 +144,7 @@ async function pickClosest(
 ): Promise<string> {
   const res = await chatJson<{ closest: string; why: string }>({
     role: "media",
-    maxTokens: 300,
+    maxTokens: 1200,
     timeoutMs: 60_000,
     temperature: 0,
     schema: {

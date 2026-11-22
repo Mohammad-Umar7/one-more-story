@@ -113,6 +113,9 @@ async function chat(opts: ChatOptions): Promise<ChatResponse> {
       ? { response_format: { type: "json_schema", json_schema: { name: opts.schema.name, strict: true, schema: opts.schema.schema } } }
       : {}),
     ...(opts.modalities ? { modalities: opts.modalities } : {}),
+    // Gemini thinks before answering and its thinking counts against
+    // max_tokens: keep it light for listening and looking jobs.
+    ...((opts.role ?? "smart") === "media" ? { reasoning: { effort: "low" } } : {}),
     ...opts.extra,
   };
   const res = await post("/chat/completions", body, opts.timeoutMs ?? 45_000);
@@ -200,7 +203,7 @@ export function imagePart(data: Buffer, mime: string) {
 export async function transcribe(data: Buffer, mime: string, hint = ""): Promise<string> {
   const text = await chatText({
     role: "media",
-    maxTokens: 2500,
+    maxTokens: 4000,
     timeoutMs: 60_000,
     temperature: 0,
     messages: [
