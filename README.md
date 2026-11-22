@@ -4,7 +4,7 @@
 
 Built for the **HealthX Ajyal Hackathon** (Department of Health, Abu Dhabi), theme **Protecting Brain Health**: *"How might we use AI to support early identification, monitoring and care for people at risk of or living with Alzheimer's and other dementias, and for their caregivers?"*
 
-Mobile-first (phone in Chrome is the primary layout), scales up to tablets. Navy, ivory and gold; large type (Atkinson Hyperlegible, designed for low-vision readers); one question per screen; Home, Pause and a tap alternative for every spoken choice.
+Mobile-first (phone in Chrome is the primary layout), scales up to tablets. Navy, ivory and gold; large type in one plain sans-serif (Atkinson Hyperlegible, designed for low-vision readers; no serif, italics or all-caps, as dementia-friendly guidance recommends); one question per screen; Home, Pause and a tap alternative for every spoken choice.
 
 ---
 
@@ -141,5 +141,5 @@ npm run build; npm run verify:alerts
 
 - Seed photos: AI-generated for this demo (HiDream-O1-Image and FLUX.1-Krea-dev via Hugging Face Spaces). Fictional people and places.
 - Demo clue voices: Windows speech synthesis, as stand-ins for the player's own recordings.
-- Fonts: Atkinson Hyperlegible (Braille Institute), Fraunces.
+- Font: Atkinson Hyperlegible (Braille Institute).
 - Built with AI assistance (Claude Code), disclosed per the hackathon rules.
