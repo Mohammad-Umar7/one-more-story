@@ -39,6 +39,9 @@ export interface VoiceSnapshot {
   capturing: boolean;
   noteMode: boolean;
   lastDecision: (AgentDecision & { utterance: string }) | null;
+  /** Hold-to-talk: the player only speaks while holding the button (or Space). */
+  ptt: boolean;
+  holding: boolean;
 }
 
 export interface CapturedTurn {
@@ -94,6 +97,8 @@ const initial: VoiceSnapshot = {
   capturing: false,
   noteMode: false,
   lastDecision: null,
+  ptt: true,
+  holding: false,
 };
 
 export class VoiceEngine {
@@ -130,6 +135,12 @@ export class VoiceEngine {
   private starting = false;
   private micBlocked = false; // permission denied: voice is unavailable, the player taps instead
   private noteResolver: ((t: CapturedTurn | null) => void) | null = null;
+  // Hold-to-talk (on by default): words count only while the button is held,
+  // plus a moment after letting go for the last words to arrive.
+  pushToTalk = true;
+  private holding = false;
+  private flushUntil = 0;
+  private releaseTimer: ReturnType<typeof setTimeout> | null = null;
 
   // ---- store plumbing (useSyncExternalStore) ------------------------------
   subscribe = (fn: () => void) => {
@@ -417,6 +428,7 @@ export class VoiceEngine {
   private enterListening() {
     if (!this.isActive) return;
     this.set({ status: this.busy ? "thinking" : "listening" });
+    if (this.pushToTalk) return; // recording starts when the button is pressed
     if (this.screen?.captureAnswers?.() || this.noteResolver) {
       void this.mic.ensure().then((ok) => {
         if (ok && this.isActive && this.snap.status === "listening" && !this.mic.recording) {
@@ -441,8 +453,9 @@ export class VoiceEngine {
 
   private onHeard(finals: string[], interim: string) {
     if (!this.isActive) return;
+    if (this.pushToTalk && !this.holding && Date.now() > this.flushUntil) return; // button not held: not for us
     const now = Date.now();
-    if (this.playbackKind) {
+    if (this.playbackKind && !(this.pushToTalk && this.holding)) {
       this.whilePlaying(finals, interim);
       return;
     }
@@ -497,6 +510,10 @@ export class VoiceEngine {
   }
 
   private armTimer() {
+    if (this.pushToTalk) {
+      this.clearTimer();
+      return; // the turn ends when the button is released
+    }
     this.clearTimer();
     const text = [...this.finals, this.interim].join(" ");
     let wait = this.noteResolver ? 3200 : this.screen?.turnPauseMs?.() ?? (this.patience === "extra" ? 2300 : 1300);
@@ -504,6 +521,48 @@ export class VoiceEngine {
     if (soundsUnfinished(text)) wait += 1500;
     if (isOnlyFiller(text)) wait += 2500;
     this.turnTimer = setTimeout(() => this.finishTurn(), wait);
+  }
+
+  setPushToTalk(on: boolean) {
+    this.pushToTalk = on;
+    this.set({ ptt: on });
+  }
+
+  /** Hold-to-talk: the button (or Space) went down. */
+  pttStart(): void {
+    if (!this.isActive || this.holding) return;
+    if (this.releaseTimer) clearTimeout(this.releaseTimer);
+    this.releaseTimer = null;
+    this.holding = true;
+    // Talking over the companion is how you answer: stop it at once.
+    if (this.playbackKind) this.speaker.stop();
+    this.resetTurn();
+    this.hardGuardUntil = 0;
+    this.echoGuardUntil = 0;
+    this.swallowUntil = 0;
+    this.queued = [];
+    this.set({ holding: true, status: "listening", interim: "" });
+    if (this.screen?.captureAnswers?.() || this.noteResolver) {
+      void this.mic.ensure().then((ok) => {
+        if (ok && this.holding && !this.mic.recording) this.set({ capturing: this.mic.begin() });
+      });
+    }
+  }
+
+  /** Hold-to-talk: the button (or Space) came up. The turn ends (after the last words arrive). */
+  pttEnd(): void {
+    if (!this.holding) return;
+    this.holding = false;
+    this.flushUntil = Date.now() + 900;
+    this.set({ holding: false });
+    this.releaseTimer = setTimeout(() => {
+      this.releaseTimer = null;
+      if (this.finals.length || this.interim) this.finishTurn();
+      else {
+        this.mic.cancel();
+        this.set({ capturing: false, interim: "" });
+      }
+    }, 900);
   }
 
   /** End the current spoken turn right away (e.g. the "I'm finished" button while recording a note). */

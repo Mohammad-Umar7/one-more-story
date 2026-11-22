@@ -1,6 +1,7 @@
 "use client";
 
 import { useVoice } from "./AppProvider";
+import { HoldToTalk } from "./HoldToTalk";
 import { Button } from "./ui";
 import { MicIcon, MicOffIcon, StopIcon, DoorIcon } from "./icons";
 import type { VoiceSnapshot } from "@/lib/client/voice-engine";
@@ -78,7 +79,11 @@ export function VoiceDock({ screenText }: { screenText?: string | null }) {
         )}
         {active && snap.micMessage && <p className="mb-2 px-1 text-sm font-bold text-gold-200">{snap.micMessage}</p>}
 
-        {!active ? (
+        {active && snap.ptt && !snap.paused ? (
+          <div className="pb-2 pt-1">
+            <HoldToTalk />
+          </div>
+        ) : !active ? (
           <div className="flex gap-2">
             <Button variant="gold" size="lg" className="flex-1" icon={<MicIcon size={26} />} onClick={() => void engine.start()}>
               Start voice

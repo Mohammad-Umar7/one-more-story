@@ -9,6 +9,7 @@ import { Caption, Confetti } from "@/components/companion/Caption";
 import { ChoiceCard, type ChoiceState } from "@/components/companion/ChoiceCard";
 import { BreatheGame, SparkleGame } from "@/components/companion/CalmGames";
 import { MicIcon, MicOffIcon, PauseIcon, UsersIcon } from "@/components/icons";
+import { HoldToTalk } from "@/components/HoldToTalk";
 import { sendReliably } from "@/lib/client/api";
 import { startChain } from "@/lib/client/chain";
 import { sparkleChord, unlockChime } from "@/lib/client/chime";
@@ -761,8 +762,13 @@ export default function CompanionPage() {
           </section>
         )}
 
-        {/* How to answer, quietly. */}
-        {snap.active && phase !== "rest" && (
+        {/* Hold to talk. */}
+        {snap.active && snap.ptt && phase !== "rest" && (
+          <footer className="flex justify-center pb-4 pt-2">
+            <HoldToTalk />
+          </footer>
+        )}
+        {snap.active && !snap.ptt && phase !== "rest" && (
           <footer className="flex justify-center pb-3">
             <span className="flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-bold text-ivory-200/80" role="status">
               {tapOnly ? <MicOffIcon size={16} /> : <MicIcon size={16} />}
