@@ -2,6 +2,7 @@
 
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { chainFromUrl, nextInChain } from "@/lib/client/chain";
 import { useApp, useScreen, useVoice } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RecordButton } from "@/components/RecordButton";
@@ -40,7 +41,8 @@ export default function TellTheStoryPage() {
   const { engine, snap } = useVoice();
   const router = useRouter();
   const photos = bundle?.photos ?? [];
-  const name = bundle?.player.name ?? "";
+  const name = bundle ? bundle.player.familyName || bundle.player.name : "";
+  const chain = useRef<string[] | null>(null);
 
   const [, render] = useReducer((x: number) => x + 1, 0);
   const st = useRef({
@@ -62,6 +64,10 @@ export default function TellTheStoryPage() {
     st.current = { ...st.current, ...patch };
     render();
   };
+
+  useEffect(() => {
+    chain.current = chainFromUrl();
+  }, []);
 
   useEffect(() => {
     alive.current = true;
@@ -137,19 +143,26 @@ export default function TellTheStoryPage() {
     if (!alive.current) return { speak: null };
     cur.clips.forEach((c) => URL.revokeObjectURL(c.url));
     update({ saving: false, phase: "saved", clips: [], outcome: "saved" });
-    const more = st.current.index + 1 < photos.length;
+    // Led by the companion: one photo, then back to say goodbye.
+    const more = !chain.current && st.current.index + 1 < photos.length;
     await engine.say(
       more
         ? "Saved. Your family will love hearing this. Shall we look at another photo?"
         : `Saved. Your family will love hearing this. Thank you, ${name}.`,
     );
+    if (chain.current && alive.current) router.push(nextInChain(chain.current));
     return { speak: null };
   }
 
   async function discard(): Promise<ActResult> {
     st.current.clips.forEach((c) => URL.revokeObjectURL(c.url));
     update({ clips: [], phase: "saved", outcome: "discarded" });
-    const more = st.current.index + 1 < photos.length;
+    const more = !chain.current && st.current.index + 1 < photos.length;
+    if (chain.current) {
+      await engine.say("All right, it's gone. Thank you for sharing it with me.");
+      if (alive.current) router.push(nextInChain(chain.current));
+      return { speak: null };
+    }
     await engine.say(more ? "All right, it's gone. Shall we look at another photo?" : "All right, it's gone. That's all the photos for today.");
     return { speak: null };
   }

@@ -14,6 +14,7 @@ import type { ActResult, ScreenController } from "@/lib/client/voice-engine";
 import type { ScreenContext } from "@/lib/shared/agent";
 import type { RoomObject } from "@/lib/shared/types";
 import { useRouter } from "next/navigation";
+import { chainFromUrl, nextInChain } from "@/lib/client/chain";
 
 type Phase = "intro" | "asking" | "celebrating" | "done";
 
@@ -68,7 +69,8 @@ export default function MemoryRoomPage() {
   const { bundle, engine } = useApp();
   const router = useRouter();
   const room = bundle?.room ?? null;
-  const name = bundle?.player.name ?? "";
+  const name = bundle ? bundle.player.familyName || bundle.player.name : "";
+  const chain = useRef<string[] | null>(null);
   const st = useRef<RoundState>(fresh());
   const [, render] = useReducer((x: number) => x + 1, 0);
   const alive = useRef(true);
@@ -82,6 +84,7 @@ export default function MemoryRoomPage() {
   // Leaving mid-round (Home, closing the tab) marks the round interrupted.
   useEffect(() => {
     alive.current = true;
+    chain.current = chainFromUrl();
     try {
       debug.current = sessionStorage.getItem("oms-debug") === "1";
     } catch {
@@ -172,6 +175,11 @@ export default function MemoryRoomPage() {
       } else {
         update({ phase: "done" });
         void finishRound(sid!);
+        if (chain.current) {
+          await engine.say(`All four, back where they belong. Well done, ${name}.`);
+          if (stillHere(sid)) router.push(nextInChain(chain.current));
+          return { speak: null };
+        }
         await engine.say(`All four, back where they belong. Thank you, ${name}. Would you like to play again?`);
       }
       return { speak: null };

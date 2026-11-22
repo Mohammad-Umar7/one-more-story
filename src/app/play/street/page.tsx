@@ -2,6 +2,7 @@
 
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { chainFromUrl, nextInChain } from "@/lib/client/chain";
 import { useApp, useScreen, useVoice } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RecordButton } from "@/components/RecordButton";
@@ -47,7 +48,8 @@ export default function StreetPage() {
   const { engine, snap } = useVoice();
   const router = useRouter();
   const route = bundle?.route ?? null;
-  const name = bundle?.player.name ?? "";
+  const name = bundle ? bundle.player.familyName || bundle.player.name : "";
+  const chain = useRef<string[] | null>(null);
   const saveSpeech = bundle?.player.saveTourSpeech ?? true;
 
   const [, render] = useReducer((x: number) => x + 1, 0);
@@ -72,6 +74,10 @@ export default function StreetPage() {
     st.current = { ...st.current, ...patch };
     render();
   };
+
+  useEffect(() => {
+    chain.current = chainFromUrl();
+  }, []);
 
   useEffect(() => {
     alive.current = true;
@@ -238,6 +244,7 @@ export default function StreetPage() {
     void sendReliably(`/api/tours/${cur.tourId}/finish`, { status: "completed" }).catch(() => undefined);
     update({ phase: "end" });
     await engine.say(`Thank you for the tour, ${name}. Your family can walk it with you any time.`);
+    if (chain.current && alive.current) router.push(nextInChain(chain.current));
     return { speak: null };
   }
 

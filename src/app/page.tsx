@@ -10,6 +10,7 @@ import { ChoiceCard, type ChoiceState } from "@/components/companion/ChoiceCard"
 import { BreatheGame, SparkleGame } from "@/components/companion/CalmGames";
 import { MicIcon, MicOffIcon, PauseIcon, UsersIcon } from "@/components/icons";
 import { sendReliably } from "@/lib/client/api";
+import { startChain } from "@/lib/client/chain";
 import { sparkleChord, unlockChime } from "@/lib/client/chime";
 import { words } from "@/lib/shared/text";
 import { isScored, KIND_LABEL, type DailyPlan, type Game, type GameChoice, type GameItem, type ItemResult, type Memory } from "@/lib/shared/companion";
@@ -44,6 +45,9 @@ interface Outcome {
 const newTrack = (): Track => ({ attempts: 0, hints: 0, revealed: false, correct: false, spoke: false, words: 0, askedAt: 0, firstAt: null, done: false });
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 class Stopped extends Error {}
+
+/** Lead the day with Umar's classic games (voice-led: room, street, story). */
+const USE_CLASSIC_GAMES = true;
 
 const RETRY = ["Let's have another look.", "Hmm, have another look.", "Nearly. Look again."];
 
@@ -479,6 +483,26 @@ export default function CompanionPage() {
       try {
         await ensure(token);
         setPhase("talking");
+        // Back from the games: say goodbye.
+        if (typeof window !== "undefined" && new URLSearchParams(window.location.search).has("after")) {
+          setPhase("closing");
+          setBurst((b) => b + 1);
+          await real(token, "well_done", `Well done, ${call}.`);
+          await say(token, `That was wonderful, ${call}. Thank you for playing with me.`);
+          await real(token, "love_you", `See you tomorrow, ${call}.`);
+          setPhase("rest");
+          window.history.replaceState(null, "", "/");
+          return;
+        }
+        // The companion leads Umar's three games: the memory room, the street tour, a story.
+        if (USE_CLASSIC_GAMES) {
+          await real(token, "hello", `Hello ${call}, it's me, ${companion?.name ?? "your friend"}.`);
+          await say(token, `Good morning, ${call}. It's so lovely to see you today.`);
+          await real(token, "lets_play", "Let's play a little game together.");
+          await say(token, "First, let's find a few of your things in the living room.");
+          router.push(startChain());
+          return;
+        }
         cursorRef.current = null;
         setCursor(null);
         void sendReliably(`/api/companion/plan/${p.id}/start`, {}).catch(() => undefined);
@@ -521,7 +545,7 @@ export default function CompanionPage() {
         if (!(err instanceof Stopped)) console.warn("[companion]", err);
       }
     },
-    [call, captureMemory, companion, ensure, real, runItem, say],
+    [call, captureMemory, companion, ensure, real, router, runItem, say],
   );
 
   // Once there is a plan, wake up: by ourselves if the browser allows it, otherwise on the first touch.
