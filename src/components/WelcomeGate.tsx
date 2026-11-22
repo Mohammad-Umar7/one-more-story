@@ -73,10 +73,6 @@ export function WelcomeGate() {
     setState("hidden");
     void engine.start(); // the tap unlocks sound and the mic; the screen's greeting is spoken
   };
-  const skip = () => {
-    markWelcomed();
-    setState("hidden");
-  };
 
   return (
     <div
@@ -97,7 +93,7 @@ export function WelcomeGate() {
         <h1 id="welcome-title" className="mt-2 font-display text-[2.4rem] font-bold leading-tight">
           {greetingWord(new Date().getHours())}, {bundle.player.familyName || bundle.player.name}
         </h1>
-        <p className="mt-3 text-xl leading-relaxed text-ivory-200">Shall we play a game together? Tap below and I&apos;ll talk with you.</p>
+        <p className="mt-3 text-xl leading-relaxed text-ivory-200">Let&apos;s play our game together.</p>
         <button
           type="button"
           onClick={start}
@@ -105,13 +101,6 @@ export function WelcomeGate() {
           className="pointer-events-auto mt-10 flex min-h-20 w-full items-center justify-center gap-3 rounded-3xl bg-gold-400 px-6 text-2xl font-bold text-navy-950 shadow-gold active:scale-[0.98]"
         >
           <MicIcon size={30} /> Start
-        </button>
-        <button
-          type="button"
-          onClick={skip}
-          className="pointer-events-auto mt-5 min-h-12 px-4 text-lg font-bold text-ivory-200 underline underline-offset-4"
-        >
-          Play without voice
         </button>
       </div>
     </div>

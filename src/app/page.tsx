@@ -109,12 +109,21 @@ export default function CompanionPage() {
 
   // ---- loading -------------------------------------------------------------------
 
+  // Opening the app goes straight into the day's game; Aamir says hello there.
+  // This screen is only for saying goodbye after the games (/?after=1).
+  const goingToGame = typeof window !== "undefined" && !new URLSearchParams(window.location.search).has("after");
   useEffect(() => {
-    if (!bundle) return;
-    if (!bundle.onboarded) {
-      router.replace("/welcome");
-      return;
+    if (!goingToGame) return;
+    try {
+      sessionStorage.setItem("oms-greet", "1");
+    } catch {
+      // the hello is skipped, the game still starts
     }
+    router.replace(startChain());
+  }, [goingToGame, router]);
+
+  useEffect(() => {
+    if (!bundle || goingToGame) return;
     let cancelled = false;
     void (async () => {
       try {
@@ -628,7 +637,7 @@ export default function CompanionPage() {
   const tapOnly = snap.recognition === "unsupported" || snap.mic === "denied";
   const now = new Date();
 
-  if (!bundle || (bundle && !bundle.onboarded)) {
+  if (!bundle || goingToGame) {
     return (
       <div className="night flex items-center justify-center">
         <NightSky />

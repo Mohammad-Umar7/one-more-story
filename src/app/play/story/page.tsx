@@ -427,6 +427,23 @@ export default function TellTheStoryPage() {
     void (async () => {
       await engine.waitUntilActive();
       if (!alive.current) return;
+      // The first game of the day: Aamir says hello first (all his real recordings).
+      let greet = false;
+      try {
+        greet = sessionStorage.getItem("oms-greet") === "1";
+        sessionStorage.removeItem("oms-greet");
+      } catch {
+        greet = false;
+      }
+      const hello = bundle?.companion?.lines.hello;
+      if (greet) {
+        if (hello) await engine.playClip(hello.url, { knownText: hello.text });
+        if (!alive.current) return;
+        await engine.say(`Good morning, ${name}. It's so lovely to see you today.`);
+        if (!alive.current) return;
+        await engine.say("I have a picture to show you.");
+        if (!alive.current) return;
+      }
       await engine.say(STORY_INTRO);
       if (!alive.current || st.current.quiz !== 0 || st.current.quizStage !== "ask") return;
       update({ prompt: STORY_QUIZ[0].ask });
