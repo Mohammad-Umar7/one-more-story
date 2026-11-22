@@ -24,13 +24,13 @@ Total: about 4 minutes of audio, which is also enough for the voice matching.
 Save as `demo/1-childhood.m4a`, `demo/2-people.m4a`, and so on.
 
 **1. Where did Dada grow up?** (`1-childhood`)
-> Dada grew up in Peshawar, in a big old house with a courtyard and a lemon tree in the middle. He was the eldest of six children. He always tells me how his mother made fresh roti in a clay tandoor every morning, and how he and his brothers played cricket in the street until it got dark.
+> Dada grew up in Lucknow, in a big old house with a courtyard and a lemon tree in the middle. He was the eldest of six children. He always tells me how his mother made fresh roti in a clay tandoor every morning, and how he and his brothers played cricket in the street until it got dark.
 
 **2. The most important people** (`2-people`)
 > The most important person in his life is my Dadi, Fatima. They've been married for fifty-two years. He has three children: my father Imran, my aunt Saima and my uncle Kamran. He has five grandchildren, and I'm the eldest, Aamir. His best friend is Uncle Javed. They've had chai together every Friday for forty years.
 
 **3. How he met the love of his life** (`3-love`)
-> He met Dadi at a wedding in Peshawar in 1972. He says she laughed at one of his jokes, and that was it. They got married a year later, and in 1976 they moved to Abu Dhabi with just two suitcases and a small radio.
+> He met Dadi at a wedding in Lucknow in 1972. He says she laughed at one of his jokes, and that was it. They got married a year later, and in 1976 they moved to Abu Dhabi with just two suitcases and a small radio.
 
 **4. His work** (`4-work`)
 > Dada was a civil engineer. He helped build roads and bridges in Abu Dhabi for over thirty years. Whenever we drive along the Corniche he still points and says, "I built that one." He's really proud of it, and the whole family still goes to him for advice.
@@ -39,7 +39,7 @@ Save as `demo/1-childhood.m4a`, `demo/2-people.m4a`, and so on.
 > My favourite memory is when Dada taught me to ride a bike on the Corniche when I was seven. I kept falling, and he kept running behind me holding the seat. When I finally rode on my own, he bought us both ice cream, pistachio for him and mango for me. He still calls me his champion.
 
 **6. What he loves** (`6-favorites`)
-> Dada loves strong chai with lots of sugar, and gulab jamun. He loves old Mehdi Hassan ghazals and he hums them all the time. He loves watching cricket, especially when Pakistan is playing, and every evening he feeds the pigeons in the park.
+> Dada loves strong chai with lots of sugar, and gulab jamun. He loves old Mohammed Rafi songs and he hums them all the time. He loves watching cricket, especially when India is playing, and every evening he feeds the pigeons in the park.
 
 **7. A normal day now** (`7-routine`)
 > He wakes up early for Fajr, then has his chai and reads the newspaper in his chair by the window. After lunch he naps, and in the evening he walks to the park with Dadi to feed the pigeons. On Fridays the whole family comes over for lunch.
