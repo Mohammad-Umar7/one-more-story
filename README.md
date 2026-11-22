@@ -38,7 +38,8 @@ Implemented in [`src/lib/shared/baseline.ts`](src/lib/shared/baseline.ts) (pure 
 
 How the agent behaves (`src/lib/client/voice-engine.ts`):
 
-- Tap **Start voice** once, then talk naturally across turns and screens. Status always shows **Listening**, **Speaking** or **Paused** (plus "One moment" while thinking).
+- **Voice from the first moment.** The app opens on a welcome screen with one big **Start** button; that single tap turns the voice on and the companion greets the player out loud. (Browsers only let a page talk and listen after one tap.) If the browser already allows it (sound allowed for the site, microphone already permitted, OpenRouter voice configured), it skips the tap and starts talking straight away. *Play without voice* is there for tap-only play, and **Start voice** stays in the bottom bar.
+- Then talk naturally across turns and screens. Status always shows **Listening**, **Speaking** or **Paused** (plus "One moment" while thinking).
 - **One short question at a time.** Pauses are allowed: the turn only ends after a silence, longer if the sentence sounds unfinished ("we used to go to the…") or is only "um…"; *Give extra time to answer* in setup makes it longer still.
 - **Interrupt any time**: say something different (or "stop", "wait") while it talks, or tap **Stop speaking**. The mic stays on during playback, but anything that matches the companion's own words (or the player's own clue recording) is ignored, so **its own playback is never taken as an answer**.
 - **"I'm done"** ends the session and releases the microphone.
