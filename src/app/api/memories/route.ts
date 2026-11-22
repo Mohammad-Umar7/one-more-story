@@ -7,8 +7,6 @@ import { paintMemories } from "@/lib/server/art";
 import { playerContext } from "@/lib/server/companion";
 import { describeAiError, transcribe } from "@/lib/server/openrouter";
 
-export const maxDuration = 120;
-
 const AUDIO = ["audio/wav", "audio/x-wav", "audio/mpeg", "audio/mp4", "audio/webm", "audio/ogg"];
 const IMAGE = ["image/jpeg", "image/png", "image/webp"];
 

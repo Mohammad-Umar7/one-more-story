@@ -4,8 +4,6 @@ import { assessPlan } from "@/lib/server/assess";
 import { planContext, playerContext } from "@/lib/server/companion";
 import { describeAiError } from "@/lib/server/openrouter";
 
-export const maxDuration = 120;
-
 // The day's games are finished: the AI sets the new baseline, then makes
 // tomorrow's games in the background.
 export const POST = route(async (_req: Request, { params }: IdParams) => {

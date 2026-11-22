@@ -6,8 +6,6 @@ import { hearAnswer, replyToText } from "@/lib/server/interview";
 import { describeAiError } from "@/lib/server/openrouter";
 import { fillQuestion, INTERVIEW, type Pronoun } from "@/lib/shared/onboarding";
 
-export const maxDuration = 120;
-
 const AUDIO = ["audio/wav", "audio/x-wav", "audio/mpeg", "audio/mp4", "audio/webm", "audio/ogg"];
 
 // Step 3: one answer to the story interview, recorded (or typed). The AI

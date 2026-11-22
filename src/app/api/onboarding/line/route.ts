@@ -5,8 +5,6 @@ import { getCompanionMember, saveVoiceLine } from "@/lib/server/family";
 import { describeAiError, transcribe } from "@/lib/server/openrouter";
 import { VOICE_LINES, type VoiceLineKey } from "@/lib/shared/companion";
 
-export const maxDuration = 60;
-
 // Step 4: a short line in the family member's own voice ("Hello Baba, it's me!").
 // The player hears these real recordings at the warmest moments.
 export const POST = route(async (req: Request) => {
