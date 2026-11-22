@@ -24,7 +24,6 @@ Every line he records is played in his real voice; anything not recorded falls b
 5. That was the day you taught me to ride my bike, Dada. What do you remember most about it?
 6. You kept running behind me, holding the seat. How did it feel when I finally rode on my own?
 7. I'll never forget it, Dada. Tell me a little more.
-8. Thank you for sharing that. Would you like to listen back, save it, or let it go?
 9. Saved. Your family will love hearing this. Thank you, Dada.
 
 **My Memory Room**
@@ -63,15 +62,14 @@ Every line he records is played in his real voice; anything not recorded falls b
 35. I love you, Dada. See you tomorrow.  *(already recorded)*
 
 
-## 2. Dada: what to say live (voice only, nothing to tap)
+## 2. Dada: what to say live (voice only: there is nothing on screen to tap)
 
 | When Aamir says… | Dada says |
 |---|---|
 | "What would you like to share about this day?" | "This is the day I taught Aamir to ride his bike on the Corniche." |
 | "What do you remember most about it?" | "He kept falling, but he never gave up." |
 | "How did it feel when I finally rode on my own?" | "I was so proud. I bought him mango ice cream." |
-| "Tell me a little more." | "That's all." |
-| "…listen back, save it, or let it go?" | "Save it." |
+| "Tell me a little more." | "He still calls me his champion." *(the story then saves itself and Aamir moves on)* |
 | "…your glasses?" | "In the blue bowl." |
 | "…your keys?" | "In the drawer." (a deliberate miss, to show the clue) |
 | "Would you like to hear your clue?" | "Yes please." *(his own recorded clue plays)* |

@@ -191,13 +191,14 @@ img {
 }
 
 /* Voice only: while the companion leads, the player just talks. Game buttons,
-   the dock's buttons and tap hints are hidden (the room's spot markers stay
-   visible but can't be tapped). The family keeps Pause in the header. */
-html[data-voice-only] main button:not(.room-photo button),
+   the dock's buttons and tap hints are hidden. The room's spot markers stay
+   visible but can't be tapped. The family keeps Pause in the header. */
+html[data-voice-only] main button,
 html[data-voice-only] .voice-dock button,
 html[data-voice-only] .tap-hint {
   display: none !important;
 }
-html[data-voice-only] .room-photo button {
+html[data-voice-only] main .room-photo button {
+  display: flex !important;
   pointer-events: none;
 }
