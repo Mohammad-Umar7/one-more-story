@@ -83,12 +83,12 @@ export const DEMO_OBJECTS = [
   },
   {
     id: "obj_wallet",
-    name: "wallet",
-    icon: "wallet",
-    question: "Where do you usually keep your wallet?",
+    name: "watch",
+    icon: "watch",
+    question: "Where do you usually keep your watch?",
     spotId: "spot_drawer",
-    clue: "clue-wallet.mp3",
-    transcript: "My wallet goes in the drawer. The top one.",
+    clue: null,
+    transcript: null,
   },
   {
     id: "obj_beads",
@@ -109,16 +109,16 @@ const CAREGIVERS = [
 ] as const;
 
 const STOPS = [
-  { id: "st_gate", name: "Our front gate", image: "gate.jpg" },
+  { id: "st_gate", name: "the front gate", image: "gate.jpg" },
   { id: "st_bakery", name: "Noor Bakery", image: "bakery.jpg" },
   { id: "st_lane", name: "Jasmine Lane", image: "lane.jpg" },
-  { id: "st_park", name: "The little park", image: "park.jpg" },
-  { id: "st_main", name: "The main road", image: "mainroad.jpg" },
-  { id: "st_tea", name: "The tea stall", image: "teastall.jpg" },
+  { id: "st_park", name: "the little park", image: "park.jpg" },
+  { id: "st_main", name: "the main road", image: "mainroad.jpg" },
+  { id: "st_tea", name: "the tea stall", image: "teastall.jpg" },
 ];
 
 const LINKS = [
-  { from: "st_gate", to: "st_bakery", direction: "straight", label: "walk on to the bakery" },
+  { from: "st_gate", to: "st_bakery", direction: "straight", label: "the bakery straight ahead" },
   { from: "st_bakery", to: "st_lane", direction: "left", label: "the lane on the left" },
   { from: "st_bakery", to: "st_main", direction: "right", label: "the main road on the right" },
   { from: "st_lane", to: "st_park", direction: "straight", label: "on to the little park" },
@@ -168,8 +168,8 @@ export function seedDemoContent(): void {
       );
     });
     DEMO_OBJECTS.forEach((o, i) => {
-      const clueId = `m_clue_${o.icon}`;
-      seedMedia(clueId, `audio/${o.clue}`, { transcript: o.transcript });
+      const clueId = o.clue ? `m_clue_${o.icon}` : null;
+      if (clueId) seedMedia(clueId, `audio/${o.clue}`, { transcript: o.transcript ?? undefined });
       db.prepare(
         `INSERT INTO room_objects (id, room_id, name, icon, question, spot_id, clue_media_id, sort) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       ).run(o.id, DEMO.roomId, o.name, o.icon, o.question, o.spotId, clueId, i);
