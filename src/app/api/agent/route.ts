@@ -1,4 +1,5 @@
-import { decideWithClaude, describeClaudeError, isClaudeConfigured } from "@/lib/server/claude";
+import { decideViaOpenRouter, decideWithClaude, describeClaudeError, isClaudeConfigured } from "@/lib/server/claude";
+import { describeAiError, isOpenRouterConfigured } from "@/lib/server/openrouter";
 import { HttpError, readJson, route } from "@/lib/server/http";
 import {
   interpretLocally,
@@ -48,6 +49,13 @@ export const POST = route(async (req: Request) => {
     } catch (err) {
       console.warn("[agent]", describeClaudeError(err), "- using the local matcher for this turn");
       decision = { ...interpretLocally(body), note: "claude_unavailable" };
+    }
+  } else if (isOpenRouterConfigured()) {
+    try {
+      decision = await decideViaOpenRouter(body);
+    } catch (err) {
+      console.warn("[agent] OpenRouter", describeAiError(err), "- using the local matcher for this turn");
+      decision = { ...interpretLocally(body), note: "openrouter_unavailable" };
     }
   } else {
     decision = interpretLocally(body);

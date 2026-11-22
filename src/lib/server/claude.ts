@@ -1,8 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { allActions, type AgentDecision, type AgentRequest } from "../shared/agent";
+import { chatJson, isOpenRouterConfigured, modelFor } from "./openrouter";
 
-// Conversation and game actions go to Claude directly with the team's
-// Anthropic key. The reply is constrained to a JSON schema whose enums only
+// Conversation and game actions go to Claude: directly with an Anthropic key
+// when there is one, otherwise through OpenRouter (Claude Sonnet 5.5 by
+// default). The reply is constrained to a JSON schema whose enums only
 // contain the actions and targets that are valid on the current screen.
 
 const DEFAULT_MODEL = "claude-opus-5-5";
@@ -13,6 +15,20 @@ export function claudeModel(): string {
 
 export function isClaudeConfigured(): boolean {
   return Boolean(process.env.ANTHROPIC_API_KEY?.trim());
+}
+
+/** The model that answers voice turns when there is no direct Anthropic key. */
+export function agentModelViaOpenRouter(): string {
+  return process.env.OPENROUTER_AGENT_MODEL?.trim() || modelFor("smart");
+}
+
+/** Is any conversation model available (direct Anthropic or OpenRouter)? */
+export function isAgentConfigured(): boolean {
+  return isClaudeConfigured() || isOpenRouterConfigured();
+}
+
+export function agentModel(): string {
+  return isClaudeConfigured() ? claudeModel() : agentModelViaOpenRouter();
 }
 
 type Effort = "low" | "medium" | "high" | "xhigh" | "max";
@@ -65,7 +81,8 @@ Per game
 - My Memory Room: never reveal where an object is and never say whether a choice is right; the game says that. For choose_spot and play_clue, set say to "".
 - Tell the Story: when they share something, choose the talk action and reply with genuine interest plus ONE open follow-up question built on their own words. Example: they say "That was my cricket team" and you ask "What did you enjoy about playing with them?". If they say they don't remember, reassure them there is no right answer and ask what they notice in the photo.
 - Show Me Your Street: the player is the tour guide and you are a curious visitor. When they describe a place, respond with interest and one short follow-up, or ask which way to go next. When they choose a way ("let's take the lane on the left"), choose the go action with that direction and set say to "", because the game will describe the new place.
-- Home: help them pick one of the three games.`;
+- Home: help them pick one of the three games.
+- Today's games (game "companion"): the companion leads and the player never has to choose what to do next. For a question with choices on screen, map their words to one choice with the choose action and set say to "" (the game praises or encourages). If they talk about a memory instead, use the talk action when it is allowed (say ""), otherwise use "none" and reply warmly in one sentence, then repeat the question. If they ask for help, use the hint action when it is allowed.`;
 
 function renderTurn(req: AgentRequest): string {
   const ctx = req.context;
@@ -109,10 +126,10 @@ function renderTurn(req: AgentRequest): string {
 
 export class ClaudeUnavailable extends Error {}
 
-export async function decideWithClaude(req: AgentRequest): Promise<AgentDecision> {
+function decisionSchema(req: AgentRequest) {
   const actions = allActions(req.context);
   const targetIds = Array.from(new Set(actions.flatMap((a) => a.targets?.map((t) => t.id) ?? [])));
-  const schema = {
+  return {
     type: "object",
     properties: {
       action: { type: "string", enum: actions.map((a) => a.name) },
@@ -123,6 +140,40 @@ export async function decideWithClaude(req: AgentRequest): Promise<AgentDecision
     required: ["action", "target", "say", "needs_clarification"],
     additionalProperties: false,
   };
+}
+
+type RawDecision = { action?: string; target?: string; say?: string; needs_clarification?: boolean };
+
+function toDecision(parsed: RawDecision, started: number, source: AgentDecision["source"] = "claude"): AgentDecision {
+  return {
+    action: String(parsed.action ?? "none"),
+    target: parsed.target ? String(parsed.target) : null,
+    say: String(parsed.say ?? "").trim().slice(0, 400),
+    needsClarification: Boolean(parsed.needs_clarification),
+    source,
+    latencyMs: Date.now() - started,
+  };
+}
+
+/** Same prompt and schema as the direct call, sent through OpenRouter. */
+export async function decideViaOpenRouter(req: AgentRequest): Promise<AgentDecision> {
+  const started = Date.now();
+  const parsed = await chatJson<RawDecision>({
+    model: agentModelViaOpenRouter(),
+    maxTokens: 400,
+    timeoutMs: 10_000,
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: renderTurn(req) },
+    ],
+    schema: { name: "decision", schema: decisionSchema(req) },
+    extra: { reasoning: { effort: "low" } },
+  });
+  return toDecision(parsed, started);
+}
+
+export async function decideWithClaude(req: AgentRequest): Promise<AgentDecision> {
+  const schema = decisionSchema(req);
 
   const model = claudeModel();
   const base = {
@@ -148,20 +199,13 @@ export async function decideWithClaude(req: AgentRequest): Promise<AgentDecision
   const text = response.content.find((b) => b.type === "text");
   if (!text || text.type !== "text") throw new ClaudeUnavailable("no text block");
 
-  let parsed: { action?: string; target?: string; say?: string; needs_clarification?: boolean };
+  let parsed: RawDecision;
   try {
     parsed = JSON.parse(text.text);
   } catch {
     throw new ClaudeUnavailable("invalid JSON");
   }
-  return {
-    action: String(parsed.action ?? "none"),
-    target: parsed.target ? String(parsed.target) : null,
-    say: String(parsed.say ?? "").trim().slice(0, 400),
-    needsClarification: Boolean(parsed.needs_clarification),
-    source: "claude",
-    latencyMs: Date.now() - started,
-  };
+  return toDecision(parsed, started);
 }
 
 /** Safe-to-log description of an SDK error (never includes the key). */

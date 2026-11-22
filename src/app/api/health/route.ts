@@ -1,5 +1,5 @@
 import { getDb } from "@/lib/server/db";
-import { isClaudeConfigured, claudeModel } from "@/lib/server/claude";
+import { isAgentConfigured, agentModel } from "@/lib/server/claude";
 import { isTtsConfigured, ttsModel } from "@/lib/server/tts";
 import { route } from "@/lib/server/http";
 
@@ -9,7 +9,7 @@ export const GET = route(async () => {
   return Response.json({
     ok: true,
     sqlite: row.v,
-    claude: { configured: isClaudeConfigured(), model: claudeModel() },
+    claude: { configured: isAgentConfigured(), model: agentModel() },
     tts: { configured: isTtsConfigured(), model: ttsModel() },
   });
 });

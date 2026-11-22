@@ -1,7 +1,7 @@
 import { getDb } from "./db";
 import { mediaUrl } from "./media";
 import { ensureSeeded, DEMO } from "./seed";
-import { claudeModel, isClaudeConfigured } from "./claude";
+import { agentModel, isAgentConfigured } from "./claude";
 import { isTtsConfigured, ttsModel } from "./tts";
 import { getVapidKeys } from "./push";
 import { roundSignature } from "../shared/baseline";
@@ -157,8 +157,8 @@ export function getBundle(): Bundle {
     photos: getStoryPhotos(playerId),
     route: getRoute(playerId),
     config: {
-      claude: isClaudeConfigured(),
-      model: claudeModel(),
+      claude: isAgentConfigured(),
+      model: agentModel(),
       tts: isTtsConfigured(),
       ttsModel: ttsModel(),
       vapidPublicKey: getVapidKeys().publicKey,

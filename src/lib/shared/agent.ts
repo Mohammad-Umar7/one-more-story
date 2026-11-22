@@ -5,7 +5,7 @@
 
 import { contentWords, labelMatchScore, normalize, words } from "./text";
 
-export type GameId = "home" | "memory_room" | "tell_the_story" | "show_me_your_street";
+export type GameId = "home" | "memory_room" | "tell_the_story" | "show_me_your_street" | "companion" | "onboarding";
 
 export interface ActionTarget {
   id: string;
