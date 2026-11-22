@@ -277,6 +277,18 @@ export function seedMemoryHistory(): { signature: string } {
   });
 }
 
+/**
+ * Start a real person from zero: no Memory Room history and no alerts. Their
+ * own usual level is then learned from their first five full rounds (no one
+ * shares a default baseline), and no alert can fire before that.
+ */
+export function clearMemoryHistory(): void {
+  tx((db) => {
+    db.prepare("DELETE FROM alerts").run();
+    db.prepare("DELETE FROM memory_sessions").run();
+  });
+}
+
 /** Restore everything the family can change, keeping phone subscriptions. */
 export function restoreDemo(): void {
   tx((db) => {
