@@ -1,4 +1,6 @@
 import { synthesize, TtsError } from "@/lib/server/tts";
+// Registers the companion's matched voice with the speech module.
+import "@/lib/server/family";
 import { readJson } from "@/lib/server/http";
 
 // Returns audio for one spoken reply. Any non-200 tells the browser to use its
