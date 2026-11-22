@@ -1,14 +1,61 @@
 # One More Story
 
-**Voice-guided memory games for people living with Alzheimer's, built from their own rooms, family photos and streets, with a gentle, automatic alert to a trusted person when they start needing more help than usual.**
+**A familiar face and voice that leads someone living with Alzheimer's through a few gentle, personal games every day. The games are made by AI from their own life story, and they adapt every day.**
 
-Built for the **HealthX Ajyal Hackathon** (Department of Health, Abu Dhabi), theme **Protecting Brain Health**: *"How might we use AI to support early identification, monitoring and care for people at risk of or living with Alzheimer's and other dementias, and for their caregivers?"*
+Built for the **HealthX Ajyal Hackathon** (Department of Health, Abu Dhabi), theme **Protecting Brain Health**.
 
-Mobile-first (phone in Chrome is the primary layout), scales up to tablets. Navy, ivory and gold; large type in one plain sans-serif (Atkinson Hyperlegible, designed for low-vision readers; no serif, italics or all-caps, as dementia-friendly guidance recommends); one question per screen; Home, Pause and a tap alternative for every spoken choice.
+Mobile-first (phone in Chrome), white and purple with frosted glass, large type in Atkinson Hyperlegible (designed for low-vision readers; dementia-friendly guidance: plain sans-serif, no italics or all-caps).
 
 ---
 
-## The three games
+## The workflow
+
+1. **The doctor shares a QR code** (`/doctor`, printable) when they give the diagnosis. Scanning it opens **`/welcome`** on the family's phone: what this is, **Add to my phone** (installable app), **Begin setup**.
+2. **A family member sets it up by voice** (`/onboarding`, about 15 minutes):
+   - **About you**: their name, how they're related, the player's name and what the family calls them ("Dada"), and consent to use their voice and photo.
+   - **Your face**: one photo. Gemini studies it and Recraft paints a warm **avatar** (or the family keeps the real photo).
+   - **Their story**: the guide asks eight questions out loud (childhood, people, love, work, a shared memory, favourite things, today's routine, anything to be gentle about). Recording starts by itself and stops when they go quiet. Each answer is transcribed, answered warmly, and gets at most one follow-up for a vivid detail. Ready-made recordings can be uploaded; typing works too.
+   - **Your voice**: six short lines in their own voice ("Hello Dada, it's me, Aamir!", "Well done!", "I love you, see you tomorrow").
+   - **How they are**: five quick questions plus what the doctor said give the **starting baseline**: early, middle or late stage, level 1 to 5.
+   - **Their world is built** (about 1 to 2 minutes, on screen): Claude writes the life story as memories (with quiz-able facts and believable wrong answers, never from the "gentle" list), the companion's **voice is matched** to the recordings, every memory gets a **storybook painting**, and the first day's games are made.
+3. **The player opens the app** (`/`): the companion's **big avatar in the middle of the screen starts talking** (one touch if the browser needs it). It greets them in the family member's **real recorded voice**, then leads the day's games itself. **There are no menus and nothing to choose**; answers can be spoken or tapped.
+4. **Every day after the games, the AI sets a new baseline** and makes **new games** for tomorrow. Before saying goodbye, the companion asks the player to tell it something; that becomes a new memory too.
+5. **The family corner** (`/family`, press and hold the people icon on the player's screen) shows the baseline, the AI's note about today, the games, and the life story, where anyone can **add a memory** by voice, text or photo.
+
+## Games, by stage
+
+| Stage | What it feels like | Game kinds |
+|---|---|---|
+| **Early** | Real recall with a little effort; 3 to 4 believable choices | Story time (a short story, or the family's own recording, then a question), Finish the memory, In order, Who is this?, plus one warm game |
+| **Middle** | Recognition, not recall; pictures first, 2 to 3 clearly different choices, generous hints | Who is this?, Story time, Finish the memory, Things you love, Remember when, Catch the stars |
+| **Late** | Comfort, not testing: errorless (any answer is celebrated) | Remember when, Things you love, Who is this? (1 to 2 pictures), Catch the stars, Breathe with me |
+
+Level 1 to 5 inside each stage tunes the number of choices. Wrong answers are never called wrong: a miss gets a kind clue, a second miss shows the answer warmly. No answer for a while brings a gentle clue, then the answer, then the next item; two silent items in a row pause and wait.
+
+## The daily baseline
+
+[`src/lib/server/assess.ts`](src/lib/server/assess.ts): after the day's games Claude reviews first-try answers, hints, gentle reveals, answer times, how much they talked and skipped, next to the last week, and decides **more challenge, stay, or more support**. Guard rails: one step per day at most on a 15-step scale (late 1 to early 5, so a stage only changes by rolling over its edge); if the AI and a simple rule disagree by two steps it stays put; without the AI the rule decides. The family sees the reason in plain words. Nothing here is a diagnosis.
+
+## The voice
+
+- The player hears the family member's **real recordings** at the warmest moments (hello, let's play, well done, goodbye) and in story games.
+- Every other line is spoken by **Gemini TTS in a voice matched to the family member**: Gemini listens to their interview, describes the voice (gender, age, pitch, accent), shortlists the closest voices, renders a sample in each, then compares them with the real recording and picks the closest, with a style instruction for accent and pace ([`src/lib/server/voices.ts`](src/lib/server/voices.ts)).
+- **True voice cloning**: set `ELEVENLABS_API_KEY` and the same recordings make an instant voice clone that speaks every line (falls back to the matched voice if it fails). *Not tested yet: no ElevenLabs key was available.*
+
+## Demo in one command
+
+Record the script in [`demo/SCRIPT.md`](demo/SCRIPT.md), put the photo and recordings in `demo/` (any phone format; ffmpeg converts them), start the app, then:
+
+```powershell
+npm run demo:load -- --fresh
+```
+
+It goes through the same steps as the setup screens and builds the world. `demo/` media is git-ignored.
+
+## Classic games (`/play`)
+
+The three original games are still here, reachable from the family corner.
+
 
 | Game | What happens | Voice | Tap |
 |---|---|---|---|
@@ -63,10 +110,12 @@ npm run demo                         # production build + server on http://local
 
 | Variable | Required | Notes |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | for Claude | Without it the local matcher answers |
+| `ANTHROPIC_API_KEY` | no | Direct Claude for voice turns; without it they go through OpenRouter |
 | `ANTHROPIC_MODEL` | no | Default `claude-opus-5-5` |
 | `ANTHROPIC_EFFORT` | no | `low` (default) / `medium` / `high` |
-| `OPENROUTER_API_KEY` | for the natural voice | Team key ($40 limit), used **only** for spoken replies |
+| `OPENROUTER_API_KEY` | **yes** | One key for everything AI: Claude Sonnet 5.5 (games, baselines, interview, memories, voice turns), Gemini 3.8 Flash (hears recordings, sees photos), Gemini TTS (the voice), Recraft (avatar and paintings) |
+| `OPENROUTER_SMART_MODEL` / `_FAST_MODEL` / `_MEDIA_MODEL` / `_IMAGE_MODEL` / `_AGENT_MODEL` | no | Override any of those models |
+| `ELEVENLABS_API_KEY` / `ELEVENLABS_MODEL` | no | True voice cloning from the interview recordings (untested) |
 | `OPENROUTER_BASE_URL` | no | Default `https://openrouter.ai/api/v1` |
 | `OPENROUTER_TTS_MODEL` | no | Default `google/gemini-3.8-flash-tts-20260922` |
 | `OPENROUTER_TTS_VOICE` | no | Default `Sulafat`; try `Achernar`, `Vindemiatrix`, `Gacrux` |
@@ -106,7 +155,7 @@ Before judging, record the four clues with a real voice: *For family → Memory 
 ```powershell
 npm test
 ```
-24 unit tests: the baseline math (median of the first five), the 3-in-a-row rule, exclusions, duplicate prevention, the exact alert wording, the local intent matcher, echo detection and action validation.
+39 unit tests: the companion's 15-step stage scale, starting baseline, daily rule and plan validation (right answer always among the choices, stage rules, the no-AI fallback plan); and for the classic games the alert baseline math, the 3-in-a-row rule, exclusions, duplicate prevention, the exact alert wording, the local intent matcher, echo detection and action validation.
 
 ```powershell
 npm run build; npm run verify:alerts
@@ -120,6 +169,10 @@ npm run build; npm run verify:alerts
 - `src/lib/shared/` rule, intent and text logic shared by server, client and tests · `src/lib/server/` database, seed, Claude, TTS, push, rounds · `src/lib/client/` voice engine, recognizer, speaker, recorder, push · `src/app/play/*` the three games · `src/app/family/*` setup, dashboard, tour replay · `src/app/caregiver` the phone inbox · `public/sw.js` notifications.
 
 ## Privacy and safety
+
+- **Consent first**: the family member agrees, on screen, that their voice and photo are used so the player hears and sees them. "Start over" in the family corner removes the companion, the story, the baselines and the games.
+- The companion speaks with the family member's face and voice. Their real recordings are used as recorded; every other line is AI speech in a matched voice. The games never mention illness, scores or mistakes, and never touch what the family marked as gentle.
+- Photos and recordings stay on the server in `data/`; `demo/` media is git-ignored.
 
 - Synthetic demo data only (a fictional family; AI-generated photos; synthetic clue voices). No real patient data.
 - API keys live only on the server; the browser never sees them, and logs never include them.
