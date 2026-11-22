@@ -123,6 +123,9 @@ async function main() {
   await new Promise<void>((r) => pushServer.listen(PUSH_PORT, r));
 
   console.log(`Starting the production server on ${BASE} (fresh database in ${tmp})`);
+  // Note: antivirus HTTPS scanning (e.g. Avast Web Shield) intercepts even
+  // localhost TLS, and the push checks then fail with "unable to verify the
+  // first certificate". Turn the scanning off while running this check.
   const server: ChildProcess = spawn(process.platform === "win32" ? "npx.cmd" : "npx", ["next", "start", "-p", String(PORT)], {
     env: { ...process.env, DATA_DIR: path.join(tmp, "data"), NODE_EXTRA_CA_CERTS: cert, ANTHROPIC_API_KEY: "", OPENROUTER_API_KEY: "" },
     stdio: ["ignore", "pipe", "pipe"],
@@ -233,7 +236,20 @@ async function main() {
     const h2 = await api<Hist>("GET", "/api/memory/history");
     check(fresh.alerts.length === 0 && h2.pattern.streak === 2, "reset restores the seeded history and clears alerts", { alerts: fresh.alerts.length, pattern: h2.pattern });
   } finally {
-    server.kill();
+    if (failures > 0) {
+      // Show why a push failed (the server records the push service's error).
+      try {
+        const { DatabaseSync } = await import("node:sqlite");
+        const db = new DatabaseSync(path.join(tmp, "data", "one-more-story.db"));
+        console.log("\n  push errors:", db.prepare("SELECT last_error FROM push_subscriptions").all());
+        db.close();
+      } catch {
+        // database not there: the server never started
+      }
+      console.log(`\n  server log (tail):\n${serverLog.slice(-1500)}`);
+    }
+    // On Windows, kill the whole tree first: killing the shell alone would
+    // orphan the Next server and leave the port taken.
     if (process.platform === "win32" && server.pid) {
       try {
         execFileSync("taskkill", ["/pid", String(server.pid), "/T", "/F"], { stdio: "ignore" });
@@ -241,6 +257,7 @@ async function main() {
         // already gone
       }
     }
+    server.kill();
     pushServer.close();
   }
   console.log(failures === 0 ? "\nALL CHECKS PASSED" : `\n${failures} CHECK(S) FAILED`);
