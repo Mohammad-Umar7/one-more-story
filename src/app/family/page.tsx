@@ -7,6 +7,7 @@ import { FamilyShell, Section } from "@/components/family/FamilyShell";
 import { AlertCard } from "@/components/family/AlertCard";
 import { HelpSummary } from "@/components/family/HelpSummary";
 import { CompanionPanel } from "@/components/family/CompanionPanel";
+import { StoryReport } from "@/components/StoryReport";
 import { Button, Spinner } from "@/components/ui";
 import { BellIcon, BookIcon, CheckIcon, ChevronRightIcon, HomeIcon, ImageIcon, MapIcon, RefreshIcon, TrashIcon, UsersIcon } from "@/components/icons";
 import { getJson, sendJson } from "@/lib/client/api";
@@ -112,6 +113,9 @@ export default function FamilyHome() {
 
   return (
     <FamilyShell>
+      {/* The story game's starting point (set by the first game) and the latest comparison. */}
+      <StoryReport name={familyName} />
+
       {/* The companion: baseline, today's games, the life story. */}
       <CompanionPanel />
 
