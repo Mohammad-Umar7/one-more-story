@@ -83,7 +83,7 @@ export const GLOBAL_ACTIONS: ActionSpec[] = [
   {
     name: "ignore",
     description:
-      "The words were not meant for you: the player is talking to someone else in the room or on the phone (calls another person by name, asks someone for tea, chats about something unrelated to the screen), or it is background talk from another person. Do nothing and say nothing.",
+      "Only when the words are plainly addressed to another person (they call someone else by name to ask them something) or they are on a phone call. Do nothing and say nothing. Never use this for talk about the picture, a memory, the game, or anything unclear.",
   },
   {
     name: "none",

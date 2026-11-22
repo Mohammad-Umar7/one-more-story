@@ -69,5 +69,8 @@ export const POST = route(async (req: Request) => {
     const scripted = scriptedReply(body.context, decision.action, body.history);
     if (scripted) decision = { ...decision, say: scripted };
   }
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`[agent] ${body.context.game}/${body.context.screen} "${body.utterance.slice(0, 80)}" -> ${decision.action}${decision.target ? `(${decision.target})` : ""} ${decision.say ? `"${decision.say.slice(0, 60)}"` : ""}`);
+  }
   return Response.json({ ...decision, latencyMs: Date.now() - started });
 });
