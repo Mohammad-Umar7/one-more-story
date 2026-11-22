@@ -18,7 +18,10 @@ export function nextInChain(chain: string[]): string {
   return `${PATHS[next]}?chain=${rest.join(",")}`;
 }
 
-/** The day always opens on the story: one picture, and the player tells its story. */
+/**
+ * The day is one game: the story about one picture, then "thank you for
+ * playing" and the starting-point report. The next game is tomorrow.
+ */
 export function startChain(): string {
-  return "/play/story?chain=memory,street";
+  return "/play/story?chain=";
 }
