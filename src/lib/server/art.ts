@@ -14,7 +14,7 @@ import { getArtPrompt, setMemoryArt } from "./life";
 const AVATAR_STYLE =
   "Warm painterly portrait illustration, like a beautiful animated film still: soft gouache and digital painting, gentle golden rim light, " +
   "kind relaxed smile, looking straight at the viewer, head and shoulders, centred, eyes clearly visible. " +
-  "Plain softly glowing background in deep navy blue fading to warm gold. No text, no letters, no frame, no watermark.";
+  "Plain softly glowing background of white and pale lavender with a gentle violet glow behind the head. No text, no letters, no frame, no watermark.";
 
 const MEMORY_STYLE =
   "Soft storybook illustration in watercolour and gouache, warm golden-hour light, gentle nostalgic colours, calm and happy mood, " +
