@@ -125,6 +125,11 @@ export function answers(memberId: string): AnswerRow[] {
   return getDb().prepare("SELECT * FROM interview_answers WHERE member_id = ? ORDER BY created_at").all(memberId) as unknown as AnswerRow[];
 }
 
+export function isPlayerOnboarded(playerId: string): boolean {
+  const r = getDb().prepare("SELECT onboarded_at FROM players WHERE id = ?").get(playerId) as { onboarded_at: string | null } | undefined;
+  return Boolean(r?.onboarded_at);
+}
+
 // ---- the companion as the player's screen sees it ------------------------------
 
 export function companionView(playerId: string, callName: string): Companion | null {

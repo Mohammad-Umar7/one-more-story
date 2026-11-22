@@ -5,6 +5,8 @@ import { agentModel, isAgentConfigured } from "./claude";
 import { isTtsConfigured, ttsModel } from "./tts";
 import { getVapidKeys } from "./push";
 import { roundSignature } from "../shared/baseline";
+import { companionView, isPlayerOnboarded } from "./family";
+import { currentBaseline } from "./assess";
 import type {
   Bundle,
   Caregiver,
@@ -150,8 +152,12 @@ export function getRoute(playerId = currentPlayerId()): StreetRoute | null {
 
 export function getBundle(): Bundle {
   const playerId = currentPlayerId();
+  const player = getPlayer(playerId);
   return {
-    player: getPlayer(playerId),
+    player,
+    companion: companionView(playerId, player.familyName || player.name),
+    onboarded: isPlayerOnboarded(playerId),
+    baseline: currentBaseline(playerId),
     caregivers: getCaregivers(playerId),
     room: getRoom(playerId),
     photos: getStoryPhotos(playerId),

@@ -1,5 +1,7 @@
 // Shapes shared by the server (route handlers) and the client (screens).
 
+import type { Baseline, Companion } from "./companion";
+
 export type Pronoun = "he" | "she" | "they";
 export type Difficulty = "gentle" | "standard";
 export type CaregiverKind = "relative" | "friend" | "professional";
@@ -94,6 +96,9 @@ export interface AppConfigStatus {
 
 export interface Bundle {
   player: Player;
+  companion: Companion | null; // the family face and voice that leads the games
+  onboarded: boolean; // the family finished setup
+  baseline: Baseline | null; // today's stage and level
   caregivers: Caregiver[];
   room: Room | null;
   photos: StoryPhoto[];
