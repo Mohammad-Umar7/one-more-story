@@ -7,7 +7,10 @@ import crypto from "node:crypto";
 // One SQLite file holds everything (WAL mode, so a second process such as the
 // seed script can safely open it). Media files live next to it on disk.
 
-export const DATA_DIR = path.resolve(process.env.DATA_DIR || path.join(process.cwd(), "data"));
+// On Vercel only /tmp is writable, and it lasts as long as the function
+// instance: a fresh instance starts from the demo seed again.
+const DEFAULT_DATA_DIR = process.env.VERCEL ? "/tmp/one-more-story" : path.join(process.cwd(), "data");
+export const DATA_DIR = path.resolve(process.env.DATA_DIR || DEFAULT_DATA_DIR);
 export const MEDIA_DIR = path.join(DATA_DIR, "media");
 export const TTS_CACHE_DIR = path.join(DATA_DIR, "tts-cache");
 
