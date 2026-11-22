@@ -9,7 +9,12 @@ export interface Recording {
 }
 
 export function recordingSupported(): boolean {
-  return typeof window !== "undefined" && typeof MediaRecorder !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
+  if (typeof window === "undefined") return false;
+  // Android Chrome can't share the microphone between speech recognition and
+  // MediaRecorder, and an open mic stream puts the phone in call mode (the
+  // companion's voice goes quiet). There, the words are kept as text only.
+  if (/Android/i.test(navigator.userAgent)) return false;
+  return typeof MediaRecorder !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
 }
 
 function pickMime(): string {
