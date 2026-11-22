@@ -242,7 +242,135 @@ CREATE TABLE IF NOT EXISTS tour_notes (
   created_at TEXT NOT NULL,
   client_key TEXT UNIQUE
 );
+
+-- ---- the companion (family face and voice, life story, daily games) ----------
+
+CREATE TABLE IF NOT EXISTS family_members (
+  id TEXT PRIMARY KEY,
+  player_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  relation TEXT NOT NULL,
+  photo_media_id TEXT,
+  avatar_media_id TEXT,
+  avatar_status TEXT NOT NULL DEFAULT 'none',
+  show_photo INTEGER NOT NULL DEFAULT 0,
+  look TEXT,
+  voice_name TEXT,
+  voice_style TEXT,
+  voice_summary TEXT,
+  eleven_voice_id TEXT,
+  is_companion INTEGER NOT NULL DEFAULT 0,
+  consent_at TEXT,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS voice_lines (
+  id TEXT PRIMARY KEY,
+  member_id TEXT NOT NULL REFERENCES family_members(id) ON DELETE CASCADE,
+  line_key TEXT NOT NULL,
+  media_id TEXT NOT NULL,
+  transcript TEXT,
+  created_at TEXT NOT NULL,
+  UNIQUE (member_id, line_key)
+);
+
+CREATE TABLE IF NOT EXISTS interview_answers (
+  id TEXT PRIMARY KEY,
+  member_id TEXT NOT NULL REFERENCES family_members(id) ON DELETE CASCADE,
+  question_key TEXT NOT NULL,
+  question TEXT NOT NULL,
+  media_id TEXT,
+  transcript TEXT NOT NULL,
+  reply TEXT,
+  created_at TEXT NOT NULL,
+  UNIQUE (member_id, question_key)
+);
+
+CREATE TABLE IF NOT EXISTS memories (
+  id TEXT PRIMARY KEY,
+  player_id TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  title TEXT NOT NULL,
+  detail TEXT NOT NULL,
+  people TEXT NOT NULL DEFAULT '[]',
+  place TEXT,
+  era TEXT,
+  facts TEXT NOT NULL DEFAULT '[]',
+  photo_media_id TEXT,
+  art_media_id TEXT,
+  art_prompt TEXT,
+  art_status TEXT NOT NULL DEFAULT 'none',
+  clip_media_id TEXT,
+  clip_by TEXT,
+  source TEXT NOT NULL,
+  added_by TEXT,
+  active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_memories_player ON memories(player_id, active);
+
+CREATE TABLE IF NOT EXISTS baselines (
+  id TEXT PRIMARY KEY,
+  player_id TEXT NOT NULL,
+  stage TEXT NOT NULL CHECK (stage IN ('early','middle','late')),
+  level INTEGER NOT NULL CHECK (level BETWEEN 1 AND 5),
+  trend TEXT NOT NULL,
+  reason TEXT NOT NULL,
+  family_note TEXT NOT NULL DEFAULT '',
+  decided_by TEXT NOT NULL,
+  metrics TEXT,
+  plan_id TEXT UNIQUE,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_baselines_player ON baselines(player_id, created_at);
+
+CREATE TABLE IF NOT EXISTS daily_plans (
+  id TEXT PRIMARY KEY,
+  player_id TEXT NOT NULL,
+  day TEXT NOT NULL,
+  stage TEXT NOT NULL,
+  level INTEGER NOT NULL,
+  plan TEXT NOT NULL,
+  source TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'ready' CHECK (status IN ('ready','playing','done')),
+  created_at TEXT NOT NULL,
+  started_at TEXT,
+  completed_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_plans_player ON daily_plans(player_id, day, created_at);
+
+CREATE TABLE IF NOT EXISTS game_results (
+  id TEXT PRIMARY KEY,
+  plan_id TEXT NOT NULL REFERENCES daily_plans(id) ON DELETE CASCADE,
+  game_id TEXT NOT NULL,
+  item_id TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  scored INTEGER NOT NULL,
+  correct INTEGER NOT NULL,
+  attempts INTEGER NOT NULL,
+  hints INTEGER NOT NULL,
+  revealed INTEGER NOT NULL,
+  response_ms INTEGER,
+  spoke INTEGER NOT NULL,
+  words INTEGER NOT NULL,
+  skipped INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE (plan_id, game_id, item_id)
+);
 `;
+
+/** Columns added after the first release (CREATE TABLE IF NOT EXISTS won't add them). */
+const ADDED_COLUMNS: { table: string; column: string; ddl: string }[] = [
+  { table: "players", column: "photo_media_id", ddl: "ALTER TABLE players ADD COLUMN photo_media_id TEXT" },
+  { table: "players", column: "onboarded_at", ddl: "ALTER TABLE players ADD COLUMN onboarded_at TEXT" },
+];
+
+function migrate(db: DatabaseSync) {
+  for (const c of ADDED_COLUMNS) {
+    const cols = db.prepare(`PRAGMA table_info(${c.table})`).all() as { name: string }[];
+    if (!cols.some((x) => x.name === c.column)) db.exec(c.ddl);
+  }
+}
 
 type GlobalWithDb = typeof globalThis & { __omsDb?: DatabaseSync; __omsSeeding?: boolean };
 
@@ -262,6 +390,7 @@ export function getDb(): DatabaseSync {
   const db = new DatabaseSync(path.join(DATA_DIR, "one-more-story.db"));
   db.exec("PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;");
   db.exec(SCHEMA);
+  migrate(db);
   g.__omsDb = db;
   return db;
 }
