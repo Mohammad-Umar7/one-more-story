@@ -13,7 +13,8 @@
     "reset-demo": "tsx scripts/seed.ts --history",
     "verify:alerts": "tsx scripts/e2e-alert.ts",
     "tunnel": "npx --yes cloudflared tunnel --url http://localhost:3000",
-    "demo:load": "node scripts/demo-load.mjs"
+    "demo:load": "node scripts/demo-load.mjs",
+    "demo:voice": "tsx scripts/voice-bank.mts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.12.0",
