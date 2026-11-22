@@ -150,6 +150,16 @@ npm run tunnel
 
 Before judging, record the four clues with a real voice: *For family → Memory Room → Record clue* on each object. The seeded clues are synthetic stand-ins for the player's own recordings.
 
+## Deploy on Vercel (a shareable https link)
+
+Import the GitHub repo at vercel.com/new (framework: Next.js, no build settings to change) and add `OPENROUTER_API_KEY` under *Environment Variables*. For push alerts that survive a restart, also add `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` and `VAPID_SUBJECT` (make a pair with `npx web-push generate-vapid-keys`).
+
+What to know:
+
+- **Storage is temporary.** On Vercel only `/tmp` is writable, so the database, photos and recordings live there for as long as the server instance does. A new instance starts again from the demo seed (the 1, 0, 1, 2, 1 then 3, 3 history, which is exactly the alert demo). A family's own setup (onboarding, recordings) can be lost after a quiet spell or a redeploy. For a demo with your own family content, run it on the laptop with the tunnel above.
+- All API routes share one Vercel function (they have the same settings on purpose), so they share one database. Don't add `maxDuration` to a single route; Vercel's default of 300 s already covers the slowest AI calls.
+- The `seed/` photos and clues are shipped with the functions (`outputFileTracingIncludes` in `next.config.ts`).
+
 ## Verify
 
 ```powershell
