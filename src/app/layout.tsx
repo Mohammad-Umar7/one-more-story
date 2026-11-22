@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Atkinson_Hyperlegible } from "next/font/google";
 import { AppProvider } from "@/components/AppProvider";
 import "./globals.css";
+import "./night.css";
 
 // One font for everything: Atkinson Hyperlegible, designed by the Braille
 // Institute for readers with low vision. Plain sans-serif, as dementia-friendly
