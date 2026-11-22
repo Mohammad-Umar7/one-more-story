@@ -68,11 +68,13 @@ export default function FamilyHome() {
     return () => clearInterval(t);
   }, [load, reload]);
 
-  async function reset(scope: "history" | "all") {
+  async function reset(scope: "history" | "all" | "fresh") {
     const msg =
       scope === "all"
         ? "Restore all demo content? Saved stories and walks will be removed. Paired phones are kept."
-        : "Reset the Memory Room history to the demo (1, 0, 1, 2, 1 then 3, 3) and clear alerts?";
+        : scope === "fresh"
+          ? "Start fresh for a real person? All Memory Room rounds and alerts are cleared. Their usual level is then learned from their own first five rounds."
+          : "Reset the Memory Room history to the demo (1, 0, 1, 2, 1 then 3, 3) and clear alerts?";
     if (!window.confirm(msg)) return;
     setResetting(scope);
     try {
@@ -275,6 +277,15 @@ export default function FamilyHome() {
             </Button>
             <Button variant="ivory" size="md" icon={resetting === "all" ? <Spinner /> : <RefreshIcon size={20} />} onClick={() => void reset("all")} disabled={!!resetting}>
               Restore all demo content
+            </Button>
+          </div>
+          <div className="mt-4 rounded-2xl bg-ivory-100 p-4">
+            <p className="text-base font-bold text-navy-800">Using it with a real person?</p>
+            <p className="mt-1 text-base text-navy-700">
+              Start with no history. Nobody shares a default: {poss} usual number is learned from {poss} own first five rounds, and there are no alerts until then.
+            </p>
+            <Button variant="navy" size="md" className="mt-3" icon={resetting === "fresh" ? <Spinner /> : <RefreshIcon size={20} />} onClick={() => void reset("fresh")} disabled={!!resetting}>
+              Start fresh
             </Button>
           </div>
           <Link href="/caregiver" className="mt-3 inline-block text-base font-bold text-navy-600 underline underline-offset-4">
