@@ -139,7 +139,8 @@ export function companionView(playerId: string, callName: string): Companion | n
   for (const l of voiceLines(m.id)) {
     const def = VOICE_LINES.find((v) => v.key === l.key);
     if (!def || !getMedia(l.mediaId)) continue;
-    lines[l.key] = { url: mediaUrl(l.mediaId), text: l.transcript || fillLine(def.template, callName, m.name) };
+    // The caption is the line the family was asked to say (a transcript can mishear a name).
+    lines[l.key] = { url: mediaUrl(l.mediaId), text: fillLine(def.template, callName, m.name) };
   }
   const photoUrl = m.photo_media_id ? mediaUrl(m.photo_media_id) : null;
   const avatarUrl = m.show_photo && photoUrl ? photoUrl : m.avatar_media_id ? mediaUrl(m.avatar_media_id) : photoUrl;
