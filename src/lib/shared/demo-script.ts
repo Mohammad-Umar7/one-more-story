@@ -16,7 +16,7 @@ export const STREET_REPLIES: Record<string, string> = {
 };
 
 /** Questions about the picture, asked one by one; Aamir replies to each answer. */
-export const STORY_INTRO = "Here's a photo from your album. Let's talk about this day.";
+export const STORY_INTRO = "Here's a photo from your album.";
 export const STORY_QUIZ = [
   {
     ask: "Where are we in this picture, Dada?",

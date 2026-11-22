@@ -12,6 +12,8 @@ npm run demo:voice -- "demo/aamir stuff/<your file>"
 
 Every line he records is played in his real voice; anything not recorded falls back to the matched AI voice.
 
+All lines are recorded and loaded (46 of 46).
+
 **Hello**
 
 1. Hello Dada, it's me, Aamir!  *(recorded)*
@@ -20,22 +22,22 @@ Every line he records is played in his real voice; anything not recorded falls b
 
 **Tell the Story**
 
-4. Here's a photo from your album. Let's talk about this day.  **(new: please record)**
-5. Where are we in this picture, Dada?  **(new: please record)**
-6. Yes, the Corniche! You remembered.  **(new: please record)**
-7. Good try, Dada. It's the Corniche, by the sea.  **(new: please record)**
-8. What were you teaching me to do that day?  **(new: please record)**
-9. Yes! You were teaching me to ride my bike.  **(new: please record)**
-10. Good try. You were teaching me to ride my bike.  **(new: please record)**
-11. When I finally rode on my own, what did you buy us?  **(new: please record)**
-12. That's right, ice cream for both of us!  **(new: please record)**
-13. Good try. You bought us both ice cream.  **(new: please record)**
-14. And which flavour did you choose for yourself?  **(new: please record)**
-15. Yes, pistachio! And mango for me.  **(new: please record)**
-16. Good try. It was pistachio for you, and mango for me.  **(new: please record)**
-17. Are you done, Dada?  **(new: please record)**
-18. Anything else, Dada?  **(new: please record)**
-19. Okay, take your time. I'm listening.  **(new: please record)**
+4. Here's a photo from your album.  *(recorded)*
+5. Where are we in this picture, Dada?  *(recorded)*
+6. Yes, the Corniche! You remembered.  *(recorded)*
+7. Good try, Dada. It's the Corniche, by the sea.  *(recorded)*
+8. What were you teaching me to do that day?  *(recorded)*
+9. Yes! You were teaching me to ride my bike.  *(recorded)*
+10. Good try. You were teaching me to ride my bike.  *(recorded)*
+11. When I finally rode on my own, what did you buy us?  *(recorded)*
+12. That's right, ice cream for both of us!  *(recorded)*
+13. Good try. You bought us both ice cream.  *(recorded)*
+14. And which flavour did you choose for yourself?  *(recorded)*
+15. Yes, pistachio! And mango for me.  *(recorded)*
+16. Good try. It was pistachio for you, and mango for me.  *(recorded)*
+17. Are you done, Dada?  *(recorded)*
+18. Anything else, Dada?  *(recorded)*
+19. Okay, take your time. I'm listening.  *(recorded)*
 20. Saved. Your family will love hearing this. Thank you, Dada.  *(recorded)*
 
 **My Memory Room**
