@@ -1,13 +1,13 @@
 {
   "name": "One More Story",
   "short_name": "One More Story",
-  "description": "Voice-guided memory games built from your own rooms, photos and streets.",
+  "description": "Gentle daily memory games led by the face and voice of someone you love.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#fbf6eb",
-  "theme_color": "#0c1a42",
+  "background_color": "#fbf9ff",
+  "theme_color": "#7c3aed",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
