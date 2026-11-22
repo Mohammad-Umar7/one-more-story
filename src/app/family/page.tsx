@@ -6,6 +6,7 @@ import { useApp } from "@/components/AppProvider";
 import { FamilyShell, Section } from "@/components/family/FamilyShell";
 import { AlertCard } from "@/components/family/AlertCard";
 import { HelpSummary } from "@/components/family/HelpSummary";
+import { CompanionPanel } from "@/components/family/CompanionPanel";
 import { Button, Spinner } from "@/components/ui";
 import { BellIcon, BookIcon, CheckIcon, ChevronRightIcon, HomeIcon, ImageIcon, MapIcon, RefreshIcon, TrashIcon, UsersIcon } from "@/components/icons";
 import { getJson, sendJson } from "@/lib/client/api";
@@ -111,6 +112,9 @@ export default function FamilyHome() {
 
   return (
     <FamilyShell>
+      {/* The companion: baseline, today's games, the life story. */}
+      <CompanionPanel />
+
       {/* How things are, in one glance */}
       <section className={`rounded-[1.75rem] p-5 shadow-card ${needsCheck ? "bg-gold-100" : "bg-navy-900 text-ivory-50"}`}>
         <div className="flex items-center gap-3">
