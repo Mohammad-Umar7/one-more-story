@@ -94,12 +94,12 @@ export function pcmToWav(pcm: Buffer, sampleRate = 24_000, channels = 1, bitsPer
   return Buffer.concat([header, pcm]);
 }
 
-function useEleven(profile: VoiceProfile): boolean {
+function viaEleven(profile: VoiceProfile): boolean {
   return Boolean(profile.elevenVoiceId) && isElevenLabsConfigured();
 }
 
 function cacheKey(model: string, profile: VoiceProfile, text: string): string {
-  const who = useEleven(profile) ? `eleven:${profile.elevenVoiceId}` : `${model}|${profile.voice}|${instructionsFor(profile)}`;
+  const who = viaEleven(profile) ? `eleven:${profile.elevenVoiceId}` : `${model}|${profile.voice}|${instructionsFor(profile)}`;
   return crypto.createHash("sha256").update(`${who}|${text}`).digest("hex");
 }
 
@@ -145,7 +145,7 @@ async function generate(text: string, profile: VoiceProfile): Promise<{ audio: B
   const model = workingModel ?? configured;
   const key = cacheKey(configured, profile, text);
 
-  if (useEleven(profile)) {
+  if (viaEleven(profile)) {
     const mp3 = path.join(TTS_CACHE_DIR, `${key}.mp3`);
     if (fs.existsSync(mp3)) return { audio: fs.readFileSync(mp3), mime: "audio/mpeg", cached: true };
     spendChars(text.length);
