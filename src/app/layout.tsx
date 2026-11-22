@@ -36,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={atkinson.variable}>
+    <html lang="en" className={atkinson.variable} suppressHydrationWarning>
       <body className="paper">
         <AppProvider>{children}</AppProvider>
       </body>
