@@ -127,6 +127,8 @@ export interface GameChoice {
   label: string;
   emoji: string | null;
   imageUrl: string | null;
+  /** When the choice is a memory, its picture is filled in when the plan is served. */
+  memoryId?: string | null;
 }
 
 export interface GameItem {
@@ -136,6 +138,8 @@ export interface GameItem {
   clipUrl: string | null; // a real family recording played first
   clipBy: string | null; // who recorded it
   imageUrl: string | null; // the main picture
+  /** Where the main picture comes from, so paintings finished later still appear. */
+  imageFrom?: "memory" | "companion" | null;
   choices: GameChoice[]; // empty for reminisce / sparkle / breathe
   answerId: string | null; // the right choice (null when there is no right answer)
   order: string[] | null; // sequence: choice ids in the right order

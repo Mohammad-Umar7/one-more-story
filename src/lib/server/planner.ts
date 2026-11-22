@@ -210,6 +210,7 @@ export function validatePlan(raw: RawPlan, ctx: PlanContext, memories: Memory[])
               label: short(c.label, 48),
               emoji: short(c.emoji, 8) || null,
               imageUrl: c.memory_id ? pictureOf(byId.get(c.memory_id)) : null,
+              memoryId: c.memory_id && byId.has(c.memory_id) ? c.memory_id : null,
             } satisfies GameChoice,
           }))
           .filter(({ choice }) => {
@@ -243,6 +244,7 @@ export function validatePlan(raw: RawPlan, ctx: PlanContext, memories: Memory[])
         clipUrl: it.use_clip && mem?.clip && (mem.clip.durationMs ?? 0) <= 120_000 ? mem.clip.url : null,
         clipBy: it.use_clip && mem?.clip ? mem.clip.by : null,
         imageUrl,
+        imageFrom: it.picture === "companion_photo" ? "companion" : it.picture === "memory" && mem ? "memory" : null,
         choices,
         answerId,
         order,
@@ -417,7 +419,8 @@ export function fallbackPlan(ctx: PlanContext, memories: Memory[]): Pick<DailyPl
   const games: Game[] = [];
   const name = ctx.companion?.name ?? "your family";
   const withFacts = shuffle(memories.filter((m) => m.facts.length));
-  const pictured = shuffle(memories.filter((m) => m.art || m.photo));
+  // Paintings may still be on their way: any memory with a painting planned counts.
+  const pictured = shuffle(memories.filter((m) => m.art || m.photo || m.artStatus === "working"));
 
   const factItem = (m: Memory, idx: number): GameItem => {
     const f = m.facts[0];
@@ -430,6 +433,7 @@ export function fallbackPlan(ctx: PlanContext, memories: Memory[]): Pick<DailyPl
       clipUrl: null,
       clipBy: null,
       imageUrl: pictureOf(m),
+      imageFrom: "memory",
       choices,
       answerId: choices.find((c) => c.label === f.answer)!.id,
       order: null,
@@ -467,6 +471,7 @@ export function fallbackPlan(ctx: PlanContext, memories: Memory[]): Pick<DailyPl
           clipUrl: null,
           clipBy: null,
           imageUrl: ctx.companion.photoUrl,
+          imageFrom: "companion",
           choices,
           answerId: choices.find((c) => c.label === ctx.companion!.name)!.id,
           order: null,
@@ -492,6 +497,7 @@ export function fallbackPlan(ctx: PlanContext, memories: Memory[]): Pick<DailyPl
         clipUrl: m.clip && (m.clip.durationMs ?? 0) <= 90_000 && ctx.stage !== "late" ? m.clip.url : null,
         clipBy: m.clip?.by ?? null,
         imageUrl: pictureOf(m),
+        imageFrom: "memory",
         choices: [],
         answerId: null,
         order: null,
@@ -514,6 +520,28 @@ export function fallbackPlan(ctx: PlanContext, memories: Memory[]): Pick<DailyPl
     greeting: `Hello ${ctx.callName}. It's lovely to be with you today.`,
     closing: `That was wonderful, ${ctx.callName}. Thank you for spending this time with me.`,
     games: games.slice(0, rules.games[1]),
+  };
+}
+
+/** Fill in pictures that were painted after the plan was made. */
+export function hydratePlan(plan: DailyPlan, companion: Companion | null, memories: Memory[]): DailyPlan {
+  const byId = new Map(memories.map((m) => [m.id, m]));
+  const companionPhoto = companion?.photoUrl ?? companion?.avatarUrl ?? null;
+  return {
+    ...plan,
+    games: plan.games.map((g) => ({
+      ...g,
+      items: g.items.map((it) => ({
+        ...it,
+        imageUrl:
+          it.imageFrom === "companion"
+            ? companionPhoto ?? it.imageUrl
+            : it.imageFrom === "memory" && it.memoryId
+              ? pictureOf(byId.get(it.memoryId)) ?? it.imageUrl
+              : it.imageUrl,
+        choices: it.choices.map((c) => (c.memoryId ? { ...c, imageUrl: pictureOf(byId.get(c.memoryId)) ?? c.imageUrl } : c)),
+      })),
+    })),
   };
 }
 
