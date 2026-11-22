@@ -135,7 +135,7 @@ export function RecordPanel({
           <div className="flex items-center gap-4">
             <span className="relative flex size-14 items-center justify-center">
               <span className="absolute inset-0 animate-ripple rounded-full bg-clay-500/50" aria-hidden="true" />
-              <span className="relative flex size-12 items-center justify-center rounded-full bg-clay-500 text-white">
+              <span className="relative flex size-12 items-center justify-center rounded-full bg-clay-500 text-navy-950">
                 <MicIcon size={24} />
               </span>
             </span>

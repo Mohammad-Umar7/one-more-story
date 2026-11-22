@@ -24,7 +24,7 @@ export function Caption({ text, className = "", size = "lg" }: { text: string | 
   );
 }
 
-const COLORS = ["#f5e1a3", "#ebc96f", "#dcae47", "#e98a6b", "#b48ce0", "#6fc3d1", "#fffdf8"];
+const COLORS = ["#7c3aed", "#a78bfa", "#c084fc", "#f0abfc", "#818cf8", "#fbbf24", "#93c5fd"];
 
 /** A burst of gold confetti (drawn once per `burst` value). */
 export function Confetti({ burst }: { burst: number }) {

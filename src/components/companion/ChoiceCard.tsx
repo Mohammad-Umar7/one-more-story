@@ -31,12 +31,12 @@ export function ChoiceCard({
     <div className="flex w-full flex-col gap-4">
       {item.imageUrl && (
         <div className="relative mx-auto w-full max-w-md animate-from-ahead">
-          <div className="absolute -inset-2 rounded-[2.2rem] bg-gradient-to-br from-gold-300/40 via-transparent to-[#b48ce0]/40 blur-lg" aria-hidden="true" />
+          <div className="absolute -inset-3 rounded-[2.4rem] bg-gradient-to-br from-[#c4b5fd]/70 via-[#f0abfc]/30 to-[#93c5fd]/60 blur-xl" aria-hidden="true" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={item.imageUrl}
             alt=""
-            className="relative aspect-[4/3] max-h-[34dvh] w-full rounded-[2rem] border border-white/20 object-cover shadow-[0_30px_60px_-30px_rgb(0_0_0/0.9)]"
+            className="photo-float relative aspect-[4/3] max-h-[34dvh] w-full rounded-[2rem] object-cover"
           />
         </div>
       )}
@@ -60,7 +60,7 @@ export function ChoiceCard({
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={c.imageUrl} alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" />
                 ) : c.emoji ? (
-                  <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-[2.4rem] leading-none" aria-hidden="true">
+                  <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f3edff] to-[#fbe7fb] text-[2.4rem] leading-none shadow-inner" aria-hidden="true">
                     {c.emoji}
                   </span>
                 ) : null}

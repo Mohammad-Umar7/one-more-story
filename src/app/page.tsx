@@ -669,7 +669,7 @@ export default function CompanionPage() {
               <h1 className="text-glow text-[2.1rem] font-bold leading-tight">
                 {greetingWord(now.getHours())}, {call}
               </h1>
-              <p className="flex items-center gap-2 text-xl text-gold-200 animate-glow rounded-full px-5 py-2">Touch to say hello</p>
+              <p className="glass glow-pulse flex items-center gap-2 rounded-full px-6 py-3 text-xl font-bold text-gold-200">Touch to say hello</p>
             </div>
           ) : phase === "loading" ? (
             <p className="text-xl text-ivory-200">{planError ? "I'm having trouble getting today's games. Let's try again in a moment." : `Getting today ready for you, ${call}…`}</p>
@@ -707,7 +707,7 @@ export default function CompanionPage() {
               <div key={current.item.id} className="flex w-full flex-col items-center gap-4">
                 {current.item.imageUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={current.item.imageUrl} alt="" className="aspect-[4/3] max-h-[40dvh] w-full max-w-md rounded-[2rem] border border-white/20 object-cover shadow-[0_30px_60px_-30px_rgb(0_0_0/0.9)] animate-from-ahead" />
+                  <img src={current.item.imageUrl} alt="" className="photo-float aspect-[4/3] max-h-[40dvh] w-full max-w-md rounded-[2rem] object-cover animate-from-ahead" />
                 )}
                 <h2 className="text-glow text-center text-[1.7rem] font-bold leading-tight">{current.item.prompt}</h2>
                 {showNext && (

@@ -51,29 +51,29 @@ export function SparkleGame({ count = 6, onDone, onTouch }: { count?: number; on
             style={{ left: `${s.x}%`, top: `${s.y}%` }}
             aria-label="Star"
           >
-            <span className="absolute inset-0 animate-ripple rounded-full bg-gold-300/40" aria-hidden="true" />
-            <svg viewBox="0 0 24 24" className="relative size-20 drop-shadow-[0_0_18px_rgb(245_225_163/0.9)]" aria-hidden="true">
+            <span className="absolute inset-0 animate-ripple rounded-full bg-[#c4b5fd]/50" aria-hidden="true" />
+            <svg viewBox="0 0 24 24" className="relative size-20 drop-shadow-[0_6px_18px_rgb(124_58_237/0.55)]" aria-hidden="true">
               <path
                 d="M12 2.5l2.6 6.2 6.7.5-5.1 4.4 1.6 6.5L12 16.6 6.2 20.1l1.6-6.5L2.7 9.2l6.7-.5L12 2.5z"
                 fill="url(#starfill)"
-                stroke="#fff6d6"
+                stroke="#ffffff"
                 strokeWidth="0.6"
               />
               <defs>
                 <radialGradient id="starfill" cx="50%" cy="40%" r="60%">
-                  <stop offset="0%" stopColor="#fffbea" />
-                  <stop offset="60%" stopColor="#f5e1a3" />
-                  <stop offset="100%" stopColor="#dcae47" />
+                  <stop offset="0%" stopColor="#fdf4ff" />
+                  <stop offset="55%" stopColor="#c084fc" />
+                  <stop offset="100%" stopColor="#7c3aed" />
                 </radialGradient>
               </defs>
             </svg>
           </button>
         ) : i < caught ? (
-          <span key={i} className="absolute size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-200 shadow-[0_0_12px_4px_rgb(245_225_163/0.6)]" style={{ left: `${s.x}%`, top: `${s.y}%` }} aria-hidden="true" />
+          <span key={i} className="absolute size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#a78bfa] shadow-[0_0_12px_4px_rgb(167_139_250/0.6)]" style={{ left: `${s.x}%`, top: `${s.y}%` }} aria-hidden="true" />
         ) : null,
       )}
       {bursts.map((b) => (
-        <span key={b.id} className="pointer-events-none absolute size-40 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-gold-200/70 animate-ripple" style={{ left: `${b.x}%`, top: `${b.y}%` }} aria-hidden="true" />
+        <span key={b.id} className="pointer-events-none absolute size-40 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#a78bfa]/70 animate-ripple" style={{ left: `${b.x}%`, top: `${b.y}%` }} aria-hidden="true" />
       ))}
       <p className="absolute inset-x-0 bottom-0 text-center text-lg font-bold text-ivory-200" aria-live="polite">
         {caught} of {spots.length}
@@ -116,8 +116,8 @@ export function BreatheGame({ cycles = 3, onPhase, onDone }: { cycles?: number; 
   return (
     <div className="flex h-[46dvh] w-full flex-col items-center justify-center">
       <div className="relative flex size-64 items-center justify-center md:size-80">
-        <span className="breath absolute inset-0 rounded-full bg-[radial-gradient(circle,rgb(245_225_163/0.55),rgb(180_140_224/0.35)_55%,transparent_72%)]" aria-hidden="true" />
-        <span className="breath absolute inset-[18%] rounded-full border-2 border-gold-200/70 shadow-[0_0_60px_10px_rgb(245_225_163/0.35)]" aria-hidden="true" />
+        <span className="breath absolute inset-0 rounded-full bg-[radial-gradient(circle,rgb(196_181_253/0.75),rgb(240_171_252/0.35)_55%,transparent_72%)]" aria-hidden="true" />
+        <span className="breath absolute inset-[18%] rounded-full border-2 border-[#a78bfa]/70 bg-white/0 shadow-[0_0_60px_10px_rgb(167_139_250/0.35)]" aria-hidden="true" />
         <span className="relative text-3xl font-bold text-ivory-50 text-glow" aria-live="polite">
           {label}
         </span>
