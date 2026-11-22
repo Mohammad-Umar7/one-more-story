@@ -10,8 +10,34 @@ export type SpeakResult = {
 
 export type ClipResult = "completed" | "interrupted" | "failed";
 
-const SILENT_WAV =
-  "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=";
+let silentUrl: string | null = null;
+
+/** A real 0.1 s silent WAV (some browsers refuse to play a zero-length one). */
+function silentWav(): string {
+  if (silentUrl) return silentUrl;
+  const samples = 800; // 0.1 s at 8 kHz, 8-bit mono
+  const buf = new ArrayBuffer(44 + samples);
+  const v = new DataView(buf);
+  const ascii = (offset: number, s: string) => {
+    for (let i = 0; i < s.length; i++) v.setUint8(offset + i, s.charCodeAt(i));
+  };
+  ascii(0, "RIFF");
+  v.setUint32(4, 36 + samples, true);
+  ascii(8, "WAVE");
+  ascii(12, "fmt ");
+  v.setUint32(16, 16, true);
+  v.setUint16(20, 1, true); // PCM
+  v.setUint16(22, 1, true); // mono
+  v.setUint32(24, 8000, true);
+  v.setUint32(28, 8000, true);
+  v.setUint16(32, 1, true);
+  v.setUint16(34, 8, true);
+  ascii(36, "data");
+  v.setUint32(40, samples, true);
+  new Uint8Array(buf, 44).fill(128); // silence for 8-bit audio
+  silentUrl = URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
+  return silentUrl;
+}
 
 type Waiter = { resolve: (interrupted: boolean) => void };
 
@@ -45,7 +71,7 @@ export class Speaker {
     this.unlocked = true;
     for (const el of [this.voiceAudio, this.clipAudio]) {
       if (!el) continue;
-      el.src = SILENT_WAV;
+      el.src = silentWav();
       el.play().catch(() => undefined);
     }
     try {
@@ -56,6 +82,25 @@ export class Speaker {
       }
     } catch {
       // ignore
+    }
+  }
+
+  /**
+   * True when this browser lets the page play sound without a tap (an
+   * installed app, or a site the person often listens to). Plays silence.
+   */
+  async canAutoplay(): Promise<boolean> {
+    this.ensureElements();
+    const el = this.voiceAudio;
+    if (!el) return false;
+    try {
+      el.src = silentWav();
+      await el.play();
+      el.pause();
+      this.unlocked = true;
+      return true;
+    } catch {
+      return false;
     }
   }
 
