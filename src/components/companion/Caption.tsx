@@ -12,9 +12,12 @@ export function Caption({ text, className = "", size = "lg" }: { text: string | 
   return (
     <p key={text} className={`text-glow font-bold text-ivory-50 ${sizes[size]} ${className}`} aria-live="polite">
       {words.map((w, i) => (
-        <span key={i} className="word-in" style={{ animationDelay: `${Math.min(i * 55, 2200)}ms` }}>
-          {w}
-          {i < words.length - 1 ? " " : ""}
+        // The space sits outside the animated word: inside an inline-block it would collapse.
+        <span key={i}>
+          <span className="word-in" style={{ animationDelay: `${Math.min(i * 55, 2200)}ms` }}>
+            {w}
+          </span>
+          {i < words.length - 1 ? " " : null}
         </span>
       ))}
     </p>
