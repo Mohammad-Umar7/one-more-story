@@ -169,7 +169,7 @@ export async function generateImage(prompt: string, opts: { aspect?: "1:1" | "4:
     extra: { image_config: { aspect_ratio: opts.aspect ?? "1:1" } },
   });
   const url = json.choices?.[0]?.message?.images?.[0]?.image_url?.url ?? "";
-  const m = /^data:([^;]+);base64,(.+)$/s.exec(url);
+  const m = /^data:([^;]+);base64,([sS]+)$/.exec(url);
   if (!m) throw new AiError(502, "No image came back");
   return { mime: m[1].toLowerCase(), data: Buffer.from(m[2], "base64") };
 }
