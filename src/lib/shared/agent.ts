@@ -33,6 +33,8 @@ export interface ScreenContext {
   mode?: "commands" | "conversation";
   /** Action to use when the player is simply talking on a conversation screen. */
   talkAction?: string;
+  /** The companion just asked "Are you done?": "I'm done" or "wait" are answers, not commands. */
+  askedIfDone?: boolean;
 }
 
 export interface ConversationTurn {
@@ -119,8 +121,9 @@ export function matchGlobalCommand(utterance: string, context: ScreenContext): A
     needsClarification: false,
     source: "fast-path",
   });
-  if (END_RE.test(text) && n <= 9) return make("end_session");
-  if (PAUSE_RE.test(text) && n <= 6) return make("pause");
+  // After "Are you done?", "yes I'm done" or "wait" answer the question.
+  if (!context.askedIfDone && END_RE.test(text) && n <= 9) return make("end_session");
+  if (!context.askedIfDone && PAUSE_RE.test(text) && n <= 6) return make("pause");
   if (REPEAT_RE.test(text) && n <= 8) return make("repeat");
   if (context.game !== "home" && HOME_RE.test(text) && n <= 7) return make("go_home");
   return null;

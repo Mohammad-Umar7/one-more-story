@@ -71,6 +71,8 @@ export interface ScreenController {
   onFailure?(kind: "mic" | "playback", detail: string): void;
   /** That turn was talk meant for someone else: forget it (e.g. drop its recording). */
   onIgnored?(turnId: number): void;
+  /** How long the player may pause before their turn ends (ms); default from patience. */
+  turnPauseMs?(): number | null;
   onVoiceEnded?(): void;
 }
 
@@ -497,7 +499,7 @@ export class VoiceEngine {
   private armTimer() {
     this.clearTimer();
     const text = [...this.finals, this.interim].join(" ");
-    let wait = this.noteResolver ? 3200 : this.patience === "extra" ? 2300 : 1300;
+    let wait = this.noteResolver ? 3200 : this.screen?.turnPauseMs?.() ?? (this.patience === "extra" ? 2300 : 1300);
     if (this.interim && this.finals.length === 0) wait += 700; // Chrome hasn't finalised yet
     if (soundsUnfinished(text)) wait += 1500;
     if (isOnlyFiller(text)) wait += 2500;

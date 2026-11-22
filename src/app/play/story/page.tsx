@@ -3,6 +3,7 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { chainFromUrl, nextInChain } from "@/lib/client/chain";
+import { STORY_FOLLOWUPS } from "@/lib/shared/demo-script";
 import { useApp, useScreen, useVoice } from "@/components/AppProvider";
 import { GameShell } from "@/components/GameShell";
 import { RecordButton } from "@/components/RecordButton";
@@ -27,6 +28,9 @@ interface Clip {
 }
 
 const OPENING = "What would you like to share about this day?";
+const DONE_FIRST = "Are you done, Dada?";
+const DONE_AGAIN = "Anything else, Dada?";
+const KEEP_GOING = "Okay, take your time. I'm listening.";
 const REVIEW_Q = "Would you like to listen back, save it, or let it go?";
 const TAP_PROMPTS = [
   "Who else was there with you?",
@@ -54,6 +58,8 @@ export default function TellTheStoryPage() {
     listening: false,
     storyKey: clientKey("story"),
     tapPromptIndex: 0,
+    doneCheck: false, // Led by the companion: we just asked "Are you done?"
+    doneAsked: 0,
     outcome: "saved" as "saved" | "discarded" | "skipped",
   });
   const alive = useRef(true);
@@ -193,11 +199,29 @@ export default function TellTheStoryPage() {
     switch (action) {
       case "tell": {
         // The clip was already added when the turn's audio arrived.
-        // Led by the companion: after three follow-ups the story saves itself.
-        if (chain.current && cur.tapPromptIndex >= 3) return save();
+        // Led by the companion: when Dada stops talking, Aamir checks he has finished.
+        if (chain.current) {
+          const line = cur.doneAsked === 0 ? DONE_FIRST : DONE_AGAIN;
+          update({ doneCheck: true, doneAsked: cur.doneAsked + 1 });
+          return { speak: line };
+        }
         const follow = meta.say || TAP_PROMPTS[cur.tapPromptIndex % TAP_PROMPTS.length];
         update({ prompt: follow, tapPromptIndex: cur.tapPromptIndex + 1 });
         return { speak: follow };
+      }
+      case "done_yes": {
+        // He has finished this part: the next question, or save after the last one.
+        dropCommandClip(meta.utterance);
+        update({ doneCheck: false, doneAsked: 0 });
+        if (cur.tapPromptIndex >= STORY_FOLLOWUPS.length) return save();
+        const follow = STORY_FOLLOWUPS[cur.tapPromptIndex];
+        update({ prompt: follow, tapPromptIndex: cur.tapPromptIndex + 1 });
+        return { speak: follow };
+      }
+      case "done_no": {
+        dropCommandClip(meta.utterance);
+        update({ doneCheck: false });
+        return { speak: KEEP_GOING };
       }
       case "finish_story": {
         dropCommandClip(meta.utterance);
@@ -245,6 +269,34 @@ export default function TellTheStoryPage() {
   function context(): ScreenContext {
     const cur = st.current;
     const base = { game: "tell_the_story" as const };
+    if (cur.phase === "photo" && cur.doneCheck) {
+      return {
+        ...base,
+        screen: "done-check",
+        version: `done-${cur.index}-${cur.clips.length}-${cur.doneAsked}`,
+        mode: "conversation",
+        talkAction: "tell",
+        askedIfDone: true,
+        scene: "The player is telling the story of a family photo. The companion just asked if they have finished this part.",
+        question: cur.doneAsked > 1 ? DONE_AGAIN : DONE_FIRST,
+        actions: [
+          {
+            name: "done_yes",
+            description: "Yes, they have finished this part (yes, yeah, I'm done, that's it, that's all, finished, nothing more).",
+            phrases: ["yes", "yeah", "yes i'm done", "i'm done", "done", "that's it", "that's all", "finished", "nothing more", "yes that's all"],
+          },
+          {
+            name: "done_no",
+            description: "No, not yet: they want to say more but haven't said it yet (no, not yet, wait, one more thing, hold on).",
+            phrases: ["no", "not yet", "wait", "one more thing", "hold on", "no not yet", "there's more"],
+          },
+          {
+            name: "tell",
+            description: "Instead of answering yes or no, they simply carry on telling the story (any new detail about the photo or the day).",
+          },
+        ],
+      };
+    }
     if (cur.phase === "photo") {
       return {
         ...base,
@@ -327,6 +379,8 @@ export default function TellTheStoryPage() {
         },
         repeatLine: () => context().question ?? null,
         captureAnswers: () => st.current.phase === "photo",
+        // Storytelling has pauses: give Dada a little longer before his turn ends.
+        turnPauseMs: () => (st.current.phase === "photo" && chain.current ? (st.current.doneCheck ? 1400 : 2200) : null),
         onTurnAudio: (turn: CapturedTurn) => {
           if (st.current.phase === "photo") addClip(turn, turn.transcript, turn.turnId);
         },
